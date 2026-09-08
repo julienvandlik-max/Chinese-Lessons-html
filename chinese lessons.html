@@ -1,0 +1,2329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>从零开始 · Chinese Basics — A Lesson Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20211d;
+    --paper:#f3f1ea;
+    --paper-raised:#faf9f4;
+    --line:#d8d4c6;
+    --jade:#3f6659;
+    --jade-dim:#e4ece9;
+    --seal:#a8342a;
+    --seal-dim:#f2e1de;
+    --canal:#4a6473;
+    --canal-dim:#e6ebed;
+    --muted:#7a7666;
+    --tier1:#3f6659;
+    --tier2:#b2822e;
+    --tier3:#a8342a;
+
+    --c-pronoun:#4a5f7a;
+    --c-verb:#a8342a;
+    --c-noun:#3f6659;
+    --c-particle:#7b5ea7;
+    --c-question:#b2822e;
+    --c-measure:#2e7c8a;
+    --c-adjective:#8a7b3f;
+    --c-negation:#8c4a4a;
+    --c-aux:#b2622e;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100vh;
+  }
+  .app{max-width:1120px;margin:0 auto;min-height:100vh;background:var(--paper);position:relative;padding-bottom:24px;transition:max-width .18s ease;}
+  .app.mobile-mode{max-width:560px;}
+
+  /* HEADER */
+  header{padding:18px 16px 10px;border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:5;}
+  .brand{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;}
+  .brand h1{font-family:'Baloo 2',sans-serif;font-size:23px;font-weight:700;margin:0;letter-spacing:0.2px;}
+  .brand .cn{font-size:13px;color:var(--muted);font-weight:400;margin-left:8px;}
+  .subtitle{font-size:12px;color:var(--muted);margin:2px 0 0;line-height:1.5;}
+  .header-btns{display:flex;justify-content:flex-end;align-items:center;gap:14px;margin-top:8px;flex-wrap:wrap;}
+  .layout-toggle{display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--muted);}
+  .switch{position:relative;display:inline-block;width:36px;height:20px;flex-shrink:0;}
+  .switch input{opacity:0;width:0;height:0;position:absolute;}
+  .switch-slider{position:absolute;inset:0;background:var(--line);transition:.2s;border-radius:20px;cursor:pointer;}
+  .switch-slider:before{position:absolute;content:"";height:14px;width:14px;left:3px;top:3px;background:#fff;transition:.2s;border-radius:50%;box-shadow:0 1px 2px rgba(0,0,0,0.2);}
+  .switch input:checked + .switch-slider{background:var(--canal);}
+  .switch input:checked + .switch-slider:before{transform:translateX(16px);}
+  .pron-toggle-btn, .legend-btn{
+    background:none;border:1px solid var(--line);color:var(--muted);
+    border-radius:14px;font-size:12px;padding:5px 10px;cursor:pointer;
+  }
+  .pron-toggle-btn.active{background:var(--canal);border-color:var(--canal);color:#fff;}
+  .speed-control{display:flex;border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .speed-btn{background:none;border:none;border-right:1px solid var(--line);color:var(--muted);
+    font-size:11.5px;padding:5px 9px;cursor:pointer;}
+  .speed-btn:last-child{border-right:none;}
+  .speed-btn.active{background:var(--jade);color:#fff;}
+
+  /* LEGEND / COLOR KEY MODAL */
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:50;align-items:flex-end;justify-content:center;}
+  .overlay.show{display:flex;}
+  .sheet{background:var(--paper-raised);width:100%;max-width:560px;border-radius:16px 16px 0 0;padding:20px 18px 28px;max-height:75vh;overflow-y:auto;}
+  .sheet h3{margin:0 0 12px;font-family:'Baloo 2',sans-serif;}
+  .legend-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .legend-item .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .sheet-close{display:block;width:100%;text-align:center;margin-top:14px;padding:10px;background:var(--jade);color:#fff;border:none;border-radius:10px;font-size:14px;cursor:pointer;}
+
+  /* SEARCH */
+  .searchbar{display:flex;align-items:center;background:var(--paper-raised);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-top:10px;}
+  .searchbar input{border:none;background:none;outline:none;flex:1;font-size:15px;color:var(--ink);font-family:inherit;}
+  .searchbar input::placeholder{color:var(--muted);}
+  .searchbar svg{margin-right:8px;flex-shrink:0;}
+  .search-result-card{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;cursor:pointer;}
+  .search-result-card:hover{border-color:var(--jade);}
+  .sr-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;}
+  .sr-kind{font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:#fff;background:var(--canal);border-radius:8px;padding:2px 7px;flex-shrink:0;}
+  .sr-lesson{font-size:11px;color:var(--muted);}
+  .sr-hanzi{font-family:'Baloo 2',sans-serif;font-size:17px;margin:2px 0;}
+  .sr-pinyin{font-size:12.5px;color:var(--muted);font-style:italic;}
+  .sr-en{font-size:12.5px;color:var(--ink);margin-top:2px;}
+  .pron-box{
+    margin-top:8px;background:var(--canal-dim);border-left:3px solid var(--canal);
+    border-radius:8px;padding:8px 10px;
+  }
+  .pron-sounds-like{font-size:12.5px;font-weight:600;color:var(--seal);margin-bottom:4px;}
+  .pron-tones{font-size:12px;font-weight:600;color:var(--canal);margin-bottom:4px;}
+  .pron-tip{font-size:11.5px;color:var(--ink);line-height:1.5;margin-top:2px;}
+
+  main{padding:0 16px;}
+  .app:not(.mobile-mode) main{max-width:900px;margin:0 auto;padding:0 32px;}
+  .app:not(.mobile-mode) .lesson-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;}
+  .app:not(.mobile-mode) .lesson-card{margin-bottom:0;}
+  .app:not(.mobile-mode) .gp-example{align-items:flex-start;}
+
+  /* PROGRESS CARD */
+  .progress-card{background:var(--jade);color:#fff;border-radius:16px;padding:14px 18px;margin:14px 0;}
+  .progress-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .progress-top .num{font-family:'Baloo 2',sans-serif;font-size:19px;font-weight:700;}
+  .progress-top .lbl{font-size:11.5px;opacity:0.85;}
+  .progress-track{height:8px;background:rgba(255,255,255,0.25);border-radius:5px;overflow:hidden;}
+  .progress-fill{height:100%;background:#fff;border-radius:5px;transition:width 0.3s;}
+
+  /* LESSON LIST CARDS */
+  .lesson-card{display:flex;align-items:center;gap:12px;background:var(--paper-raised);border:1px solid var(--line);
+    border-radius:14px;padding:14px 16px;margin-bottom:10px;cursor:pointer;}
+  .lesson-card.done{border-color:var(--jade);background:var(--jade-dim);}
+  .lesson-num{font-family:'Baloo 2',sans-serif;width:38px;height:38px;border-radius:50%;
+    background:var(--paper);border:2px solid var(--jade);color:var(--jade);
+    display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0;}
+  .lesson-card.done .lesson-num{background:var(--jade);color:#fff;}
+  .lesson-body{flex:1;min-width:0;}
+  .lesson-title{font-family:'Baloo 2',sans-serif;font-size:15.5px;font-weight:600;margin:0 0 2px;}
+  .lesson-cn{font-size:12px;color:var(--muted);margin:0 0 4px;}
+  .lesson-tags{display:flex;flex-wrap:wrap;gap:5px;}
+  .lesson-tag{font-size:10px;background:var(--tier2);color:#fff;opacity:0.85;border-radius:10px;padding:2px 8px;}
+  .lesson-check{font-size:18px;color:var(--jade);flex-shrink:0;}
+  .lesson-chevron{color:var(--muted);flex-shrink:0;}
+
+  /* LESSON DETAIL NAV */
+  .back-row{display:flex;align-items:center;gap:8px;padding:14px 0 0;}
+  .back-btn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:9px;
+    background:var(--paper-raised);border:1px solid var(--line);color:var(--jade);cursor:pointer;flex-shrink:0;}
+  .lesson-header{padding:10px 0 4px;}
+  .lesson-header .eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);}
+  .lesson-header h2{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:700;margin:2px 0 2px;}
+  .lesson-header .cn-title{font-size:13.5px;color:var(--muted);}
+
+  .block{margin:22px 0 0;}
+  .block-title{
+    display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;
+    font-family:'Baloo 2',sans-serif;font-size:16px;font-weight:800;color:var(--jade);
+    letter-spacing:0.3px;margin-bottom:12px;padding-bottom:8px;border-bottom:2.5px solid var(--jade);
+  }
+  .block-title .bt-chevron{transition:transform .2s ease;flex-shrink:0;color:var(--jade);}
+  .block-title.collapsed .bt-chevron{transform:rotate(-90deg);}
+  .block-title.collapsed{margin-bottom:0;}
+  .block-content{overflow:hidden;}
+  .block-content.collapsed{display:none;}
+
+  /* LESSON INTRO / OBJECTIVES */
+  .intro-card{background:var(--jade-dim);border:1.5px solid var(--jade);border-radius:14px;padding:14px 16px;margin:16px 0 0;}
+  .intro-card .intro-label{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--jade);font-weight:800;margin-bottom:6px;}
+  .intro-card ul{margin:0;padding-left:18px;}
+  .intro-card li{font-size:13px;color:var(--ink);line-height:1.6;margin-bottom:2px;}
+
+  /* SPIRAL CALLBACK */
+  .spiral-box{background:var(--canal-dim);border-left:3px solid var(--canal);border-radius:8px;
+    padding:10px 12px;font-size:12.5px;color:var(--ink);line-height:1.5;}
+  .spiral-box b{color:var(--canal);}
+
+  /* Inline Chinese term + highlighted construction rules, used inside grammar prose */
+  .cn-inline{font-weight:700;color:var(--jade);white-space:nowrap;}
+  .gp-highlight{background:var(--jade-dim);color:var(--jade);padding:1px 6px;border-radius:5px;font-weight:700;white-space:nowrap;}
+
+  /* ============ PHRASE CARD (ported directly from the phrasebook) ============ */
+  .phrase-card{background:var(--paper-raised);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
+  .phrase-speaker{
+    display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:0.5px;
+    background:var(--jade);color:#fff;border-radius:6px;padding:2px 8px;margin-bottom:8px;
+  }
+  .phrase-speaker.b{background:var(--tier2);}
+  .phrase-en{font-size:16.5px;font-weight:600;color:var(--ink);margin:0 0 8px;}
+  .phrase-row{display:flex;align-items:flex-start;gap:10px;}
+  .phrase-cn{font-size:24px;line-height:1.5;flex:1;font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;}
+  .tok{cursor:default;border-bottom:2px solid transparent;padding-bottom:1px;}
+  .seal-btn{flex-shrink:0;width:42px;height:42px;border-radius:8px;background:var(--seal);color:#f3ece9;
+    border:none;font-size:13px;font-weight:600;font-family:"PingFang SC","Noto Sans SC",sans-serif;
+    display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,0.15) inset;}
+  .seal-btn:active{transform:scale(0.94);}
+  .seal-btn.playing{background:var(--jade);}
+
+  /* pinyin line — enlarged for prominence */
+  .phrase-pinyin{font-size:19px;font-weight:700;color:var(--jade);margin:8px 0 0;font-style:italic;}
+
+  /* word-by-word breakdown — enlarged per request */
+  .breakdown{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;display:flex;flex-wrap:wrap;gap:8px;}
+  .tok-chip{display:flex;flex-direction:column;align-items:center;min-width:68px;padding:8px 10px;
+    border-radius:9px;background:var(--paper);border:1px solid var(--line);}
+  .tok-chip .h{font-size:19px;font-weight:600;}
+  .tok-chip .p{font-size:13px;color:var(--muted);margin-top:2px;}
+  .tok-chip .g{font-size:14px;color:var(--ink);margin-top:3px;text-align:center;line-height:1.35;}
+  .tok-chip .dot{width:6px;height:6px;border-radius:50%;margin-top:5px;}
+  .tok-chip .r{font-size:10px;text-transform:uppercase;letter-spacing:0.4px;color:var(--muted);margin-top:3px;text-align:center;}
+  .chip-audio-btn{
+    margin-top:6px;background:none;border:1px solid var(--line);border-radius:20px;
+    padding:2px 9px;font-size:12px;cursor:pointer;color:var(--jade);line-height:1.4;
+  }
+  .chip-audio-btn:active{background:var(--jade-dim);}
+  .chip-audio-btn.playing{background:var(--jade);color:#fff;border-color:var(--jade);}
+  .tone-badge{
+    font-size:8.5px;color:var(--canal);background:var(--canal-dim);
+    border-radius:6px;padding:1px 5px;margin-top:4px;white-space:nowrap;
+  }
+  .sounds-like{
+    font-size:9.5px;color:var(--seal);font-weight:700;
+    margin-top:3px;white-space:nowrap;
+  }
+  .chip-info-btn{
+    margin-top:4px;width:16px;height:16px;border-radius:50%;
+    border:1px solid var(--canal);color:var(--canal);background:none;
+    font-size:9px;line-height:1;cursor:pointer;padding:0;
+  }
+  .chip-tip{
+    font-size:10px;color:var(--ink);line-height:1.4;margin-top:5px;
+    max-width:150px;text-align:left;background:var(--paper-raised);
+    border:1px solid var(--line);border-radius:6px;padding:6px 7px;display:none;
+  }
+  .chip-tip.show{display:block;}
+
+  .tags-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+  .gram-pill{font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid;cursor:pointer;background:none;}
+  .gram-pill.t1{color:var(--tier1);border-color:var(--tier1);}
+  .gram-pill.t2{color:var(--tier2);border-color:var(--tier2);}
+  .gram-pill.t3{color:var(--tier3);border-color:var(--tier3);}
+  .gram-tip{font-size:12.5px;color:var(--ink);background:var(--jade-dim);border-radius:8px;padding:8px 10px;margin-top:8px;display:none;}
+  .gram-tip.show{display:block;}
+  .gram-tip b{color:var(--jade);}
+
+  .structure-box{background:var(--canal-dim);border-left:3px solid var(--canal);border-radius:8px;
+    padding:8px 11px;margin-top:12px;}
+  .structure-box .sb-label{font-size:9.5px;text-transform:uppercase;letter-spacing:0.6px;color:var(--canal);font-weight:800;margin-bottom:3px;}
+  .structure-box .sb-text{font-size:12.5px;color:var(--ink);line-height:1.5;}
+  .structure-box .sb-text b{color:var(--canal);}
+  .structure-box .sb-slot{font-weight:700;color:var(--jade);}
+
+  /* ============ GRAMMAR POINT (Integrated-Chinese-style deep dive) ============ */
+  .gp-card{background:var(--paper-raised);border:2px solid var(--jade);border-radius:14px;padding:0;margin-bottom:14px;overflow:hidden;box-shadow:0 2px 8px rgba(63,102,89,0.12);}
+  .gp-head{background:var(--jade);color:#fff;padding:13px 16px;}
+  .gp-head .gp-num{font-family:'Baloo 2',sans-serif;font-size:13px;opacity:0.9;}
+  .gp-head .gp-title{font-family:'Baloo 2',sans-serif;font-size:18px;font-weight:800;margin:2px 0 0;}
+  .gp-body{padding:14px 16px;}
+  .gp-structure{font-size:12.5px;color:var(--muted);margin:0 0 12px;}
+  .gp-structure b{color:var(--ink);}
+  .gp-example{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+  .gp-example .gp-letter{
+    flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--jade-dim);color:var(--jade);
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px;
+  }
+  .gp-example .gp-ex-body{flex:1;}
+  .gp-ex-cn{font-size:19px;line-height:1.4;font-family:"PingFang SC","Noto Sans SC",sans-serif;}
+  .gp-ex-cn .tok{margin-right:0;}
+  .gp-ex-pinyin{font-size:16px;color:var(--jade);font-style:italic;font-weight:700;margin:4px 0;}
+  .gp-ex-en{font-size:12.5px;color:var(--muted);}
+  .gp-mistake{
+    background:var(--seal-dim);border-radius:8px;padding:9px 11px;margin:10px 0;
+    font-size:12.5px;color:var(--ink);line-height:1.5;
+  }
+  .gp-mistake .x{color:var(--seal);font-weight:700;}
+  .gp-note{font-size:12.5px;color:var(--ink);line-height:1.5;margin:8px 0;}
+  .gp-exercise{background:var(--paper);border:1px dashed var(--line);border-radius:8px;padding:10px 12px;margin-top:10px;}
+  .gp-exercise .ex-label{font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:6px;}
+  .gp-exercise .ex-q{font-size:14.5px;margin-bottom:6px;}
+  .gp-exercise .ex-reveal{font-size:12px;background:var(--jade);color:#fff;border:none;border-radius:7px;padding:6px 11px;cursor:pointer;}
+  .gp-exercise .ex-a{font-size:14px;color:var(--jade);margin-top:8px;display:none;font-weight:600;}
+  .gp-exercise .ex-a.show{display:block;}
+
+  /* ============ LANGUAGE NOTES ============ */
+  .lang-note{display:flex;gap:10px;margin-bottom:12px;}
+  .lang-note .ln-letter{
+    flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--seal-dim);color:var(--seal);
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;
+  }
+  .lang-note .ln-body{flex:1;}
+  .lang-note .ln-term{font-size:14px;font-weight:700;color:var(--seal);margin:0 0 1px;}
+  .lang-note .ln-pinyin{font-size:15px;font-style:italic;color:var(--jade);font-weight:700;margin:0 0 4px;}
+  .lang-note .ln-text{font-size:12.5px;color:var(--ink);line-height:1.55;margin:0;}
+
+  /* ============ VERB SPOTLIGHT ============ */
+  .verb-spot{background:linear-gradient(135deg,var(--tier2),#c99a4a);
+    border-radius:14px;padding:16px;color:#fff;margin-bottom:14px;}
+  .verb-spot .vs-label{font-size:10.5px;text-transform:uppercase;letter-spacing:1px;opacity:0.85;margin-bottom:4px;}
+  .verb-spot .vs-hanzi{font-family:"PingFang SC","Noto Sans SC",sans-serif;font-size:32px;font-weight:600;}
+  .verb-spot .vs-pinyin{font-size:18px;opacity:0.95;margin:2px 0 8px;font-style:italic;font-weight:700;}
+  .verb-spot .vs-gloss{font-size:13px;margin-bottom:10px;}
+  .verb-spot .vs-patterns{border-top:1px solid rgba(255,255,255,0.3);padding-top:10px;}
+  .verb-spot .vs-pattern{font-size:13.5px;margin-bottom:8px;line-height:1.6;}
+  .verb-spot .vs-pattern .vp-cn{font-weight:600;font-size:16px;}
+  .verb-spot .vs-pattern .vp-pinyin{font-weight:700;color:#fff;font-style:italic;}
+  .verb-spot .vs-audio{
+    margin-top:8px;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.5);
+    color:#fff;border-radius:8px;padding:6px 12px;font-size:12px;cursor:pointer;
+  }
+
+  /* ============ VOCABULARY TABLE ============ */
+  .vocab-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .vocab-table th{
+    text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);
+    padding:0 8px 6px;border-bottom:1px solid var(--line);font-weight:700;
+  }
+  .vocab-table td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle;}
+  .vocab-table tr:last-child td{border-bottom:none;}
+  .vocab-table .vt-hanzi{font-size:19px;font-family:"PingFang SC","Noto Sans SC",sans-serif;white-space:nowrap;}
+  .vocab-table .vt-pinyin{color:var(--jade);font-style:italic;font-size:15.5px;font-weight:700;}
+  .vocab-table .vt-pos{color:var(--muted);font-size:11px;white-space:nowrap;}
+  .vocab-table .vt-def{color:var(--ink);font-size:12.5px;}
+  .vocab-table .vt-audio{
+    width:28px;height:28px;border-radius:50%;border:none;background:var(--seal);color:#fff;
+    font-size:11px;cursor:pointer;flex-shrink:0;
+  }
+
+  /* ============ YOUR TURN ============ */
+  .yt-card{background:#ece7f5;border:1px solid var(--c-particle);border-radius:12px;padding:13px 15px;margin-bottom:10px;}
+  .yt-prompt{font-size:13.5px;font-weight:600;color:var(--ink);margin:0 0 10px;}
+  .yt-reveal-btn{font-size:12.5px;background:var(--c-particle);color:#fff;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;}
+  .yt-answer{margin-top:10px;padding-top:10px;border-top:1px dashed var(--c-particle);display:none;}
+  .yt-answer.show{display:block;}
+
+  /* CROSS LINK */
+  .crosslink{font-size:12px;color:var(--muted);font-style:italic;padding:10px 12px;background:var(--paper-raised);border-radius:8px;}
+
+  /* COMPLETE / NAV */
+  .complete-row{margin:22px 0 0;}
+  .complete-btn{width:100%;padding:13px;border-radius:12px;border:2px solid var(--jade);
+    background:var(--paper-raised);color:var(--jade);font-size:14px;font-weight:600;cursor:pointer;}
+  .complete-btn.done{background:var(--jade);color:#fff;}
+  .lesson-nav{display:flex;gap:10px;margin:12px 0 0;}
+  .lesson-nav button{flex:1;padding:12px;border-radius:10px;border:1px solid var(--line);
+    background:var(--paper-raised);color:var(--ink);font-size:13.5px;cursor:pointer;}
+  .lesson-nav button:disabled{opacity:0.35;pointer-events:none;}
+
+  /* ============ PHONETICS LESSON (Lesson 0) ============ */
+  .tone-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:4px;}
+  .tone-cell{background:var(--paper-raised);border:1px solid var(--line);border-radius:10px;padding:10px 4px;text-align:center;cursor:pointer;}
+  .tone-cell .t-hanzi{font-size:22px;}
+  .tone-cell .t-pinyin{font-size:13px;color:var(--jade);margin-top:2px;font-weight:600;font-style:italic;}
+  .tone-cell .t-gloss{font-size:10px;color:var(--muted);margin-top:2px;}
+  .tone-cell .t-num{font-size:9.5px;color:var(--muted);margin-top:3px;}
+  .trap-row{background:var(--paper-raised);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;}
+  .trap-row .tr-pair{font-size:13.5px;font-weight:700;color:var(--jade);}
+  .trap-row .tr-note{font-size:12.5px;color:var(--ink);margin-top:3px;line-height:1.55;}
+
+  .empty{font-size:13px;color:var(--muted);text-align:center;padding:30px 10px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="brand"><h1>从零开始 <span class="cn">Chinese Basics</span></h1></div>
+    <p class="subtitle">A guided lesson path — dialogue first, grammar taught in depth after. For quick daily lookup, use your Suzhou Survival phrasebook instead.</p>
+    <div class="searchbar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a7666" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchInput" type="text" placeholder="Search English, pinyin, or 汉字...">
+    </div>
+    <div class="header-btns">
+      <div class="layout-toggle">
+        <span id="layoutLabel">🖥️ Desktop</span>
+        <label class="switch">
+          <input type="checkbox" id="layoutToggleInput">
+          <span class="switch-slider"></span>
+        </label>
+      </div>
+      <button class="pron-toggle-btn" id="pronToggleBtn">🗣️ Pronunciation</button>
+      <div class="speed-control" id="speedControl">
+        <button class="speed-btn" data-rate="0.6">🐢 Slow</button>
+        <button class="speed-btn active" data-rate="0.85">▶ Normal</button>
+        <button class="speed-btn" data-rate="1.1">⏩ Fast</button>
+      </div>
+      <button class="legend-btn" id="legendBtn">Color key</button>
+    </div>
+  </header>
+
+  <main id="main"></main>
+
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="sheet" id="sheetContent"></div>
+</div>
+
+<script>
+// ============ ROLE COLORS (exact match to phrasebook) ============
+const ROLES = {
+  pronoun:   {color:'var(--c-pronoun)',   label:'Pronoun (I / you / he...)', short:'Pronoun'},
+  verb:      {color:'var(--c-verb)',      label:'Verb', short:'Verb'},
+  noun:      {color:'var(--c-noun)',      label:'Noun / object', short:'Noun'},
+  particle:  {color:'var(--c-particle)',  label:'Particle / grammar word', short:'Particle'},
+  question:  {color:'var(--c-question)',  label:'Question word', short:'Question word'},
+  measure:   {color:'var(--c-measure)',   label:'Number / measure word', short:'Measure word'},
+  adjective: {color:'var(--c-adjective)', label:'Adjective', short:'Adjective'},
+  negation:  {color:'var(--c-negation)',  label:'Negation', short:'Negation'},
+  aux:       {color:'var(--c-aux)',       label:'Auxiliary verb (want/can/will)', short:'Auxiliary verb'}
+};
+function tok(hanzi, pinyin, gloss, role){
+  return {hanzi, pinyin, gloss, role: role || 'noun'};
+}
+function toksToHanzi(toks){ return toks.map(t => t.hanzi).join(''); }
+function toksToPinyin(toks){ return toks.map(t => t.pinyin).join(' · '); }
+
+// ============ PRONUNCIATION GUIDE ENGINE (same as phrasebook) ============
+function stripTonesAndGetTones(pinyinRaw){
+  const toneMap = {
+    'ā':['a',1],'á':['a',2],'ǎ':['a',3],'à':['a',4],
+    'ē':['e',1],'é':['e',2],'ě':['e',3],'è':['e',4],
+    'ī':['i',1],'í':['i',2],'ǐ':['i',3],'ì':['i',4],
+    'ō':['o',1],'ó':['o',2],'ǒ':['o',3],'ò':['o',4],
+    'ū':['u',1],'ú':['u',2],'ǔ':['u',3],'ù':['u',4],
+    'ǖ':['ü',1],'ǘ':['ü',2],'ǚ':['ü',3],'ǜ':['ü',4]
+  };
+  let plain = '';
+  const tones = [];
+  for (const ch of pinyinRaw){
+    if (toneMap[ch]){
+      plain += toneMap[ch][0];
+      tones.push(toneMap[ch][1]);
+    } else if (/[a-züA-ZÜ]/.test(ch)){
+      plain += ch.toLowerCase();
+    }
+  }
+  return {plain, tones};
+}
+
+// ============ PINYIN -> ENGLISH-SOUNDS-LIKE APPROXIMATION ============
+const PY_INITIALS = ['zh','ch','sh','b','p','m','f','d','t','n','l','g','k','h','j','q','x','r','z','c','s','y','w'];
+const PY_FINALS = [
+  'iang','iong','uang','ueng',
+  'ian','iao','uai','uan','ing','ong','ang','eng',
+  'ai','ei','ao','ou','an','en','er','ia','ie','iu','ua','uo','ui','ue','ve','un','in',
+  'a','o','e','i','u','v','n','ng'
+];
+function splitPySyllables(word){
+  const syllables = [];
+  let i = 0;
+  while (i < word.length){
+    let matched = false;
+    for (const init of PY_INITIALS){
+      if (word.startsWith(init, i)){
+        for (const fin of PY_FINALS){
+          if (fin.length && word.startsWith(fin, i + init.length)){
+            syllables.push(init + fin);
+            i += init.length + fin.length;
+            matched = true;
+            break;
+          }
+        }
+        if (matched) break;
+      }
+    }
+    if (matched) continue;
+    for (const fin of PY_FINALS){
+      if (fin.length && word.startsWith(fin, i)){
+        syllables.push(fin);
+        i += fin.length;
+        matched = true;
+        break;
+      }
+    }
+    if (matched) continue;
+    syllables.push(word[i]);
+    i += 1;
+  }
+  return syllables;
+}
+const PY_INITIAL_SOUND = {
+  '':'', 'b':'b','p':'p','m':'m','f':'f','d':'d','t':'t','n':'n','l':'l',
+  'g':'g','k':'k','h':'h','j':'j','q':'ch','x':'sh',
+  'zh':'j','ch':'ch','sh':'sh','r':'r','z':'dz','c':'ts','s':'s','y':'y','w':'w'
+};
+const PY_FINAL_SOUND = {
+  'a':'ah','o':'aw','e':'uh','i':'ee','u':'oo','v':'ü','n':'n','ng':'ng',
+  'ai':'eye','ei':'ay','ao':'ow','ou':'oh','an':'ahn','en':'un','er':'are',
+  'ia':'yah','ie':'yeh','iu':'yo','ua':'wah','uo':'waw','ui':'way','ue':'yweh','ve':'yweh',
+  'un':'wun','in':'een',
+  'ang':'ahng','eng':'ung',
+  'ian':'yen','iao':'yow','uai':'why','uan':'wahn','ing':'ing','ong':'oong',
+  'iang':'yahng','iong':'yoong','uang':'wahng','ueng':'wung'
+};
+const PY_SYLLABLE_OVERRIDES = {
+  'zhi':'jr', 'chi':'chr', 'shi':'shr', 'ri':'rr',
+  'zi':'dzuh', 'ci':'tsuh', 'si':'suh',
+  'yi':'ee', 'wu':'woo', 'yu':'yew',
+  'er':'are', 'e':'uh', 'a':'ah', 'o':'aw',
+  'yan':'yen', 'yang':'yahng', 'ye':'yeh', 'yao':'yow', 'you':'yo',
+  'ying':'ing', 'yong':'yoong', 'yin':'een', 'yue':'yweh', 'yuan':'ywen', 'yun':'ywun',
+  'wa':'wah', 'wo':'waw', 'wai':'why', 'wei':'way', 'wan':'wahn', 'wang':'wahng', 'wen':'wun', 'weng':'wung'
+};
+function pySyllableToEnglish(syl){
+  if (PY_SYLLABLE_OVERRIDES[syl] !== undefined) return PY_SYLLABLE_OVERRIDES[syl];
+  for (const init of PY_INITIALS){
+    if (syl.startsWith(init) && init.length){
+      const rest = syl.slice(init.length);
+      if (PY_FINAL_SOUND[rest] !== undefined){
+        let initSound = PY_INITIAL_SOUND[init];
+        let finalSound = PY_FINAL_SOUND[rest];
+        if (['j','q','x'].includes(init) && rest === 'u') finalSound = 'ü';
+        if (['j','q','x'].includes(init) && rest === 'un') finalSound = 'ün';
+        if (['j','q','x'].includes(init) && rest === 'uan') finalSound = 'wen';
+        return initSound + finalSound;
+      }
+    }
+  }
+  if (PY_FINAL_SOUND[syl] !== undefined) return PY_FINAL_SOUND[syl];
+  return syl;
+}
+// Embedded English proper nouns (Julien, Anna...) have no tone marks and start capitalized — skip these.
+function looksLikeEmbeddedEnglish(word){
+  return /^[A-Z]/.test(word) && !/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/.test(word);
+}
+function pinyinToEnglishApprox(pinyinRaw){
+  const rawWords = pinyinRaw.split(/[\s'’\-]+/).filter(Boolean);
+  const approxWords = rawWords.map(rw => {
+    if (looksLikeEmbeddedEnglish(rw)) return null;
+    const {plain} = stripTonesAndGetTones(rw);
+    if (!plain) return null;
+    const syls = splitPySyllables(plain);
+    return syls.map(pySyllableToEnglish).join('-');
+  });
+  if (approxWords.some(w => w === null)) return null;
+  return approxWords.join(' ');
+}
+
+function computeTips(pinyinText){
+  const {plain, tones} = stripTonesAndGetTones(pinyinText);
+  const tips = [];
+  const seen = new Set();
+  let working = plain;
+
+  [
+    ['zh',"zh — like the 'j' in judge, but tongue curled back (retroflex)."],
+    ['ch',"ch — like the 'ch' in church, but tongue curled back (retroflex)."],
+    ['sh',"sh — like English 'sh', but tongue curled back (retroflex)."]
+  ].forEach(([pat, tip]) => {
+    if (working.includes(pat)){ tips.push(tip); seen.add(tip); working = working.split(pat).join(''); }
+  });
+
+  [
+    ['q',"q — like 'ch' in 'cheese', but tongue tip down, front of the mouth — lighter than English ch."],
+    ['x',"x — a soft, hissy 'sh' made with a flat tongue near the front — not like English 'sh'."],
+    ['j',"j — like the 'j' in 'jeep', but tongue flat, front of the mouth."],
+    ['r',"r — between English 'r' and 'zh'; tongue curled back with a slight buzz, no lip rounding."],
+    ['c',"c — like the 'ts' in 'cats', with a puff of air."],
+    ['z',"z — like the 'ds' in 'kids', tongue flat against the back of the teeth."]
+  ].forEach(([pat, tip]) => {
+    if (working.includes(pat) && !seen.has(tip)){ tips.push(tip); seen.add(tip); }
+  });
+
+  [
+    ['ang',"ang — 'ah' plus a nasal ending; the tongue never touches the roof of the mouth."],
+    ['eng',"eng — like the 'ung' in 'sung'."],
+    ['ong',"ong — rounded lips, like 'oong'."],
+    ['ie',"ie — like the 'ye' in 'yes'."],
+    ['ui',"ui — like the word 'way'."],
+    ['iu',"iu — like the 'yo' in 'yo-yo'."],
+    ['er',"er — tongue curled back, like the 'ar' in American 'butter'."]
+  ].forEach(([pat, tip]) => {
+    if (plain.includes(pat) && !seen.has(tip)){ tips.push(tip); seen.add(tip); }
+  });
+
+  if (/[jqxy]u/.test(plain)){
+    const tip = "ü — round your lips as if saying 'oo', but say 'ee'; no English equivalent. (Written as plain u after j/q/x/y.)";
+    if (!seen.has(tip)){ tips.push(tip); seen.add(tip); }
+  }
+
+  if (['zhi','chi','shi','ri','zi','ci','si'].some(s => plain.includes(s))){
+    const tip = "i after zh/ch/sh/r/z/c/s isn't the 'ee' sound it is everywhere else — it's a buzzy, near-vowel-less continuation of the consonant, closer to \"-r\" or \"-zzz\" than \"-ee\". This is one of the sounds text-to-speech voices most often flatten out, so don't trust an \"ee\"-sounding rendering of 十/是/四/日 as fully accurate.";
+    tips.push(tip);
+  }
+
+  const toneShapes = {1:'flat & high',2:'rising',3:'dip then rise',4:'sharp fall'};
+  let toneSummary = '';
+  if (tones.length){
+    toneSummary = tones.map(t => t + (toneShapes[t] ? ' (' + toneShapes[t] + ')' : '')).join(' · ');
+  } else if (/[a-züAEIOU]/i.test(plain)){
+    toneSummary = 'neutral (light, no strong pitch)';
+  }
+  return {tips, toneSummary};
+}
+function renderPronunciationBox(pinyinText){
+  const {tips, toneSummary} = computeTips(pinyinText);
+  const soundsLike = pinyinToEnglishApprox(pinyinText);
+  if (!tips.length && !toneSummary && !soundsLike) return null;
+  const box = document.createElement('div');
+  box.className = 'pron-box';
+  let html = '';
+  if (soundsLike) html += `<div class="pron-sounds-like">🔤 Sounds like: <b>${soundsLike}</b></div>`;
+  if (toneSummary) html += `<div class="pron-tones">🎵 ${toneSummary}</div>`;
+  if (tips.length) html += tips.map(t => `<div class="pron-tip">${t}</div>`).join('');
+  box.innerHTML = html;
+  return box;
+}
+
+let chipTipCounter = 0;
+const toneShapeShort = {1:'flat & high',2:'rising',3:'dip, rise',4:'sharp fall'};
+// Compact per-word tone badge + English-sounds-like text + tappable ⓘ for any real sound trap.
+function appendChipPronunciation(chip, pinyinText){
+  const {tips} = computeTips(pinyinText);
+  const {tones} = stripTonesAndGetTones(pinyinText);
+  const soundsLike = pinyinToEnglishApprox(pinyinText);
+
+  if (tones.length){
+    const badge = document.createElement('span');
+    badge.className = 'tone-badge';
+    badge.textContent = tones.map(t => t + (toneShapeShort[t] ? ' · ' + toneShapeShort[t] : '')).join(' / ');
+    chip.appendChild(badge);
+  }
+
+  if (soundsLike){
+    const sl = document.createElement('span');
+    sl.className = 'sounds-like';
+    sl.textContent = '≈ ' + soundsLike;
+    chip.appendChild(sl);
+  }
+
+  if (tips.length){
+    chipTipCounter++;
+    const tipId = 'chiptip_' + chipTipCounter;
+    const infoBtn = document.createElement('button');
+    infoBtn.className = 'chip-info-btn';
+    infoBtn.textContent = 'ⓘ';
+    infoBtn.title = 'How to say this sound';
+    infoBtn.onclick = () => { document.getElementById(tipId).classList.toggle('show'); };
+    chip.appendChild(infoBtn);
+    const tipBox = document.createElement('div');
+    tipBox.className = 'chip-tip';
+    tipBox.id = tipId;
+    tipBox.innerHTML = tips.map(t => `<div>${t}</div>`).join('');
+    chip.appendChild(tipBox);
+  }
+}
+
+// ============ GRAMMAR (from chinese_learning_tracker.xlsx — same IDs as the phrasebook) ============
+const GRAMMAR = {
+  1: {tier:1, title:'Basic Sentence Order (SVO)', structure:'Subject + Verb + Object', example:'他吃饭', examplePinyin:'Tā chī fàn', exampleEn:'He eats food.', tip:'No articles (a/an/the) in Chinese.'},
+  2: {tier:1, title:'Negation with 不/没', structure:'Subject + 不/没 + Verb', example:'他不是学生', examplePinyin:'Tā bú shì xuéshēng', exampleEn:'He is not a student.', tip:'不 for general negation; 没 only negates 有 (to have).'},
+  3: {tier:1, title:'Simple Adjectives (很)', structure:'Subject + 很 + Adjective', example:'她很好看', examplePinyin:'Tā hěn hǎokàn', exampleEn:'She is good-looking.', tip:'是 is NOT used to link subject+adjective. 很 here is often neutral, not \'very\'.'},
+  4: {tier:2, title:'Adjectives with 的', structure:'Adjective + 的 + Noun', example:'聪明的学生', examplePinyin:'Cōngmíng de xuéshēng', exampleEn:'Smart student(s)', tip:'的 dropped for common fixed phrases (小杯子).'},
+  5: {tier:3, title:'Plurals', structure:'(no change to noun; context implies plural)', example:'他是学生 / 他们是学生', examplePinyin:'Tā shì xuéshēng / Tāmen shì xuéshēng', exampleEn:'He is a student. / They are students.', tip:'们 only for pronouns/people words, never with a number.'},
+  6: {tier:3, title:'Colors', structure:'Color + 色 (as noun); Color + 的 + Noun (as adjective)', example:'蓝色的汽车', examplePinyin:'Lánsè de qìchē', exampleEn:'Blue car', tip:'色/的 often dropped in fixed terms e.g. 红苹果.'},
+  7: {tier:2, title:'Possessions with 的', structure:'Owner + 的 + Noun', example:'你的车', examplePinyin:'Nǐ de chē', exampleEn:'Your car', tip:'的 dropped for family/close institutions: 我妈妈, not 我的妈妈.'},
+  8: {tier:1, title:'Auxiliary Verbs (想/要/会)', structure:'Subject + Aux Verb + Verb + Object', example:'我想说中文', examplePinyin:'Wǒ xiǎng shuō Zhōngwén', exampleEn:'I want to speak Chinese.', tip:'想=want/wish, 要=want/will/should, 会=capable of/will.'},
+  9: {tier:2, title:'Expressing \'and\' with 和', structure:'Noun + 和 + Noun', example:'兔子喜欢萝卜和生菜', examplePinyin:'Tùzi xǐhuan luóbo hé shēngcài', exampleEn:'Rabbits like carrots and lettuce.', tip:'和 links nouns only, not clauses or verbs.'},
+  10: {tier:1, title:'Basic Numbers (0-99)', structure:'Tens digit + 十 + ones digit', example:'三十八', examplePinyin:'Sānshíbā', exampleEn:'38', tip:'11-19 = 十 + digit; 20/30... = digit + 十.'},
+  11: {tier:1, title:'Quantity & Measure Words', structure:'Number + Measure Word + Noun', example:'一个问题', examplePinyin:'Yí gè wèntí', exampleEn:'One question', tip:'个 is the universal fallback measure word.'},
+  12: {tier:1, title:'\'This\' and \'That\' (这个/那个)', structure:'这/那 + 个 + (Noun)', example:'我要这个', examplePinyin:'Wǒ yào zhège', exampleEn:'I want this one.', tip:'Essential for pointing at menus/products.'},
+  13: {tier:3, title:'Large Numbers (100-100M)', structure:'Number + 百/千/万/亿', example:'两千五百', examplePinyin:'Liǎngqiān wǔbǎi', exampleEn:'2,500', tip:'Chinese base unit is 10,000 (万), not 1,000.'},
+  14: {tier:2, title:'Days of the Week', structure:'星期 + number (1-6); Sunday = 星期天/日', example:'星期三', examplePinyin:'Xīngqīsān', exampleEn:'Wednesday', tip:'礼拜 and 周 are alternate words for \'week\'.'},
+  15: {tier:2, title:'Time', structure:'Hour + 点 + Minute + 分', example:'七点半', examplePinyin:'Qī diǎn bàn', exampleEn:'7:30', tip:'半 = half; 分 often dropped in speech.'},
+  16: {tier:3, title:'Duration of Time', structure:'Number + (个) + Time Unit', example:'两个小时', examplePinyin:'Liǎng gè xiǎoshí', exampleEn:'Two hours', tip:'个 usage varies by unit — must memorize per unit.'},
+  17: {tier:1, title:'Basic Questions with 吗', structure:'Statement + 吗？', example:'你要去超市吗？', examplePinyin:'Nǐ yào qù chāoshì ma?', exampleEn:'Do you want to go to the supermarket?', tip:'Turns any statement into yes/no question; nothing else moves.'},
+  18: {tier:1, title:'Yes/No Questions with 不 (A-not-A)', structure:'Verb/Adj + 不 + Verb/Adj', example:'你去不去？', examplePinyin:'Nǐ qù bu qù?', exampleEn:'Are you going (or not)?', tip:'有 negates with 没: 有没有?'},
+  19: {tier:2, title:'Time Words/Phrases', structure:'(Time) + Subject + (Time) + Verb + Object', example:'我明天去商场', examplePinyin:'Wǒ míngtiān qù shāngchǎng', exampleEn:'I will go to the store tomorrow.', tip:'No verb tense — time is shown by time words only.'},
+  20: {tier:2, title:'Past Actions with 了', structure:'Verb + 了', example:'我去了商场', examplePinyin:'Wǒ qù le shāngchǎng', exampleEn:'I went to the store.', tip:'Marks completion, NOT past tense — can appear in future sentences too.'},
+  21: {tier:2, title:'Past Experiences with 过', structure:'Verb + 过', example:'我去过', examplePinyin:'Wǒ qù guo', exampleEn:'I\'ve been there.', tip:'Marks lifetime experience, not just \'past\'.'},
+  22: {tier:2, title:'Negative Past Actions with 没(有)', structure:'没(有) + Verb', example:'我没看过', examplePinyin:'Wǒ méi kàn guo', exampleEn:'I have not seen (it).', tip:'ALL verbs use 没(有) to negate the past, not just 有.'},
+  23: {tier:1, title:'Future Actions with 要/会', structure:'Subject + 要/会 + Verb', example:'你一定会成功', examplePinyin:'Nǐ yídìng huì chénggōng', exampleEn:'You will definitely succeed.', tip:'要=intention/plan; 会=likelihood/certainty.'},
+  24: {tier:1, title:'Location (在)', structure:'Subject + 在 + Place (as verb); or 在+Place before main verb', example:'我在家', examplePinyin:'Wǒ zài jiā', exampleEn:'I am at home.', tip:'在-phrase goes before the verb, unlike English.'},
+  25: {tier:2, title:'Action in Progress with 在', structure:'在 + Verb (like \'-ing\')', example:'你在上班吗？', examplePinyin:'Nǐ zài shàngbān ma?', exampleEn:'Are you working?', tip:'正在 emphasizes \'right now\'.'},
+  26: {tier:1, title:'Who? What? Where? Which?', structure:'Question word replaces the answer\'s position', example:'她是谁？', examplePinyin:'Tā shì shéi?', exampleEn:'Who is she?', tip:'谁/什么/哪里/哪儿/哪个 — word order doesn\'t change.'},
+  27: {tier:1, title:'Why? How?', structure:'为什么 (why, after subject); 怎么 (how, before verb)', example:'你为什么想去日本？', examplePinyin:'Nǐ wèishénme xiǎng qù Rìběn?', exampleEn:'Why do you want to go to Japan?', tip:'因为 = \'because\', starts the answer.'},
+  28: {tier:2, title:'\'All\' and \'Also\' (都/也)', structure:'Subject + 都/也 + Verb/Adj', example:'我们都喜欢吃西瓜', examplePinyin:'Wǒmen dōu xǐhuan chī xīguā', exampleEn:'We all like watermelon.', tip:'都 = all/both; 也 = also/too.'},
+  29: {tier:1, title:'Ability, Possibility, Permission (能/可以)', structure:'Subject + 能/可以 + Verb', example:'我可以请个假吗？', examplePinyin:'Wǒ kěyǐ qǐng gè jià ma?', exampleEn:'Can I take a day off?', tip:'能=ability/possibility; 可以=possibility/permission.'},
+  30: {tier:1, title:'Commands', structure:'Verb (+ Object), optionally + 请 before', example:'请进来', examplePinyin:'Qǐng jìnlái', exampleEn:'Please come in.', tip:'请 softens any command into a polite request.'},
+  31: {tier:2, title:'Negative Commands', structure:'不要/别 + Verb', example:'别说谎', examplePinyin:'Bié shuōhuǎng', exampleEn:'Don\'t tell lies.', tip:'不要 and 别 are interchangeable.'},
+  32: {tier:2, title:'Suggestions (吧)', structure:'Statement + 吧', example:'咱们一起逛街吧', examplePinyin:'Zánmen yìqǐ guàngjiē ba', exampleEn:'Let\'s go shopping together!', tip:'咱们=we (incl. listener); 我们=we (may exclude listener).'},
+  33: {tier:2, title:'Asking About Choices (还是)', structure:'Option A + 还是 + Option B？', example:'你要冰水还是热水？', examplePinyin:'Nǐ yào bīngshuǐ háishi rèshuǐ?', exampleEn:'Do you want ice water or hot water?', tip:'还是 is question-only; use 或者 for statements.'},
+  34: {tier:3, title:'Verb + Complement (得)', structure:'Verb + 得 + (很) + Adjective', example:'你做得很好', examplePinyin:'Nǐ zuò de hěn hǎo', exampleEn:'You did a great job.', tip:'得 links a verb to a result/degree complement.'},
+  35: {tier:3, title:'Adverbs with 地', structure:'Adjective + 地 + Verb', example:'乌龟慢慢地爬', examplePinyin:'Wūguī mànmàn de pá', exampleEn:'Turtles crawl slowly.', tip:'地 = the Chinese \'-ly\'; single-character adjectives often double.'},
+  36: {tier:3, title:'\'More\' and \'Most\' (更/最)', structure:'更/最 + Adjective', example:'我最喜欢猫', examplePinyin:'Wǒ zuì xǐhuan māo', exampleEn:'Cats are my favorite.', tip:'Can precede certain mental-state verbs too (爱/恨/希望).'},
+  37: {tier:3, title:'Extremes with 太', structure:'太 + Adjective + 了', example:'这个太可爱了！', examplePinyin:'Zhège tài kě\'ài le!', exampleEn:'This is so cute!', tip:'太 = \'too\' or \'so\', always paired with 了 in this pattern.'},
+  38: {tier:2, title:'Questions with 呢', structure:'Noun/Pronoun + 呢', example:'你呢？', examplePinyin:'Nǐ ne?', exampleEn:'What about you?', tip:'Also asks \'where is X?\' when something is obviously missing.'},
+  39: {tier:3, title:'Tag Questions', structure:'Statement + 对吗/是吗/好吗', example:'你说你是医生，对吗？', examplePinyin:'Nǐ shuō nǐ shì yīshēng, duì ma?', exampleEn:'You said you\'re a doctor, right?', tip:'对不对/是不是/好不好 are more direct/blunt versions.'},
+  40: {tier:2, title:'Age', structure:'Number + 岁 (+了)', example:'我27岁了', examplePinyin:'Wǒ èrshíqī suì le', exampleEn:'I am 27 years old.', tip:'了 implies \'have turned\' — a change of state.'},
+  41: {tier:3, title:'Date', structure:'Year (digit by digit) + 年 + Month + 月 + Day + 号/日', example:'二零二四年十月十八号', examplePinyin:'Èr líng èr sì nián shí yuè shíbā hào', exampleEn:'October 18th, 2024', tip:'Year read digit-by-digit, not as a whole number; year comes first.'},
+};
+
+// ============ STATE ============
+let currentLesson = null;
+let showPronunciation = false; // global toggle for pronunciation guide boxes
+let completedLessons = {};
+let progressSaveTimer = null;
+let progressSaveChain = Promise.resolve();
+let zhVoice = null;
+let gramTipCounter = 0;
+let exRevealCounter = 0;
+let speechRate = 0.85; // adjustable playback speed, persisted below
+
+// ============ TTS ============
+function pickVoice(){
+  if (!('speechSynthesis' in window)) return;
+  const voices = speechSynthesis.getVoices();
+  zhVoice = voices.find(v => v.lang === 'zh-CN') || voices.find(v => v.lang && v.lang.startsWith('zh')) || null;
+}
+if ('speechSynthesis' in window){
+  pickVoice();
+  speechSynthesis.onvoiceschanged = pickVoice;
+}
+function speak(text, btn){
+  if (!('speechSynthesis' in window)){ alert('Audio not supported on this device/browser.'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-CN';
+  if (zhVoice) u.voice = zhVoice;
+  u.rate = speechRate;
+  if (btn) btn.classList.add('playing');
+  u.onend = () => { if (btn) btn.classList.remove('playing'); };
+  u.onerror = () => { if (btn) btn.classList.remove('playing'); };
+  speechSynthesis.speak(u);
+}
+
+// ============ PROGRESS PERSISTENCE (debounced) ============
+function persistProgress(){
+  if (!window.storage) return;
+  if (progressSaveTimer) clearTimeout(progressSaveTimer);
+  progressSaveTimer = setTimeout(() => {
+    progressSaveTimer = null;
+    const snapshot = JSON.stringify(completedLessons);
+    progressSaveChain = progressSaveChain.catch(() => {})
+      .then(() => window.storage.set('lesson_progress_v1', snapshot, false))
+      .catch(err => console.error('Could not persist lesson progress:', err));
+  }, 600);
+}
+async function loadProgress(){
+  if (!window.storage) return;
+  try{
+    const res = await window.storage.get('lesson_progress_v1', false);
+    if (res && res.value) completedLessons = JSON.parse(res.value);
+  } catch(err){ completedLessons = {}; }
+  render();
+}
+function toggleComplete(lessonId){
+  completedLessons[lessonId] = !completedLessons[lessonId];
+  persistProgress();
+  render();
+}
+
+// ============ RENDER: TOKEN LINE (inline colored hanzi) ============
+function renderTokSpan(toks, cls){
+  const span = document.createElement('span');
+  span.className = cls || '';
+  toks.forEach(t => {
+    const s = document.createElement('span');
+    s.className = 'tok';
+    s.style.color = ROLES[t.role].color;
+    s.textContent = t.hanzi;
+    span.appendChild(s);
+  });
+  return span;
+}
+
+// ============ RENDER: PHRASE CARD (dialogue line — matches phrasebook exactly, plus speaker tag) ============
+function renderPhraseCard(line, opts){
+  opts = opts || {};
+  const card = document.createElement('div');
+  card.className = 'phrase-card';
+
+  if (line.speakerLabel){
+    const sp = document.createElement('span');
+    sp.className = 'phrase-speaker' + (line.speaker === 'B' ? ' b' : '');
+    sp.textContent = line.speakerLabel;
+    card.appendChild(sp);
+    card.appendChild(document.createElement('br'));
+  }
+
+  const enP = document.createElement('p');
+  enP.className = 'phrase-en';
+  enP.textContent = line.en;
+  card.appendChild(enP);
+
+  const row = document.createElement('div');
+  row.className = 'phrase-row';
+  row.appendChild(renderTokSpan(line.toks, 'phrase-cn'));
+
+  const btn = document.createElement('button');
+  btn.className = 'seal-btn';
+  btn.textContent = '听';
+  btn.onclick = () => speak(toksToHanzi(line.toks), btn);
+  row.appendChild(btn);
+  card.appendChild(row);
+
+  const pinyinP = document.createElement('p');
+  pinyinP.className = 'phrase-pinyin';
+  pinyinP.textContent = toksToPinyin(line.toks);
+  card.appendChild(pinyinP);
+
+  const breakdown = document.createElement('div');
+  breakdown.className = 'breakdown';
+  line.toks.forEach(t => {
+    const chip = document.createElement('div');
+    chip.className = 'tok-chip';
+    chip.innerHTML = `
+      <span class="h" style="color:${ROLES[t.role].color}">${t.hanzi}</span>
+      <span class="p">${t.pinyin}</span>
+      <span class="g">${t.gloss}</span>
+      <span class="dot" style="background:${ROLES[t.role].color}"></span>
+      <span class="r" style="color:${ROLES[t.role].color}">${ROLES[t.role].short}</span>
+    `;
+    if (!/^[，。？！]$/.test(t.hanzi)){
+      const wordAudioBtn = document.createElement('button');
+      wordAudioBtn.className = 'chip-audio-btn';
+      wordAudioBtn.textContent = '🔊';
+      wordAudioBtn.title = 'Hear just this word';
+      wordAudioBtn.onclick = () => speak(t.hanzi, wordAudioBtn);
+      chip.appendChild(wordAudioBtn);
+    }
+    if (showPronunciation) appendChipPronunciation(chip, t.pinyin);
+    breakdown.appendChild(chip);
+  });
+  card.appendChild(breakdown);
+
+  if (line.structure){
+    const sBox = document.createElement('div');
+    sBox.className = 'structure-box';
+    sBox.innerHTML = `<div class="sb-label">🧩 Sentence Structure</div><div class="sb-text">${line.structure}</div>`;
+    card.appendChild(sBox);
+  }
+
+  if (line.grammar && line.grammar.length){
+    const tagsRow = document.createElement('div');
+    tagsRow.className = 'tags-row';
+    const tipEls = [];
+    line.grammar.forEach(gnum => {
+      const g = GRAMMAR[gnum];
+      if (!g) return;
+      gramTipCounter++;
+      const tipId = 'gtip_' + gramTipCounter;
+      const pill = document.createElement('button');
+      pill.className = 'gram-pill t' + g.tier;
+      pill.textContent = '#' + gnum + ' ' + g.title;
+      pill.onclick = () => { document.getElementById(tipId).classList.toggle('show'); };
+      tagsRow.appendChild(pill);
+      const tip = document.createElement('div');
+      tip.className = 'gram-tip';
+      tip.id = tipId;
+      tip.innerHTML = `<b>#${gnum} ${g.title}</b> — ${g.tip}`;
+      tipEls.push(tip);
+    });
+    card.appendChild(tagsRow);
+    tipEls.forEach(t => card.appendChild(t));
+  }
+
+  return card;
+}
+
+// ============ RENDER: GRAMMAR POINT (deep-dive, Integrated-Chinese style) ============
+function renderGrammarPoint(gp, index){
+  const g = GRAMMAR[gp.gid];
+  if (!g) return document.createElement('div');
+  const card = document.createElement('div');
+  card.className = 'gp-card';
+
+  const head = document.createElement('div');
+  head.className = 'gp-head';
+  head.innerHTML = `<div class="gp-num">Grammar ${index}</div><div class="gp-title">#${gp.gid} ${g.title}</div>`;
+  card.appendChild(head);
+
+  const body = document.createElement('div');
+  body.className = 'gp-body';
+
+  const structure = document.createElement('p');
+  structure.className = 'gp-structure';
+  structure.innerHTML = `<b>Structure:</b> ${g.structure}`;
+  body.appendChild(structure);
+
+  if (gp.note){
+    const paras = Array.isArray(gp.note) ? gp.note : [gp.note];
+    paras.forEach(text => {
+      const n = document.createElement('p');
+      n.className = 'gp-note';
+      n.innerHTML = text;
+      body.appendChild(n);
+    });
+  }
+
+  (gp.examples || []).forEach((ex, i) => {
+    const row = document.createElement('div');
+    row.className = 'gp-example';
+    const letter = document.createElement('div');
+    letter.className = 'gp-letter';
+    letter.textContent = String.fromCharCode(65 + i);
+    row.appendChild(letter);
+    const exBody = document.createElement('div');
+    exBody.className = 'gp-ex-body';
+    const cnLine = document.createElement('div');
+    cnLine.style.display = 'flex';
+    cnLine.style.alignItems = 'center';
+    cnLine.style.gap = '8px';
+    cnLine.appendChild(renderTokSpan(ex.toks, 'gp-ex-cn'));
+    const exAudio = document.createElement('button');
+    exAudio.className = 'seal-btn';
+    exAudio.style.cssText = 'width:32px;height:32px;font-size:11px;flex-shrink:0;';
+    exAudio.textContent = '听';
+    exAudio.onclick = () => speak(toksToHanzi(ex.toks), exAudio);
+    cnLine.appendChild(exAudio);
+    exBody.appendChild(cnLine);
+    const py = document.createElement('div');
+    py.className = 'gp-ex-pinyin';
+    py.textContent = toksToPinyin(ex.toks);
+    exBody.appendChild(py);
+    if (showPronunciation){
+      const pronBox = renderPronunciationBox(toksToPinyin(ex.toks));
+      if (pronBox){ pronBox.style.marginTop = '6px'; exBody.appendChild(pronBox); }
+    }
+    const en = document.createElement('div');
+    en.className = 'gp-ex-en';
+    en.textContent = ex.en;
+    exBody.appendChild(en);
+    row.appendChild(exBody);
+    body.appendChild(row);
+  });
+
+  if (gp.mistake){
+    const m = document.createElement('div');
+    m.className = 'gp-mistake';
+    m.innerHTML = `<span class="x">✗</span> ${gp.mistake}`;
+    body.appendChild(m);
+  }
+
+  (gp.exercises || []).forEach(ex => {
+    exRevealCounter++;
+    const exId = 'exans_' + exRevealCounter;
+    const box = document.createElement('div');
+    box.className = 'gp-exercise';
+    box.innerHTML = `
+      <div class="ex-label">Try it</div>
+      <div class="ex-q">${ex.q}</div>
+      <button class="ex-reveal">Show answer</button>
+      <div class="ex-a" id="${exId}">${ex.a}</div>
+    `;
+    box.querySelector('.ex-reveal').onclick = (e) => {
+      const a = document.getElementById(exId);
+      a.classList.toggle('show');
+      e.target.textContent = a.classList.contains('show') ? 'Hide answer' : 'Show answer';
+    };
+    body.appendChild(box);
+  });
+
+  card.appendChild(body);
+  return card;
+}
+
+// ============ RENDER: LANGUAGE NOTES ============
+function renderLanguageNotes(notes){
+  const wrap = document.createElement('div');
+  notes.forEach((n, i) => {
+    const row = document.createElement('div');
+    row.className = 'lang-note';
+    const letter = document.createElement('div');
+    letter.className = 'ln-letter';
+    letter.textContent = String.fromCharCode(97 + i);
+    row.appendChild(letter);
+    const b = document.createElement('div');
+    b.className = 'ln-body';
+    b.innerHTML = `<p class="ln-term">${n.term}</p>${n.pinyin ? `<p class="ln-pinyin">${n.pinyin}</p>` : ''}<p class="ln-text">${n.text}</p>`;
+    row.appendChild(b);
+    wrap.appendChild(row);
+  });
+  return wrap;
+}
+
+// ============ RENDER: VERB SPOTLIGHT ============
+function renderVerbSpotlight(vs){
+  const card = document.createElement('div');
+  card.className = 'verb-spot';
+  const patternsHtml = vs.patterns.map(p =>
+    `<div class="vs-pattern"><span class="vp-cn">${p.cn}</span> <span class="vp-pinyin">(${p.pinyin})</span> — ${p.en}</div>`
+  ).join('');
+  card.innerHTML = `
+    <div class="vs-label">✨ Common Verb Spotlight</div>
+    <div class="vs-hanzi">${vs.hanzi}</div>
+    <div class="vs-pinyin">${vs.pinyin}</div>
+    <div class="vs-gloss">${vs.gloss}</div>
+    <div class="vs-patterns">${patternsHtml}</div>
+    <button class="vs-audio">🔊 Hear it</button>
+  `;
+  card.querySelector('.vs-audio').onclick = () => speak(vs.hanzi);
+  return card;
+}
+
+// ============ RENDER: VOCAB TABLE ============
+function renderVocabTable(vocab){
+  const table = document.createElement('table');
+  table.className = 'vocab-table';
+  table.innerHTML = `<thead><tr><th>Word</th><th>Pinyin</th><th>Part of Speech</th><th>Definition</th><th></th></tr></thead>`;
+  const tbody = document.createElement('tbody');
+  vocab.forEach(v => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="vt-hanzi">${v.hanzi}</td>
+      <td class="vt-pinyin"></td>
+      <td class="vt-pos">${v.pos || ''}</td>
+      <td class="vt-def">${v.gloss}</td>
+      <td></td>
+    `;
+    const pinyinTd = tr.querySelector('.vt-pinyin');
+    pinyinTd.appendChild(document.createTextNode(v.pinyin));
+    if (showPronunciation){
+      const {tips} = computeTips(v.pinyin);
+      const {tones} = stripTonesAndGetTones(v.pinyin);
+      if (tones.length){
+        const badge = document.createElement('div');
+        badge.className = 'tone-badge';
+        badge.style.marginTop = '3px';
+        badge.textContent = tones.map(t => t + (toneShapeShort[t] ? ' · ' + toneShapeShort[t] : '')).join(' / ');
+        pinyinTd.appendChild(badge);
+      }
+      if (tips.length){
+        chipTipCounter++;
+        const tipId = 'vocabtip_' + chipTipCounter;
+        const infoBtn = document.createElement('button');
+        infoBtn.className = 'chip-info-btn';
+        infoBtn.style.marginTop = '3px';
+        infoBtn.textContent = 'ⓘ';
+        infoBtn.onclick = () => { document.getElementById(tipId).classList.toggle('show'); };
+        pinyinTd.appendChild(infoBtn);
+        const tipBox = document.createElement('div');
+        tipBox.className = 'chip-tip';
+        tipBox.id = tipId;
+        tipBox.style.maxWidth = '180px';
+        tipBox.innerHTML = tips.map(t => `<div>${t}</div>`).join('');
+        pinyinTd.appendChild(tipBox);
+      }
+    }
+    const audioBtn = document.createElement('button');
+    audioBtn.className = 'vt-audio';
+    audioBtn.textContent = '🔊';
+    audioBtn.onclick = () => speak(v.hanzi);
+    tr.lastElementChild.appendChild(audioBtn);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  return table;
+}
+
+// ============ LESSONS ============
+const LESSONS = [
+  {
+    num: 0, id:'l0', type:'phonetics',
+    title:'Sounds First', cn:'先学发音', icon:'🔊',
+    intro:'Before any vocabulary sticks, get comfortable hearing and producing tones — the same syllable means a completely different word depending on pitch shape. This is the one thing worth drilling before everything else.',
+    tones:[
+      {hanzi:'妈', pinyin:'mā', gloss:'mother', num:'1st — flat & high'},
+      {hanzi:'麻', pinyin:'má', gloss:'hemp', num:'2nd — rising'},
+      {hanzi:'马', pinyin:'mǎ', gloss:'horse', num:'3rd — dip then rise'},
+      {hanzi:'骂', pinyin:'mà', gloss:'scold', num:'4th — sharp fall'},
+      {hanzi:'吗', pinyin:'ma', gloss:'(question word)', num:'neutral — light, no shape'}
+    ],
+    traps:[
+      {pair:'q vs. ch', note:'q (去 qù) is made with the tongue tip down and the front of the mouth — not the "ch" in "chew". Say it lighter and further forward than English ch.'},
+      {pair:'x vs. sh', note:'x (谢 xiè) is a soft, hissy "sh" made with a flat tongue near the front — not the retroflex "sh" in shoe.'},
+      {pair:'zh/ch/sh vs. z/c/s', note:'zh/ch/sh curl the tongue tip back (retroflex); z/c/s keep it flat against the back of the teeth. 中 (zhōng) vs 早 (zǎo) — very different mouth shapes.'},
+      {pair:'ü', note:'No English equivalent — round your lips as if saying "oo", but say "ee". 绿 (lǜ, green) and 去 (qù) both use it.'}
+    ],
+    sandhi:[
+      {rule:'3rd + 3rd tone → 2nd + 3rd tone', example:'你好 (nǐ + hǎo) is actually said "ní hǎo"', note:"Two 3rd tones in a row is awkward to say, so the first one becomes a 2nd tone. This happens constantly — 你好 is the most common example you'll ever say."},
+      {rule:'不 (bù) changes tone before a 4th tone', example:'不是 = bù + shì → búshì', note:"不 is normally 4th tone, but flips to 2nd tone right before another 4th tone, so the two falling tones don't collide."}
+    ],
+    yourTurn:'Say mā, má, mǎ, mà, ma out loud in sequence. Then practice 你好 (ní hǎo, with the tone change) and 不是 (búshì, with the tone change).'
+  },
+
+  {
+    num:1, id:'l1', type:'lesson',
+    title:'Meeting Someone', cn:'认识新朋友', icon:'🙋',
+    situationLink:'Greetings & Introductions',
+    objectives:[
+      'Greet someone and exchange names',
+      'Use 叫 (jiào) to say what you\'re called, and understand why it always needs an object',
+      'Ask "what" questions with 什么 (shénme) without inverting word order',
+      'Recognize the polite register: 您 (nín), 请问 (qǐngwèn), and how to ask someone\'s family name politely'
+    ],
+    spiralsIn:null,
+    monologue:{
+      lines:[
+        {speaker:'A', speakerLabel:'You (self-intro)', en:'Hello everyone, I\'m Julien.', grammar:[],
+         toks:[tok('大家好','dàjiā hǎo','hello everyone','particle'), tok('，','，','','particle'), tok('我','wǒ','I','pronoun'), tok('叫','jiào','am called','verb'), tok('Julien','Julien','Julien','noun')],
+         structure:'大家好 is a fixed greeting phrase, not built from S+V+O — treat it as one chunk. The second half follows <span class="sb-slot">Subject + Verb + Object</span>: 我 (S) + 叫 (V) + Julien (O).'}
+      ]
+    },
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'Julien', en:'Hello!', grammar:[],
+         toks:[tok('你好','nǐ hǎo','hello','particle'), tok('！','！','','particle')],
+         structure:'你好 is a fixed two-character greeting — memorize it as a single unit rather than breaking it into "you" + "good."'},
+        {speaker:'B', speakerLabel:'Anna', en:'Hello! What\'s your name?', grammar:[26],
+         toks:[tok('你好','nǐ hǎo','hello','particle'), tok('！','！','','particle'), tok('你','nǐ','you','pronoun'), tok('叫','jiào','are called','verb'), tok('什么','shénme','what','question'), tok('名字','míngzi','name','noun'), tok('？','？','','particle')],
+         structure:'<span class="sb-slot">Subject + Verb + Object</span>, with the question word 什么 filling the Object slot instead of a real answer: 你 (S) + 叫 (V) + 什么名字 (O, "what name"). The word order never changes for a question — 什么 just sits where the answer would go.'},
+        {speaker:'A', speakerLabel:'Julien', en:'I\'m Julien. And you?', grammar:[],
+         toks:[tok('我','wǒ','I','pronoun'), tok('叫','jiào','am called','verb'), tok('Julien','Julien','Julien','noun'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('呢','ne','and (you)?','particle'), tok('？','？','','particle')],
+         structure:'First clause: <span class="sb-slot">Subject + Verb + Object</span> — 我 (S) + 叫 (V) + Julien (O). Second clause (你呢) is a fragment, not full S+V+O — it reuses the verb 叫 from context, so you don\'t have to say 你叫什么名字 again.'},
+        {speaker:'B', speakerLabel:'Anna', en:'I\'m Anna. Nice to meet you.', grammar:[],
+         toks:[tok('我','wǒ','I','pronoun'), tok('叫','jiào','am called','verb'), tok('Anna','Anna','Anna','noun'), tok('。','。','','particle'), tok('很','hěn','','particle'), tok('高兴','gāoxìng','pleased','adjective'), tok('认识','rènshi','to know/meet','verb'), tok('你','nǐ','you','pronoun'), tok('。','。','','particle')],
+         structure:'First clause: 我 (S) + 叫 (V) + Anna (O). Second clause is 很高兴认识你 — a fixed polite phrase built from 很+adjective (很高兴, "am pleased") followed by a second verb phrase (认识你, "to meet you") — treat the whole thing as a set expression rather than decomposing it further.'}
+      ]
+    },
+    languageNotes:[
+      {term:'你好', pinyin:'nǐ hǎo', text:'Used for both strangers and old acquaintances alike. To respond, simply repeat the same greeting back — no different reply needed.'},
+      {term:'呢', pinyin:'ne', text:'Turns a noun into a quick follow-up question ("and...?"), but it only works when the context is already obvious from what was just said — it can\'t stand alone.'},
+      {term:'很高兴认识你', pinyin:'hěn gāoxìng rènshi nǐ', text:'A fixed polite phrase for "nice to meet you." The 很 here isn\'t really "very" — it\'s just the connector Chinese adjectives usually need (see Lesson 2).'},
+      {term:'你 vs. 您', pinyin:'nǐ vs. nín', text:'您 is the respectful, honorific form of 你 — reach for it with elders, strangers in formal settings, or anyone you want to show extra respect to, like a boss or an official. Everyday peers, friends, and children just get plain 你.'},
+      {term:'你贵姓？', pinyin:'nǐ guì xìng?', text:'A more formal alternative to 你叫什么名字 that asks only for the family name, not the full name. 贵 ("honorable") is a polite flourish you drop when you reply — never say 我贵姓...; just 我姓...'}
+    ],
+    grammarPoints:[
+      {gid:1, note:[
+         '<span class="cn-inline">叫 (jiào)</span> means "to be called." Like most Chinese verbs, once you introduce it as a verb it must be followed by an object — here, that object is a name. You can\'t just say <span class="cn-inline">我叫 (wǒ jiào)</span> and stop; Chinese needs the name to complete the sentence, exactly the way English needs someone to fill in "My name is ___."',
+         'Notice too that the question and the statement use the exact same word order — <span class="cn-inline">你叫什么名字 (nǐ jiào shénme míngzi)</span> and <span class="cn-inline">我叫Julien (wǒ jiào Julien)</span> both go <span class="gp-highlight">Subject + Verb + Object</span>. Nothing inverts or moves the way it would in an English question ("What is your name?" flips the verb "is" in front of "your name").'
+       ],
+       examples:[
+         {toks:[tok('你','nǐ','you','pronoun'), tok('叫','jiào','are called','verb'), tok('什么','shénme','what','question'), tok('名字','míngzi','name','noun'), tok('？','？','','particle')], en:"What's your name?"},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('叫','jiào','am called','verb'), tok('王朋','Wáng Péng','Wang Peng','noun'), tok('。','。','','particle')], en:'My name is Wang Peng.'},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('叫','jiào','am called','verb'), tok('王朋','Wáng Péng','Wang Peng','noun'), tok('。','。','','particle')], en:'My name is not Wang Peng.'}
+       ],
+       mistake:'<span class="cn-inline">我叫。(Wǒ jiào.)</span> — 叫 (jiào) always needs an object after it, just like English needs someone to fill in "My name is ___."',
+       exercises:[
+         {q:'How would you ask "What is your name?"', a:'你叫什么名字？(Nǐ jiào shénme míngzi?)'},
+         {q:'Answer with your own name.', a:'我叫 [你的名字]。(Wǒ jiào [your name].)'}
+       ]
+      },
+      {gid:26, note:[
+         '<span class="cn-inline">什么 (shénme)</span>, "what," is the first member of a whole family of Chinese question words you\'ll build out across the next few lessons — <span class="cn-inline">谁 (shéi)</span> "who," <span class="cn-inline">哪里 (nǎlǐ)</span> "where," <span class="cn-inline">哪个 (nǎge)</span> "which one" all work the same way. The key habit to build now: <span class="gp-highlight">the question word stays in place</span> — it doesn\'t move to the front of the sentence the way English "what" does. It just sits in the exact spot where the answer word would go — compare <span class="cn-inline">你叫什么名字 (nǐ jiào shénme míngzi)</span> (question) with <span class="cn-inline">我叫Julien (wǒ jiào Julien)</span> (answer): 什么名字 and Julien occupy the same slot.',
+         'This is genuinely one of the easiest parts of Chinese grammar once it clicks, because it means you never have to learn a separate "question word order" — you just swap in the question word where the missing information belongs.'
+       ],
+       examples:[
+         {toks:[tok('你','nǐ','you','pronoun'), tok('叫','jiào','are called','verb'), tok('什么','shénme','what','question'), tok('名字','míngzi','name','noun'), tok('？','？','','particle')], en:"What's your name?"},
+         {toks:[tok('她','tā','she','pronoun'), tok('是','shì','is','verb'), tok('谁','shéi','who','question'), tok('？','？','','particle')], en:'Who is she?'},
+         {toks:[tok('这','zhè','this','pronoun'), tok('是','shì','is','verb'), tok('什么','shénme','what','question'), tok('？','？','','particle')], en:'What is this?'}
+       ],
+       exercises:[
+         {q:'Ask "What is this?" using 什么.', a:'这是什么？(Zhè shì shénme?)'},
+         {q:'Ask "Who is he?" using 谁.', a:'他是谁？(Tā shì shéi?)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'叫', pinyin:'jiào', gloss:'to be called',
+      patterns:[
+        {cn:'我叫[name]。', pinyin:'Wǒ jiào [name].', en:'My name is ___.'},
+        {cn:'你叫什么名字？', pinyin:'Nǐ jiào shénme míngzi?', en:"What's your name?"},
+        {cn:'我不叫[name]。', pinyin:'Wǒ bú jiào [name].', en:'My name is not ___.'}
+      ]
+    },
+    vocab:[
+      {hanzi:'你好', pinyin:'nǐ hǎo', pos:'phrase', gloss:'hello'},
+      {hanzi:'叫', pinyin:'jiào', pos:'v', gloss:'to be called'},
+      {hanzi:'什么', pinyin:'shénme', pos:'qpr', gloss:'what'},
+      {hanzi:'名字', pinyin:'míngzi', pos:'n', gloss:'name'},
+      {hanzi:'呢', pinyin:'ne', pos:'qp', gloss:'question particle — "and...?"'},
+      {hanzi:'很高兴认识你', pinyin:'hěn gāoxìng rènshi nǐ', pos:'phrase', gloss:'nice to meet you'},
+      {hanzi:'我', pinyin:'wǒ', pos:'pron', gloss:'I, me'},
+      {hanzi:'你', pinyin:'nǐ', pos:'pron', gloss:'you'},
+      {hanzi:'您', pinyin:'nín', pos:'pron', gloss:'you (polite, honorific form of 你)'},
+      {hanzi:'很', pinyin:'hěn', pos:'adv', gloss:'very (often just a required connector — see Lesson 2)'},
+      {hanzi:'高兴', pinyin:'gāoxìng', pos:'adj', gloss:'happy, pleased'},
+      {hanzi:'认识', pinyin:'rènshi', pos:'v', gloss:'to know, to recognize, to meet'},
+      {hanzi:'请', pinyin:'qǐng', pos:'v', gloss:'please; to request, to invite'},
+      {hanzi:'问', pinyin:'wèn', pos:'v', gloss:'to ask (a question)'},
+      {hanzi:'请问', pinyin:'qǐngwèn', pos:'phrase', gloss:'excuse me, may I ask...'},
+      {hanzi:'贵', pinyin:'guì', pos:'adj', gloss:'honorable; expensive'},
+      {hanzi:'姓', pinyin:'xìng', pos:'v/n', gloss:"(one's) family name is...; family name"},
+      {hanzi:'你贵姓？', pinyin:'nǐ guì xìng?', pos:'phrase', gloss:'what is your (honorable) family name?'},
+      {hanzi:'小姐', pinyin:'xiǎojiě', pos:'n', gloss:'Miss, young lady'},
+      {hanzi:'先生', pinyin:'xiānsheng', pos:'n', gloss:'Mr., sir'},
+      {hanzi:'大家好', pinyin:'dàjiā hǎo', pos:'phrase', gloss:'hello everyone (greeting a group)'}
+    ],
+    yourTurn:[
+      {prompt:'Say hello and tell someone your name.',
+       answerToks:[tok('你好','nǐ hǎo','hello','particle'), tok('，','，','','particle'), tok('我','wǒ','I','pronoun'), tok('叫','jiào','am called','verb'), tok('[你的名字]','[nǐ de míngzì]','your name here','noun')],
+       answerEn:"Hello, I'm [your name]."}
+    ]
+  },
+
+  {
+    num:2, id:'l2', type:'lesson',
+    title:'How Are You?', cn:'你好吗', icon:'😊',
+    situationLink:'Sentence Patterns → Questions',
+    objectives:[
+      'Turn any statement into a yes/no question by adding 吗 (ma)',
+      'Answer yes/no questions the Chinese way — by repeating the verb, not saying a separate "yes"',
+      'Use 很 (hěn) + adjective to describe how someone is, with no verb "to be" needed'
+    ],
+    spiralsIn:'你好 and 呢 from Lesson 1',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'Julien', en:'How are you?', grammar:[17],
+         toks:[tok('你','nǐ','you','pronoun'), tok('好','hǎo','well/good','adjective'), tok('吗','ma','?','particle'), tok('？','？','','particle')],
+         structure:'<span class="sb-slot">Subject + 好 + 吗</span> — 你 (S) + 好 (Adj) + 吗 (turns it into a question). No verb "to be" anywhere; 吗 just tacks onto the end of the 你好 pattern.'},
+        {speaker:'B', speakerLabel:'Anna', en:"I'm very well, thanks. And you?", grammar:[3],
+         toks:[tok('我','wǒ','I','pronoun'), tok('很','hěn','','particle'), tok('好','hǎo','well','adjective'), tok('，','，','','particle'), tok('谢谢','xièxie','thanks','verb'), tok('你','nǐ','you','pronoun'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('呢','ne','and you?','particle'), tok('？','？','','particle')],
+         structure:'First clause: <span class="sb-slot">Subject + 很 + Adjective</span> — 我 (S) + 很 (link) + 好 (Adj). 谢谢你 is its own fixed verb+object chunk ("thank you"). Final 你呢 is a fragment reusing the 好吗 question from the line above.'},
+        {speaker:'A', speakerLabel:'Julien', en:"I'm also doing well.", grammar:[3],
+         toks:[tok('我','wǒ','I','pronoun'), tok('也','yě','also','particle'), tok('很','hěn','','particle'), tok('好','hǎo','well','adjective'), tok('。','。','','particle')],
+         structure:'<span class="sb-slot">Subject + 也 + 很 + Adjective</span> — 我 (S) + 也 (also) + 很 (link) + 好 (Adj). 也 slots in right before 很, never before the subject.'}
+      ]
+    },
+    languageNotes:[
+      {term:'你好吗？', pinyin:'nǐ hǎo ma?', text:"A real question, not just a greeting — 你好 alone usually covers a normal hello. 你好吗 implies you haven't seen someone in a while or are genuinely checking in on them."},
+      {term:'很好，谢谢', pinyin:'hěn hǎo, xièxie', text:'The standard reply — 很 pairs with the adjective, and 谢谢 (thanks) gets added as a polite reflex, much like English "fine, thanks."'}
+    ],
+    grammarPoints:[
+      {gid:17, note:[
+         '<span class="cn-inline">吗 (ma)</span> is the simplest way to turn any statement into a yes/no question in Chinese: just add it to the very end. Nothing else about the sentence changes — <span class="gp-highlight">word order stays identical</span> to the statement it came from.',
+         'To answer, you don\'t need a separate word for "yes" the way English does. You simply drop 吗 and repeat the verb: <span class="cn-inline">你好吗？(nǐ hǎo ma?)</span> → <span class="cn-inline">我好 (wǒ hǎo)</span> (affirmative) or <span class="cn-inline">我不好 (wǒ bù hǎo)</span> (negative). This pattern — <span class="gp-highlight">repeat the verb, negated or not</span> — is how most yes/no questions get answered throughout the rest of these lessons, so it\'s worth internalizing early.'
+       ],
+       examples:[
+         {toks:[tok('你','nǐ','you','pronoun'), tok('好','hǎo','well','adjective'), tok('吗','ma','?','particle'), tok('？','？','','particle')], en:'How are you? (lit. "Are you well?")'},
+         {toks:[tok('你','nǐ','you','pronoun'), tok('是','shì','are','verb'), tok('学生','xuésheng','a student','noun'), tok('吗','ma','?','particle'), tok('？','？','','particle')], en:'Are you a student?'},
+         {toks:[tok('你','nǐ','you','pronoun'), tok('忙','máng','busy','adjective'), tok('吗','ma','?','particle'), tok('？','？','','particle')], en:'Are you busy?'}
+       ],
+       mistake:'<span class="cn-inline">你是吗学生？(Nǐ shì ma xuésheng?)</span> — 吗 (ma) only ever goes at the very end of the sentence, never mid-sentence.',
+       exercises:[
+         {q:'Ask "Are you busy?" using 吗.', a:'你忙吗？(Nǐ máng ma?)'},
+         {q:'Ask "Are you a teacher?" using 吗.', a:'你是老师吗？(Nǐ shì lǎoshī ma?)'}
+       ]
+      },
+      {gid:3, note:[
+         '<span class="gp-highlight">很 (hěn) + adjective</span> is how Chinese says "to be [adjective]" — notice there is no <span class="cn-inline">是 (shì)</span>, the verb "to be," anywhere in the sentence. This trips up a lot of English speakers at first, because English always needs a linking verb ("she IS pretty"), but Chinese adjectives already function as the verb on their own.',
+         '<span class="cn-inline">很 (hěn)</span> here is doing double duty: it genuinely can mean "very," but in a plain statement like <span class="cn-inline">我很好 (wǒ hěn hǎo)</span> it\'s mostly just grammatical glue holding the sentence together — closer to a required placeholder than a true intensifier. If you actually want to emphasize "very," Chinese speakers usually add stress in speech or use a stronger word like <span class="cn-inline">非常 (fēicháng)</span>, "extremely," instead. One side effect worth knowing: dropping 很 entirely (saying just 你好 as a description rather than a greeting) can sound like a blunt, pointed comparison — as if you\'re contrasting them against someone else — so 很 isn\'t really optional in this pattern.'
+       ],
+       examples:[
+         {toks:[tok('我','wǒ','I','pronoun'), tok('很','hěn','','particle'), tok('好','hǎo','well','adjective'), tok('。','。','','particle')], en:"I'm well."},
+         {toks:[tok('她','tā','she','pronoun'), tok('很','hěn','','particle'), tok('忙','máng','busy','adjective'), tok('。','。','','particle')], en:'She is busy.'},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('忙','máng','busy','adjective'), tok('。','。','','particle')], en:"I'm not busy."}
+       ],
+       mistake:'<span class="cn-inline">我是好。(Wǒ shì hǎo.)</span> — 是 (shì) is never used to link a subject directly to an adjective; use 很 + adjective instead.',
+       exercises:[
+         {q:'Say "He is busy."', a:'他很忙。(Tā hěn máng.)'},
+         {q:'Say "I am not busy."', a:'我不忙。(Wǒ bù máng.)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'好', pinyin:'hǎo', gloss:'good / well (adjective functioning as the predicate)',
+      patterns:[
+        {cn:'我很好。', pinyin:'Wǒ hěn hǎo.', en:"I'm well."},
+        {cn:'你好吗？', pinyin:'Nǐ hǎo ma?', en:'How are you?'},
+        {cn:'我不好。', pinyin:'Wǒ bù hǎo.', en:"I'm not well."}
+      ]
+    },
+    vocab:[
+      {hanzi:'好', pinyin:'hǎo', pos:'adj', gloss:'good, well'},
+      {hanzi:'吗', pinyin:'ma', pos:'qp', gloss:'yes/no question particle'},
+      {hanzi:'谢谢', pinyin:'xièxie', pos:'v', gloss:'thank you'},
+      {hanzi:'也', pinyin:'yě', pos:'adv', gloss:'also, too'},
+      {hanzi:'忙', pinyin:'máng', pos:'adj', gloss:'busy'}
+    ],
+    yourTurn:[
+      {prompt:'Ask someone how they are, then say you are doing well too.',
+       answerToks:[tok('你','nǐ','you','pronoun'), tok('好','hǎo','well','adjective'), tok('吗','ma','?','particle'), tok('？','？','','particle'), tok('我','wǒ','I','pronoun'), tok('也','yě','also','particle'), tok('很','hěn','','particle'), tok('好','hǎo','well','adjective'), tok('。','。','','particle')],
+       answerEn:"How are you? I'm well too."}
+    ]
+  },
+
+  {
+    num:3, id:'l3', type:'lesson',
+    title:'Where Are You From', cn:'你是哪里人', icon:'🌍',
+    situationLink:'Greetings & Introductions',
+    objectives:[
+      'Use 是 (shì) to link two nouns, like nationality or occupation',
+      'Ask "where are you from" and answer with a [place]+人 pattern',
+      'Negate 是-sentences correctly with 不, and understand why 没 can never attach to 是'
+    ],
+    spiralsIn:'你好, 呢, and 什么 from Lessons 1–2',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'Julien', en:'Hello! Where are you from?', grammar:[26],
+         toks:[tok('你好','nǐ hǎo','hello','particle'), tok('！','！','','particle'), tok('你','nǐ','you','pronoun'), tok('是','shì','are','verb'), tok('哪里','nǎlǐ','where','question'), tok('人','rén','person','noun'), tok('？','？','','particle')],
+         structure:'<span class="sb-slot">Subject + 是 + Noun</span>, with 哪里人 ("where-person") filling the Object slot as one chunk: 你 (S) + 是 (V) + 哪里人 (O).'},
+        {speaker:'B', speakerLabel:'Anna', en:"I'm British. And you?", grammar:[1],
+         toks:[tok('我','wǒ','I','pronoun'), tok('是','shì','am','verb'), tok('英国','Yīngguó','British','noun'), tok('人','rén','person','noun'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('呢','ne','and you?','particle'), tok('？','？','','particle')],
+         structure:'我 (S) + 是 (V) + 英国人 (O). 你呢 is a fragment again, bouncing the 哪里人 question back without repeating it.'},
+        {speaker:'A', speakerLabel:'Julien', en:"I'm Chinese.", grammar:[1],
+         toks:[tok('我','wǒ','I','pronoun'), tok('是','shì','am','verb'), tok('中国','Zhōngguó','Chinese','noun'), tok('人','rén','person','noun'), tok('。','。','','particle')],
+         structure:'<span class="sb-slot">Subject + 是 + Noun</span> — 我 (S) + 是 (V) + 中国人 (O). Same shape as the line above, different noun.'},
+        {speaker:'B', speakerLabel:'Anna', en:'Are you a student?', grammar:[17],
+         toks:[tok('你','nǐ','you','pronoun'), tok('是','shì','are','verb'), tok('学生','xuésheng','a student','noun'), tok('吗','ma','?','particle'), tok('？','？','','particle')],
+         structure:'你 (S) + 是 (V) + 学生 (O), with 吗 added to the end to make it a question. Word order is identical to a plain statement.'},
+        {speaker:'A', speakerLabel:'Julien', en:"No, I'm not a student, I'm a teacher.", grammar:[2],
+         toks:[tok('不','bù','no','negation'), tok('，','，','','particle'), tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('是','shì','am','verb'), tok('学生','xuésheng','a student','noun'), tok('，','，','','particle'), tok('我','wǒ','I','pronoun'), tok('是','shì','am','verb'), tok('老师','lǎoshī','a teacher','noun'), tok('。','。','','particle')],
+         structure:'Two 是-sentences back to back, both negated with 不 attached directly in front of 是: 我 (S) + 不是 (V, negated) + 学生 (O), then 我 (S) + 是 (V) + 老师 (O).'}
+      ]
+    },
+    languageNotes:[
+      {term:'哪里人', pinyin:'nǎlǐ rén', text:'Literally "where-place person" — attach 人 to a place name for nationality or hometown: 英国人, 中国人, 北京人.'},
+      {term:'不，我不是...', pinyin:'bù, wǒ bú shì...', text:'A 吗-question is disagreed with by repeating the verb negated (不是), not with a bare "no" the way English sometimes allows.'}
+    ],
+    grammarPoints:[
+      {gid:1, note:[
+         '<span class="cn-inline">是 (shì)</span>, "to be," links two nouns (or noun phrases) that are equivalent — the classic <span class="gp-highlight">A 是 B</span> pattern. This is different from Lesson 2\'s 很+adjective, because here both sides of the sentence are nouns (<span class="cn-inline">你 (nǐ)</span> / <span class="cn-inline">哪里人 (nǎlǐ rén)</span>, <span class="cn-inline">我 (wǒ)</span> / <span class="cn-inline">英国人 (Yīngguó rén)</span>), not a subject plus a description, so 是 is required to connect them.',
+         'One extremely common mistake for English speakers is to drop 是 the way casual spoken English sometimes drops "is" — but Chinese never allows that. Whenever you\'re equating two nouns, <span class="cn-inline">是 (shì)</span> has to be there.'
+       ],
+       examples:[
+         {toks:[tok('你','nǐ','you','pronoun'), tok('是','shì','are','verb'), tok('哪里','nǎlǐ','where','question'), tok('人','rén','person','noun'), tok('？','？','','particle')], en:'Where are you from?'},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('是','shì','am','verb'), tok('英国','Yīngguó','British','noun'), tok('人','rén','person','noun'), tok('。','。','','particle')], en:"I'm British."},
+         {toks:[tok('李','Lǐ','Li','noun'), tok('小姐','xiǎojiě','Miss','noun'), tok('是','shì','is','verb'), tok('老师','lǎoshī','a teacher','noun'), tok('。','。','','particle')], en:'Miss Li is a teacher.'}
+       ],
+       mistake:'<span class="cn-inline">我英国人。(Wǒ Yīngguó rén.)</span> — 是 (shì) can\'t be dropped the way "is" sometimes gets skipped in casual English; Chinese always needs it to link two nouns.',
+       exercises:[
+         {q:'Say "I am a teacher."', a:'我是老师。(Wǒ shì lǎoshī.)'},
+         {q:'Say "Miss Li is British."', a:'李小姐是英国人。(Lǐ xiǎojiě shì Yīngguó rén.)'}
+       ]
+      },
+      {gid:2, note:[
+         '<span class="cn-inline">是 (shì)</span> negates only with <span class="cn-inline">不 (bù)</span> (giving <span class="cn-inline">不是 (bú shì)</span>), never with <span class="cn-inline">没 (méi)</span>. 没 is reserved for negating the verb <span class="cn-inline">有 (yǒu)</span>, "to have" (Lesson 9), and for describing past actions — it never attaches to 是. This is one of the single most common beginner mix-ups, precisely because 没 sounds like it should be a general-purpose "not," but in Chinese <span class="gp-highlight">不 and 没 have strictly separate jobs</span>.',
+         'A useful rule of thumb while you\'re still building the habit: if the sentence is describing what something currently IS (a 是-sentence) or a general adjective-state (很+adjective from Lesson 2), negate with 不. You\'ll meet 没\'s actual territory properly in Lesson 9.'
+       ],
+       examples:[
+         {toks:[tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('是','shì','am','verb'), tok('学生','xuésheng','a student','noun'), tok('。','。','','particle')], en:"I'm not a student."},
+         {toks:[tok('他','tā','he','pronoun'), tok('不','bù','not','negation'), tok('是','shì','is','verb'), tok('英国','Yīngguó','British','noun'), tok('人','rén','person','noun'), tok('。','。','','particle')], en:"He's not British."},
+         {toks:[tok('老师','lǎoshī','the teacher','noun'), tok('不','bù','not','negation'), tok('姓','xìng','is named','verb'), tok('王','Wáng','Wang','noun'), tok('。','。','','particle')], en:"The teacher's family name is not Wang."}
+       ],
+       mistake:'<span class="cn-inline">我没是学生。(Wǒ méi shì xuésheng.)</span> — 没 (méi) can never pair directly with 是 (shì).',
+       exercises:[
+         {q:'Say "He is not Chinese."', a:'他不是中国人。(Tā bú shì Zhōngguó rén.)'},
+         {q:'Say "I am not a teacher."', a:'我不是老师。(Wǒ bú shì lǎoshī.)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'是', pinyin:'shì', gloss:'to be — links two equivalent nouns',
+      patterns:[
+        {cn:'我是[身份]。', pinyin:'Wǒ shì [shēnfèn].', en:"I'm [role/identity]."},
+        {cn:'你是哪里人？', pinyin:'Nǐ shì nǎlǐ rén?', en:'Where are you from?'},
+        {cn:'我不是老师。', pinyin:'Wǒ bú shì lǎoshī.', en:"I'm not a teacher."}
+      ]
+    },
+    vocab:[
+      {hanzi:'哪里人', pinyin:'nǎlǐ rén', pos:'phrase', gloss:'where (someone) is from'},
+      {hanzi:'英国人', pinyin:'Yīngguó rén', pos:'n', gloss:'British person'},
+      {hanzi:'中国人', pinyin:'Zhōngguó rén', pos:'n', gloss:'Chinese person'},
+      {hanzi:'学生', pinyin:'xuésheng', pos:'n', gloss:'student'},
+      {hanzi:'老师', pinyin:'lǎoshī', pos:'n', gloss:'teacher'},
+      {hanzi:'是', pinyin:'shì', pos:'v', gloss:'to be'},
+      {hanzi:'不', pinyin:'bù', pos:'adv', gloss:'not, no'}
+    ],
+    yourTurn:[
+      {prompt:"Say where you're from, and that you are not a student.",
+       answerToks:[tok('我','wǒ','I','pronoun'), tok('是','shì','am','verb'), tok('[国籍]','[guójí]','your nationality','noun'), tok('人','rén','person','noun'), tok('，','，','','particle'), tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('是','shì','am','verb'), tok('学生','xuésheng','a student','noun'), tok('。','。','','particle')],
+       answerEn:"I'm [your nationality], I'm not a student."}
+    ]
+  },
+
+  {
+    num:4, id:'l4', type:'lesson',
+    title:'This One, That One', cn:'这个，那个', icon:'👉',
+    situationLink:'Numbers & Counting',
+    objectives:[
+      'Point at things using 这个 (zhège) and 那个 (nàge), "this one" and "that one"',
+      'Use 个 (gè) as your safe, all-purpose measure word between a number and a noun',
+      'Ask and answer "how much" with 多少钱 (duōshao qián)'
+    ],
+    spiralsIn:'是 and 不是 from Lesson 3',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'You', en:'How much is this one?', grammar:[12,26],
+         toks:[tok('这个','zhège','this one','pronoun'), tok('多少','duōshao','how much','question'), tok('钱','qián','money','noun'), tok('？','？','','particle')],
+         structure:'这个 (S, "this one") + 多少钱 (question phrase acting as the predicate, "how much money"). No verb needed — 多少钱 works like an adjective slot here.'},
+        {speaker:'B', speakerLabel:'Shopkeeper', en:'This one is 8 kuai. What about that one?', grammar:[12],
+         toks:[tok('这个','zhège','this one','pronoun'), tok('八','bā','eight','noun'), tok('块','kuài','kuai','measure'), tok('。','。','','particle'), tok('那个','nàge','that one','pronoun'), tok('呢','ne','and...?','particle'), tok('？','？','','particle')],
+         structure:'这个 (S) + 八块 (price, no verb needed for stating a price). 那个呢 is a fragment reusing "how much" from the question above.'},
+        {speaker:'A', speakerLabel:'You', en:'Is that one also 8 kuai?', grammar:[17],
+         toks:[tok('那个','nàge','that one','pronoun'), tok('也','yě','also','particle'), tok('是','shì','is','verb'), tok('八','bā','eight','noun'), tok('块','kuài','kuai','measure'), tok('吗','ma','?','particle'), tok('？','？','','particle')],
+         structure:'<span class="sb-slot">Subject + 也 + 是 + Object</span> — 那个 (S) + 也 (also) + 是 (V) + 八块 (O), with 吗 making it a question. Here 是 appears because you\'re equating "that one" with a specific price.'},
+        {speaker:'B', speakerLabel:'Shopkeeper', en:'No, that one is 15 kuai.', grammar:[2],
+         toks:[tok('不是','bú shì','no','negation'), tok('，','，','','particle'), tok('那个','nàge','that one','pronoun'), tok('十五','shíwǔ','fifteen','noun'), tok('块','kuài','kuai','measure'), tok('。','。','','particle')],
+         structure:'不是 alone answers "no" to the 是-question above. Then 那个 (S) + 十五块 (price stated directly, no 是 needed this time since it\'s not directly answering a 是-question).'},
+        {speaker:'A', speakerLabel:'You', en:'OK, I want this one.', grammar:[12],
+         toks:[tok('好','hǎo','OK','adjective'), tok('，','，','','particle'), tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('这个','zhège','this one','pronoun'), tok('。','。','','particle')],
+         structure:'<span class="sb-slot">Subject + Aux + Object</span> — 我 (S) + 要 (Aux, "want") + 这个 (O). 要 here takes a noun directly since there\'s no second verb needed.'}
+      ]
+    },
+    languageNotes:[
+      {term:'这个 / 那个', pinyin:'zhège / nàge', text:'个 is the fallback measure word — insert it (or a specific one, like 本 for books) between 这/那 and the object. Once the object is obvious from context, you can drop the noun entirely, exactly like the dialogue above.'},
+      {term:'多少钱', pinyin:'duōshao qián', text:'The universal price question. 多少 asks "how much/many" when the number could be large; 几 (Lesson 9) is used instead when you expect a small number, under about ten.'}
+    ],
+    grammarPoints:[
+      {gid:12, note:[
+         '<span class="cn-inline">这 (zhè)</span>, "this," and <span class="cn-inline">那 (nà)</span>, "that," almost never stand alone in front of a noun — they nearly always take a measure word first. <span class="gp-highlight">这个/那个</span> is the safest default combo, and just like English "this one"/"that one," you can drop the actual noun entirely once it\'s obvious from context (which is exactly what the shopkeeper does in the dialogue above).',
+         'It helps to think of <span class="cn-inline">这个 (zhège)</span> and <span class="cn-inline">那个 (nàge)</span> as a single fused unit you reach for by default, the same way you\'d reach for "this one" in English without stopping to think about grammar. The specific measure word only becomes worth swapping in once you know the category of object (see Grammar 11 below).'
+       ],
+       examples:[
+         {toks:[tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('这个','zhège','this one','pronoun'), tok('。','。','','particle')], en:'I want this one.'},
+         {toks:[tok('那个','nàge','that one','pronoun'), tok('多少','duōshao','how much','question'), tok('钱','qián','money','noun'), tok('？','？','','particle')], en:'How much is that one?'},
+         {toks:[tok('这个','zhège','this one','pronoun'), tok('不','bù','not','negation'), tok('贵','guì','expensive','adjective'), tok('。','。','','particle')], en:"This one isn't expensive."}
+       ],
+       mistake:'<span class="cn-inline">我要这。(Wǒ yào zhè.)</span> — 这 (zhè) alone sounds incomplete; Chinese wants the measure word attached (这个).',
+       exercises:[
+         {q:'Point at something and say "I want that one."', a:'我要那个。(Wǒ yào nàge.)'},
+         {q:'Say "This one is not expensive."', a:'这个不贵。(Zhège bú guì.)'}
+       ]
+      },
+      {gid:11, note:[
+         '<span class="cn-inline">个 (gè)</span> is the safe, all-purpose measure word — <span class="gp-highlight">a bare number can never sit directly against a noun</span> in Chinese (unlike English "one question," you can\'t say 一问题). Something has to go between the number and the noun, and 个 is the one that will be understood almost everywhere, even in the many cases where a more specific classifier technically exists.',
+         'As you build vocabulary you\'ll pick up specific measure words tied to shape or category — <span class="cn-inline">本 (běn)</span> for bound/book-like objects, <span class="cn-inline">杯 (bēi)</span> for cup-fuls, <span class="cn-inline">张 (zhāng)</span> for flat things — and Lesson 9 introduces a few more in a shopping context. But 个 as your default fallback is genuinely useful advice, not just a beginner\'s crutch — native speakers use it as a catch-all too.'
+       ],
+       examples:[
+         {toks:[tok('一','yī','one','noun'), tok('个','gè','(mw)','measure'), tok('问题','wèntí','question','noun')], en:'One question.'},
+         {toks:[tok('两','liǎng','two','noun'), tok('个','gè','(mw)','measure'), tok('人','rén','people','noun')], en:'Two people.'},
+         {toks:[tok('一','yī','one','noun'), tok('杯','bēi','cup of','measure'), tok('茶','chá','tea','noun')], en:'One cup of tea.'}
+       ],
+       mistake:'<span class="cn-inline">一书 (yī shū)</span> — a bare number can never sit directly against a noun; a measure word is always required in between (一本书).',
+       exercises:[
+         {q:'Say "one cup of tea" (use 杯 for cups).', a:'一杯茶。(Yì bēi chá.)'},
+         {q:'Say "three people," using 个.', a:'三个人。(Sān gè rén.)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'要', pinyin:'yào', gloss:'to want (previewed here — full family covered in Lesson 6)',
+      patterns:[
+        {cn:'我要这个。', pinyin:'Wǒ yào zhège.', en:'I want this one.'},
+        {cn:'你要哪个？', pinyin:'Nǐ yào nǎge?', en:'Which one do you want?'},
+        {cn:'我不要那个。', pinyin:'Wǒ bú yào nàge.', en:"I don't want that one."}
+      ]
+    },
+    vocab:[
+      {hanzi:'这个', pinyin:'zhège', pos:'pron', gloss:'this one'},
+      {hanzi:'那个', pinyin:'nàge', pos:'pron', gloss:'that one'},
+      {hanzi:'多少钱', pinyin:'duōshao qián', pos:'phrase', gloss:'how much money'},
+      {hanzi:'块', pinyin:'kuài', pos:'measure', gloss:'kuai/yuan (money unit)'},
+      {hanzi:'要', pinyin:'yào', pos:'aux', gloss:'to want'},
+      {hanzi:'个', pinyin:'gè', pos:'measure', gloss:'general measure word (the universal fallback)'},
+      {hanzi:'八', pinyin:'bā', pos:'num', gloss:'eight'},
+      {hanzi:'十五', pinyin:'shíwǔ', pos:'num', gloss:'fifteen'},
+      {hanzi:'不是', pinyin:'bú shì', pos:'phrase', gloss:'no; is not (fixed negative reply)'}
+    ],
+    yourTurn:[
+      {prompt:'Ask "How much is that one?", then say you want this one.',
+       answerToks:[tok('那个','nàge','that one','pronoun'), tok('多少','duōshao','how much','question'), tok('钱','qián','money','noun'), tok('？','？','','particle'), tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('这个','zhège','this one','pronoun'), tok('。','。','','particle')],
+       answerEn:'How much is that one? I want this one.'}
+    ]
+  },
+
+  {
+    num:5, id:'l5', type:'lesson',
+    title:'Who, What, Where, Which', cn:'谁，什么，哪里，哪个', icon:'❓',
+    situationLink:'Directions & Locations',
+    objectives:[
+      'Build the full question-word toolkit: 谁 (who), 哪里 (where), 哪个 (which one)',
+      'Understand the "slot-filling" logic that lets question words sit exactly where the answer goes',
+      'Get a first preview of 在 (zài), "to be located at," ahead of its full treatment in Lesson 7'
+    ],
+    spiralsIn:'什么 from Lesson 1, 这个/那个 from Lesson 4',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'You', en:'Excuse me, where is the bookstore?', grammar:[26],
+         toks:[tok('请问','qǐngwèn','excuse me','verb'), tok('，','，','','particle'), tok('书店','shūdiàn','bookstore','noun'), tok('在','zài','is at','verb'), tok('哪里','nǎlǐ','where','question'), tok('？','？','','particle')],
+         structure:'请问 is a fixed polite opener, not part of the main sentence. Main clause: 书店 (S) + 在 (V) + 哪里 (question word filling the place slot).'},
+        {speaker:'B', speakerLabel:'Stranger', en:'The bookstore is over there.', grammar:[],
+         toks:[tok('书店','shūdiàn','bookstore','noun'), tok('在','zài','is at','verb'), tok('那里','nàlǐ','over there','pronoun'), tok('。','。','','particle')],
+         structure:'书店 (S) + 在 (V) + 那里 (O, "over there") — the exact same slot 哪里 occupied in the question is now filled by the answer.'},
+        {speaker:'A', speakerLabel:'You', en:'Thank you! Whose book is this?', grammar:[26],
+         toks:[tok('谢谢','xièxie','thank you','verb'), tok('！','！','','particle'), tok('这','zhè','this','pronoun'), tok('是','shì','is','verb'), tok('谁','shéi','whose','question'), tok('的','de',"'s",'particle'), tok('书','shū','book','noun'), tok('？','？','','particle')],
+         structure:'这 (S) + 是 (V) + 谁的书 (O, "whose book"). 谁的 works like a possessive — 谁+的 = "whose," sitting right before the noun it modifies, same position 我的 or 你的 would take.'},
+        {speaker:'B', speakerLabel:'Stranger', en:'This is mine. Which one do you want?', grammar:[26],
+         toks:[tok('这','zhè','this','pronoun'), tok('是','shì','is','verb'), tok('我','wǒ','I','pronoun'), tok('的','de','mine','particle'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('要','yào','want','aux'), tok('哪个','nǎge','which one','question'), tok('？','？','','particle')],
+         structure:'这 (S) + 是 (V) + 我的 (O, "mine" — 的 alone stands in for "my [book]" once context is clear). Second clause: 你 (S) + 要 (Aux) + 哪个 (O, question word).'}
+      ]
+    },
+    languageNotes:[
+      {term:'谁 / 什么 / 哪里 / 哪个', pinyin:'shéi / shénme / nǎlǐ / nǎge', text:'All Chinese question words stay exactly where the answer would go — the sentence structure never flips around them the way it does in English ("what is this?" vs. "this is what?").'},
+      {term:'在', pinyin:'zài', text:'A quick preview — 在 means "is located at": 书店在那里 ("the bookstore is over there"). Lesson 7 covers 在 in full.'}
+    ],
+    grammarPoints:[
+      {gid:26, note:[
+         '<span class="cn-inline">谁 (shéi)</span>, "who," <span class="cn-inline">什么 (shénme)</span>, "what," from Lesson 1, <span class="cn-inline">哪里/哪儿 (nǎlǐ/nǎr)</span>, "where," and <span class="cn-inline">哪个 (nǎge)</span>, "which one," built from Lesson 4\'s 那个, form the complete beginner question-word toolkit. Every one of them works exactly the same way: it replaces the piece of information you\'re asking about, sitting in the identical spot that piece would occupy in the answer sentence.',
+         'Compare <span class="cn-inline">这是谁的书 (zhè shì shéi de shū)</span>, "this is whose book," with its answer <span class="cn-inline">这是我的书 (zhè shì wǒ de shū)</span>, "this is my book" — 谁 and 我 sit in the same slot. This <span class="gp-highlight">"slot-filling" logic</span> is consistent across all Chinese question words, which is why, once you have 什么 down from Lesson 1, the rest of the family tends to click quickly.'
+       ],
+       examples:[
+         {toks:[tok('她','tā','she','pronoun'), tok('是','shì','is','verb'), tok('谁','shéi','who','question'), tok('？','？','','particle')], en:'Who is she?'},
+         {toks:[tok('你','nǐ','you','pronoun'), tok('要','yào','want','aux'), tok('哪个','nǎge','which one','question'), tok('？','？','','particle')], en:'Which one do you want?'},
+         {toks:[tok('书店','shūdiàn','the bookstore','noun'), tok('在','zài','is at','verb'), tok('哪里','nǎlǐ','where','question'), tok('？','？','','particle')], en:'Where is the bookstore?'}
+       ],
+       mistake:'<span class="cn-inline">谁是她？(Shéi shì tā?)</span> — question words don\'t move to the front for emphasis the way English "who" does; keep 谁 (shéi) where the answer noun would sit.',
+       exercises:[
+         {q:'Ask "Where is the bookstore?"', a:'书店在哪里？(Shūdiàn zài nǎlǐ?)'},
+         {q:'Ask "Whose book is that?"', a:'那是谁的书？(Nà shì shéi de shū?)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'在', pinyin:'zài', gloss:'to be located at (previewed here — full grammar in Lesson 7)',
+      patterns:[
+        {cn:'书店在哪里？', pinyin:'Shūdiàn zài nǎlǐ?', en:'Where is the bookstore?'},
+        {cn:'书店在那里。', pinyin:'Shūdiàn zài nàlǐ.', en:'The bookstore is over there.'},
+        {cn:'我在这里。', pinyin:'Wǒ zài zhèlǐ.', en:'I am right here.'}
+      ]
+    },
+    vocab:[
+      {hanzi:'谁', pinyin:'shéi', pos:'qpr', gloss:'who'},
+      {hanzi:'哪里', pinyin:'nǎlǐ', pos:'qpr', gloss:'where'},
+      {hanzi:'哪个', pinyin:'nǎge', pos:'qpr', gloss:'which one'},
+      {hanzi:'请问', pinyin:'qǐngwèn', pos:'phrase', gloss:'excuse me, may I ask'},
+      {hanzi:'书店', pinyin:'shūdiàn', pos:'n', gloss:'bookstore'},
+      {hanzi:'在', pinyin:'zài', pos:'v', gloss:'to be located at'},
+      {hanzi:'那里', pinyin:'nàlǐ', pos:'pron', gloss:'over there'},
+      {hanzi:'这', pinyin:'zhè', pos:'pron', gloss:'this'},
+      {hanzi:'的', pinyin:'de', pos:'particle', gloss:"possessive/descriptive particle — like English 's or \"of\""},
+      {hanzi:'书', pinyin:'shū', pos:'n', gloss:'book'}
+    ],
+    yourTurn:[
+      {prompt:'Politely ask a stranger where the bookstore is.',
+       answerToks:[tok('请问','qǐngwèn','excuse me','verb'), tok('，','，','','particle'), tok('书店','shūdiàn','bookstore','noun'), tok('在','zài','is at','verb'), tok('哪里','nǎlǐ','where','question'), tok('？','？','','particle')],
+       answerEn:'Excuse me, where is the bookstore?'}
+    ]
+  },
+
+  {
+    num:6, id:'l6', type:'lesson',
+    title:'Wanting and Being Able To', cn:'想，要，会', icon:'💭',
+    situationLink:'Sentence Patterns → Want To · 想 / 要',
+    objectives:[
+      'Use 想 (xiǎng), 要 (yào), and 会 (huì) to talk about wanting, deciding, and knowing how to do things',
+      'Tell apart a soft wish (想) from a decided want (要) from a learned ability (会)',
+      'Pair auxiliary verbs correctly with a main verb, without stacking two together'
+    ],
+    spiralsIn:'要 first appeared in Lesson 4 — this lesson covers the full 想/要/会 family.',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'Julien', en:'What would you like to drink?', grammar:[8,26],
+         toks:[tok('你','nǐ','you','pronoun'), tok('想','xiǎng','would like','aux'), tok('喝','hē','drink','verb'), tok('什么','shénme','what','question'), tok('？','？','','particle')],
+         structure:'<span class="sb-slot">Subject + Aux + Verb + Object</span> — 你 (S) + 想 (Aux) + 喝 (V) + 什么 (O, question word). The aux verb slots in between Subject and the main Verb, never after it.'},
+        {speaker:'B', speakerLabel:'Anna', en:"I'd like tea. Can you speak Chinese?", grammar:[8,17],
+         toks:[tok('我','wǒ','I','pronoun'), tok('想','xiǎng','would like','aux'), tok('喝','hē','drink','verb'), tok('茶','chá','tea','noun'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('会','huì','can','aux'), tok('说','shuō','speak','verb'), tok('中文','Zhōngwén','Chinese','noun'), tok('吗','ma','?','particle'), tok('？','？','','particle')],
+         structure:'我 (S) + 想 (Aux) + 喝 (V) + 茶 (O). Second sentence swaps in 会: 你 (S) + 会 (Aux) + 说 (V) + 中文 (O), with 吗 added for the question.'},
+        {speaker:'A', speakerLabel:'Julien', en:'I can, a little. I want to learn more.', grammar:[8],
+         toks:[tok('我','wǒ','I','pronoun'), tok('会','huì','can','aux'), tok('一点','yìdiǎn','a little','particle'), tok('。','。','','particle'), tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('学','xué','learn','verb'), tok('更多','gèng duō','more','adjective'), tok('。','。','','particle')],
+         structure:'我 (S) + 会 (Aux) + 一点 (softener, "a little" — no main verb needed since 会 alone can answer). Second clause: 我 (S) + 要 (Aux) + 学 (V) + 更多 (O).'},
+        {speaker:'B', speakerLabel:'Anna', en:"Great, let's speak Chinese together.", grammar:[],
+         toks:[tok('好','hǎo','great','adjective'), tok('，','，','','particle'), tok('我们','wǒmen','we','pronoun'), tok('一起','yìqǐ','together','particle'), tok('说','shuō','speak','verb'), tok('中文','Zhōngwén','Chinese','noun'), tok('。','。','','particle')],
+         structure:'好 stands alone as "great/OK." Main clause: 我们 (S) + 一起 (adverb, "together," placed before the verb) + 说 (V) + 中文 (O).'}
+      ]
+    },
+    languageNotes:[
+      {term:'想 vs 要 vs 会', pinyin:'xiǎng vs yào vs huì', text:'想 = want/feel like (softer, a wish); 要 = want/will/need (stronger, more decided); 会 = know how to/capable of (a learned skill), or "will happen" for predictions. All three sit directly before the main verb.'},
+      {term:'一点', pinyin:'yìdiǎn', text:'"A little" — tacks onto the end of a sentence to soften a claim about ability, like saying "I can, a bit" rather than a flat 我会.'}
+    ],
+    grammarPoints:[
+      {gid:8, note:[
+         '<span class="cn-inline">想 (xiǎng)</span>, <span class="cn-inline">要 (yào)</span>, and <span class="cn-inline">会 (huì)</span> are all auxiliary verbs — they never appear alone, always paired with a second, main verb right after them, in the pattern <span class="gp-highlight">Subject + Aux + Verb + (Object)</span>. This is structurally the same slot that 要 already occupied back in Lesson 4 (<span class="cn-inline">我要这个 (wǒ yào zhège)</span> — although there 要 took a noun directly, since "want [a thing]" doesn\'t need a second verb).',
+         'The three aren\'t interchangeable, though they overlap in translation. 想 and 要 both roughly mean "want," but <span class="cn-inline">想 (xiǎng)</span> is the softer of the two — closer to "I feel like" or "I\'d like to" — while <span class="cn-inline">要 (yào)</span> is more assertive and decided, closer to "I want to / I will / I need to." <span class="cn-inline">会 (huì)</span> is different in kind: it specifically marks a learned capability (something you know how to do because you studied or practiced it), not just raw physical ability in the moment — that distinction becomes more important once you meet 能 and 可以 later on.',
+         'You\'ll also notice 想 and 要 don\'t normally stack together in the same clause — pick the one that best matches how decided you are, rather than combining them for emphasis.'
+       ],
+       examples:[
+         {toks:[tok('我','wǒ','I','pronoun'), tok('想','xiǎng','would like','aux'), tok('喝','hē','drink','verb'), tok('茶','chá','tea','noun'), tok('。','。','','particle')], en:"I'd like to drink tea."},
+         {toks:[tok('你','nǐ','you','pronoun'), tok('会','huì','can','aux'), tok('说','shuō','speak','verb'), tok('中文','Zhōngwén','Chinese','noun'), tok('吗','ma','?','particle'), tok('？','？','','particle')], en:'Can you speak Chinese?'},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('想','xiǎng','want to','aux'), tok('去','qù','go','verb'), tok('。','。','','particle')], en:"I don't want to go."}
+       ],
+       mistake:'<span class="cn-inline">我想要喝茶。(Wǒ xiǎng yào hē chá.)</span> — 想 (xiǎng) and 要 (yào) aren\'t normally stacked together; pick one auxiliary verb per clause.',
+       exercises:[
+         {q:'Say "I want to learn Chinese."', a:'我要学中文。(Wǒ yào xué Zhōngwén.) — or 我想学中文 for a softer "I\'d like to."'},
+         {q:'Say "I can\'t speak Chinese." (use 会)', a:'我不会说中文。(Wǒ bú huì shuō Zhōngwén.)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'想', pinyin:'xiǎng', gloss:"to want / would like",
+      patterns:[
+        {cn:'我想[动词]。', pinyin:'Wǒ xiǎng [dòngcí].', en:"I'd like to ___."},
+        {cn:'你想做什么？', pinyin:'Nǐ xiǎng zuò shénme?', en:'What would you like to do?'},
+        {cn:'我不想去。', pinyin:'Wǒ bù xiǎng qù.', en:"I don't want to go."}
+      ]
+    },
+    vocab:[
+      {hanzi:'想', pinyin:'xiǎng', pos:'aux', gloss:'want to / would like'},
+      {hanzi:'要', pinyin:'yào', pos:'aux', gloss:'want to / will'},
+      {hanzi:'会', pinyin:'huì', pos:'aux', gloss:'can / know how to'},
+      {hanzi:'喝', pinyin:'hē', pos:'v', gloss:'to drink'},
+      {hanzi:'学', pinyin:'xué', pos:'v', gloss:'to learn'},
+      {hanzi:'一点', pinyin:'yìdiǎn', pos:'adv', gloss:'a little'},
+      {hanzi:'茶', pinyin:'chá', pos:'n', gloss:'tea'},
+      {hanzi:'说', pinyin:'shuō', pos:'v', gloss:'to speak, to say'},
+      {hanzi:'中文', pinyin:'Zhōngwén', pos:'n', gloss:'Chinese (language)'},
+      {hanzi:'我们', pinyin:'wǒmen', pos:'pron', gloss:'we'},
+      {hanzi:'一起', pinyin:'yìqǐ', pos:'adv', gloss:'together'}
+    ],
+    yourTurn:[
+      {prompt:"Say you'd like to learn Chinese, and ask if they can speak English.",
+       answerToks:[tok('我','wǒ','I','pronoun'), tok('想','xiǎng','would like','aux'), tok('学','xué','learn','verb'), tok('中文','Zhōngwén','Chinese','noun'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('会','huì','can','aux'), tok('说','shuō','speak','verb'), tok('英文','Yīngwén','English','noun'), tok('吗','ma','?','particle'), tok('？','？','','particle')],
+       answerEn:"I'd like to learn Chinese. Can you speak English?"}
+    ]
+  },
+
+  {
+    num:7, id:'l7', type:'lesson',
+    title:'Where Things Are', cn:'在哪里，在做什么', icon:'📍',
+    situationLink:'Directions & Locations',
+    objectives:[
+      'Use 在 (zài) + place to say where someone or something is',
+      'Use the same 在 in front of a verb to mark an action happening right now',
+      'Tell the two jobs of 在 apart by their position in the sentence'
+    ],
+    spiralsIn:'在 previewed in Lesson 5 — this lesson covers it in full, plus its second job marking an action in progress.',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'Julien (calling)', en:'Hello? Where are you?', grammar:[24],
+         toks:[tok('喂','wèi','hello (phone)','particle'), tok('，','，','','particle'), tok('你','nǐ','you','pronoun'), tok('在','zài','are at','verb'), tok('哪里','nǎlǐ','where','question'), tok('？','？','','particle')],
+         structure:'喂 is a standalone phone-answering interjection. Main clause: 你 (S) + 在 (V, location) + 哪里 (question word filling the place slot).'},
+        {speaker:'B', speakerLabel:'Anna', en:"I'm at home. What are you doing?", grammar:[24,26],
+         toks:[tok('我','wǒ','I','pronoun'), tok('在','zài','am at','verb'), tok('家','jiā','home','noun'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('在','zài','(progressive)','particle'), tok('做','zuò','doing','verb'), tok('什么','shénme','what','question'), tok('？','？','','particle')],
+         structure:'我 (S) + 在 (V, location) + 家 (O). Second clause uses the OTHER job of 在: 你 (S) + 在 (progressive marker, before the verb) + 做 (V) + 什么 (O). Same character, two different jobs based on position.'},
+        {speaker:'A', speakerLabel:'Julien', en:"I'm working right now. And you?", grammar:[25],
+         toks:[tok('我','wǒ','I','pronoun'), tok('在','zài','(progressive)','particle'), tok('工作','gōngzuò','work','verb'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('呢','ne','and you?','particle'), tok('？','？','','particle')],
+         structure:'我 (S) + 在 (progressive) + 工作 (V). 你呢 is a fragment reusing "what are you doing" from the line above.'},
+        {speaker:'B', speakerLabel:'Anna', en:"I'm reading.", grammar:[25],
+         toks:[tok('我','wǒ','I','pronoun'), tok('在','zài','(progressive)','particle'), tok('看书','kàn shū','reading','verb'), tok('。','。','','particle')],
+         structure:'我 (S) + 在 (progressive) + 看书 (V, "read-book" treated as one verb chunk).'}
+      ]
+    },
+    languageNotes:[
+      {term:'在 (location) vs. 在 (progressive)', pinyin:'zài / zài', text:'The same character does two jobs: 在 + place ("is located at") sits right after the subject; 在 + verb ("in the middle of doing") sits right before the verb it modifies. Context tells you which is meant.'},
+      {term:'喂', pinyin:'wèi', text:'Said only when answering the phone — never used as a spoken greeting in person.'}
+    ],
+    grammarPoints:[
+      {gid:24, note:[
+         '在 (zài) as a location verb goes directly after the subject and before the place — 我在家 is literally "I at-home." This is a real point of interference from English, where "at home" is a phrase that trails at the very end of the sentence ("I am at home"); Chinese never puts it there.',
+         "Once 在 is doing this job, it's already functioning as the sentence's main verb — no 是 is needed alongside it, and adding one is a common learner error (是在 is never correct here). Where the location phrase sits matters for longer sentences too: 在-phrases generally come before the main verb, not after, a pattern that becomes more visible once you start building sentences like 我在苏州工作 (\"I work in Suzhou\")."
+       ],
+       examples:[
+         {toks:[tok('你','nǐ','you','pronoun'), tok('在','zài','are at','verb'), tok('哪里','nǎlǐ','where','question'), tok('？','？','','particle')], en:'Where are you?'},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('在','zài','am at','verb'), tok('家','jiā','home','noun'), tok('。','。','','particle')], en:'I am at home.'},
+         {toks:[tok('书店','shūdiàn','the bookstore','noun'), tok('不','bù','not','negation'), tok('在','zài','is at','verb'), tok('这里','zhèlǐ','here','pronoun'), tok('。','。','','particle')], en:'The bookstore is not here.'}
+       ],
+       mistake:'我是在家。 — 在 already functions as the verb here; no 是 is needed alongside it.',
+       exercises:[
+         {q:'Say "I am at the store."', a:'我在商店。(Wǒ zài shāngdiàn.)'},
+         {q:'Say "The bookstore is not here."', a:'书店不在这里。(Shūdiàn bú zài zhèlǐ.)'}
+       ]
+      },
+      {gid:25, note:[
+         "在 placed directly before a verb takes on a completely different job — instead of marking a location, it marks that action as happening right now, functioning as the closest Chinese equivalent to English's \"-ing.\" 正在 is a slightly stronger, more emphatic version that specifically stresses \"right this moment,\" but plain 在 is what you'll hear and use most often in casual speech.",
+         'Word order matters a lot here: 在 must sit before the verb, never wedged between the verb and its object. Because this is the same character used for location (Grammar 24 above), context is what tells a listener which job it\'s doing — 我在家 (location: "I\'m at home") versus 我在工作 (progressive: "I\'m working") are structurally different even though both start 我在.'
+       ],
+       examples:[
+         {toks:[tok('你','nǐ','you','pronoun'), tok('在','zài','(progressive)','particle'), tok('上班','shàngbān','working','verb'), tok('吗','ma','?','particle'), tok('？','？','','particle')], en:'Are you working (right now)?'},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('在','zài','(progressive)','particle'), tok('看书','kàn shū','reading','verb'), tok('。','。','','particle')], en:'I am reading.'},
+         {toks:[tok('他','tā','he','pronoun'), tok('没','méi','not','negation'), tok('在','zài','(progressive)','particle'), tok('工作','gōngzuò','working','verb'), tok('。','。','','particle')], en:"He isn't working (right now)."}
+       ],
+       mistake:'我在书看。 — 在 must come before the verb, never between the verb and its object.',
+       exercises:[
+         {q:'Say "I am working (right now)."', a:'我在工作。(Wǒ zài gōngzuò.)'},
+         {q:'Ask "What are you doing?" using 在.', a:'你在做什么？(Nǐ zài zuò shénme?)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'在', pinyin:'zài', gloss:'to be at / in the middle of',
+      patterns:[
+        {cn:'我在[地方]。', pinyin:'Wǒ zài [dìfang].', en:"I'm at ___."},
+        {cn:'你在做什么？', pinyin:'Nǐ zài zuò shénme?', en:'What are you doing?'},
+        {cn:'我在[动词]。', pinyin:'Wǒ zài [dòngcí].', en:"I'm ___-ing (right now)."}
+      ]
+    },
+    vocab:[
+      {hanzi:'在', pinyin:'zài', pos:'v/adv', gloss:'to be at / in the middle of'},
+      {hanzi:'家', pinyin:'jiā', pos:'n', gloss:'home'},
+      {hanzi:'工作', pinyin:'gōngzuò', pos:'v/n', gloss:'to work / work'},
+      {hanzi:'做', pinyin:'zuò', pos:'v', gloss:'to do'},
+      {hanzi:'看书', pinyin:'kàn shū', pos:'v', gloss:'to read'},
+      {hanzi:'喂', pinyin:'wèi', pos:'interj', gloss:'hello (only when answering the phone)'}
+    ],
+    yourTurn:[
+      {prompt:"Say you're at home, and that you're reading right now.",
+       answerToks:[tok('我','wǒ','I','pronoun'), tok('在','zài','am at','verb'), tok('家','jiā','home','noun'), tok('，','，','','particle'), tok('我','wǒ','I','pronoun'), tok('在','zài','(progressive)','particle'), tok('看书','kàn shū','reading','verb'), tok('。','。','','particle')],
+       answerEn:"I'm at home, I'm reading."}
+    ]
+  },
+
+  {
+    num:8, id:'l8', type:'lesson',
+    title:'Talking About Time', cn:'说时间', icon:'🗓️',
+    situationLink:'Time & Scheduling',
+    objectives:[
+      'Use time words like 今天 (today), 明天 (tomorrow), and 现在 (right now) to say when something happens',
+      'Place time words correctly — before the verb, since Chinese verbs never change form for tense',
+      'Combine time words with 在 (progressive) to say what\'s happening right now'
+    ],
+    spiralsIn:'想/要 from Lesson 6, 在 from Lesson 7',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'Julien', en:'Are you busy today?', grammar:[17,19],
+         toks:[tok('你','nǐ','you','pronoun'), tok('今天','jīntiān','today','noun'), tok('忙','máng','busy','adjective'), tok('吗','ma','?','particle'), tok('？','？','','particle')],
+         structure:'你 (S) + 今天 (time word, before the adjective) + 忙 (Adj) + 吗. Time words slot in right after the subject, before the rest of the sentence.'},
+        {speaker:'B', speakerLabel:'Anna', en:"Not busy today, but tomorrow I have to work.", grammar:[19],
+         toks:[tok('今天','jīntiān','today','noun'), tok('不','bù','not','negation'), tok('忙','máng','busy','adjective'), tok('，','，','','particle'), tok('但是','dànshì','but','particle'), tok('明天','míngtiān','tomorrow','noun'), tok('我','wǒ','I','pronoun'), tok('要','yào','have to','aux'), tok('工作','gōngzuò','work','verb'), tok('。','。','','particle')],
+         structure:'First clause: 今天 (time, fronted for emphasis) + 不忙 (negated Adj). After 但是 ("but"): 明天 (time, fronted) + 我 (S) + 要 (Aux) + 工作 (V) — time words can go before or after the subject.'},
+        {speaker:'A', speakerLabel:'Julien', en:'What are you doing right now?', grammar:[19,25],
+         toks:[tok('你','nǐ','you','pronoun'), tok('现在','xiànzài','right now','noun'), tok('在','zài','(progressive)','particle'), tok('做','zuò','doing','verb'), tok('什么','shénme','what','question'), tok('？','？','','particle')],
+         structure:'你 (S) + 现在 (time) + 在 (progressive) + 做 (V) + 什么 (O). Time word and 在 stack together, both before the verb.'},
+        {speaker:'B', speakerLabel:'Anna', en:"I'm resting at home right now.", grammar:[24,25],
+         toks:[tok('我','wǒ','I','pronoun'), tok('现在','xiànzài','right now','noun'), tok('在','zài','at','verb'), tok('家','jiā','home','noun'), tok('休息','xiūxi','resting','verb'), tok('。','。','','particle')],
+         structure:'我 (S) + 现在 (time) + 在家 (location phrase, "at home") + 休息 (V). Here 在 is doing the location job, sitting before 家, with the main verb 休息 following after.'}
+      ]
+    },
+    languageNotes:[
+      {term:'今天 / 明天 / 现在', pinyin:'jīntiān / míngtiān / xiànzài', text:'Chinese has no verb tense — aside from 了/过/在, it\'s the time word itself (今天, 明天, 现在...) that tells you when something happens, so it has to be stated rather than implied by a verb ending.'},
+      {term:'但是', pinyin:'dànshì', text:'"But" — connects two contrasting clauses, always placed at the start of the second clause, the same position as English "but".'}
+    ],
+    grammarPoints:[
+      {gid:19, note:[
+         'Time words like <span class="cn-inline">今天 (jīntiān)</span>, "today," <span class="cn-inline">明天 (míngtiān)</span>, "tomorrow," and <span class="cn-inline">现在 (xiànzài)</span>, "right now," go before the verb — and if you want to emphasize the time, they can move all the way to the front of the sentence, before the subject. Both <span class="cn-inline">我明天去 (wǒ míngtiān qù)</span> and <span class="cn-inline">明天我去 (míngtiān wǒ qù)</span> are correct and mean the same thing, but <span class="gp-highlight">the time word never trails after the verb</span> the way it optionally can in English ("I go tomorrow" is fine in English; the Chinese equivalent 我去明天 is not).',
+         'Because Chinese verbs never change form for tense, the time word is doing all the work English would normally hand to a verb ending or auxiliary ("went" vs. "go" vs. "will go"). Leave the time word out, and a Chinese sentence has no other signal for when the action happens — so unlike English, where context sometimes lets you skip the timeframe, Chinese generally needs it stated somewhere in the sentence.'
+       ],
+       examples:[
+         {toks:[tok('你','nǐ','you','pronoun'), tok('今天','jīntiān','today','noun'), tok('忙','máng','busy','adjective'), tok('吗','ma','?','particle'), tok('？','？','','particle')], en:'Are you busy today?'},
+         {toks:[tok('明天','míngtiān','tomorrow','noun'), tok('我','wǒ','I','pronoun'), tok('要','yào','have to','aux'), tok('工作','gōngzuò','work','verb'), tok('。','。','','particle')], en:'Tomorrow I have to work.'},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('现在','xiànzài','right now','noun'), tok('很','hěn','','particle'), tok('忙','máng','busy','adjective'), tok('。','。','','particle')], en:"I'm busy right now."}
+       ],
+       mistake:'<span class="cn-inline">我去商店明天。(Wǒ qù shāngdiàn míngtiān.)</span> — 明天 (míngtiān) can\'t sit at the end of the sentence; move it before the verb (我明天去商店).',
+       exercises:[
+         {q:'Say "Today I am not busy."', a:'我今天不忙。(Wǒ jīntiān bù máng.)'},
+         {q:'Say "I am busy right now."', a:'我现在很忙。(Wǒ xiànzài hěn máng.)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'忙', pinyin:'máng', gloss:'busy / to be busy',
+      patterns:[
+        {cn:'我很忙。', pinyin:'Wǒ hěn máng.', en:"I'm busy."},
+        {cn:'你今天忙吗？', pinyin:'Nǐ jīntiān máng ma?', en:'Are you busy today?'},
+        {cn:'我不忙。', pinyin:'Wǒ bù máng.', en:"I'm not busy."}
+      ]
+    },
+    vocab:[
+      {hanzi:'今天', pinyin:'jīntiān', pos:'n', gloss:'today'},
+      {hanzi:'明天', pinyin:'míngtiān', pos:'n', gloss:'tomorrow'},
+      {hanzi:'现在', pinyin:'xiànzài', pos:'n', gloss:'now'},
+      {hanzi:'忙', pinyin:'máng', pos:'adj', gloss:'busy'},
+      {hanzi:'但是', pinyin:'dànshì', pos:'conj', gloss:'but'},
+      {hanzi:'休息', pinyin:'xiūxi', pos:'v', gloss:'to rest'}
+    ],
+    yourTurn:[
+      {prompt:"Say you're busy today, but not busy tomorrow.",
+       answerToks:[tok('我','wǒ','I','pronoun'), tok('今天','jīntiān','today','noun'), tok('很','hěn','','particle'), tok('忙','máng','busy','adjective'), tok('，','，','','particle'), tok('但是','dànshì','but','particle'), tok('明天','míngtiān','tomorrow','noun'), tok('不','bù','not','negation'), tok('忙','máng','busy','adjective'), tok('。','。','','particle')],
+       answerEn:"I'm busy today, but tomorrow I'm not busy."}
+    ]
+  },
+
+  {
+    num:9, id:'l9', type:'lesson',
+    title:"Have, Don't Have, and Prices", cn:'有没有，多少钱', icon:'💰',
+    situationLink:'Numbers & Money',
+    objectives:[
+      'Say what you have and don\'t have with 有 (yǒu) and 没有 (méiyǒu)',
+      'Understand why 有 can only ever negate with 没, never 不',
+      'Read and say prices beyond 99 kuai using 百 (hundred) and 千 (thousand)'
+    ],
+    spiralsIn:'不是 from Lesson 3, 多少钱 and 块 from Lesson 4',
+    dialogue:{
+      lines:[
+        {speaker:'A', speakerLabel:'You', en:'How much is this apple, each?', grammar:[12,26],
+         toks:[tok('这个','zhège','this','pronoun'), tok('苹果','píngguǒ','apple','noun'), tok('多少','duōshao','how much','question'), tok('钱','qián','money','noun'), tok('一','yī','one','noun'), tok('个','gè','each','measure'), tok('？','？','','particle')],
+         structure:'这个苹果 (S, "this apple") + 多少钱 (question predicate) + 一个 ("per one," tacked on to specify the unit being priced).'},
+        {speaker:'B', speakerLabel:'Shopkeeper', en:'3 kuai each. How many do you want?', grammar:[10],
+         toks:[tok('三','sān','three','noun'), tok('块','kuài','kuai','measure'), tok('一','yī','one','noun'), tok('个','gè','each','measure'), tok('。','。','','particle'), tok('你','nǐ','you','pronoun'), tok('要','yào','want','aux'), tok('几','jǐ','how many','question'), tok('个','gè','(mw)','measure'), tok('？','？','','particle')],
+         structure:'三块一个 states the price directly, no verb needed. Second sentence: 你 (S) + 要 (Aux) + 几个 (O, "how many," with 个 attached to the question word just like it attaches to a number).'},
+        {speaker:'A', speakerLabel:'You', en:"I'll take five. Do you have milk?", grammar:[22],
+         toks:[tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('五','wǔ','five','noun'), tok('个','gè','(mw)','measure'), tok('。','。','','particle'), tok('你们','nǐmen','you (plural)','pronoun'), tok('有','yǒu','have','verb'), tok('没有','méiyǒu','not have','negation'), tok('牛奶','niúnǎi','milk','noun'), tok('？','？','','particle')],
+         structure:'我 (S) + 要 (Aux) + 五个 (O). Second sentence: 你们 (S) + 有没有 (V, A-not-A question form) + 牛奶 (O) — this is 有…吗 asked a different way, same slots.'},
+        {speaker:'B', speakerLabel:'Shopkeeper', en:"No, we don't have milk.", grammar:[22],
+         toks:[tok('没有','méiyǒu','no, don\'t have','negation'), tok('，','，','','particle'), tok('我们','wǒmen','we','pronoun'), tok('没有','méiyǒu','don\'t have','negation'), tok('牛奶','niúnǎi','milk','noun'), tok('。','。','','particle')],
+         structure:'没有 alone answers "no" to the 有没有 question. Then 我们 (S) + 没有 (V, negated) + 牛奶 (O) restates it in full.'},
+        {speaker:'A', speakerLabel:'You', en:'OK, how much for the apples in total?', grammar:[],
+         toks:[tok('好吧','hǎo ba','OK','particle'), tok('，','，','','particle'), tok('苹果','píngguǒ','apples','noun'), tok('一共','yígòng','in total','particle'), tok('多少','duōshao','how much','question'), tok('钱','qián','money','noun'), tok('？','？','','particle')],
+         structure:'好吧 stands alone as "OK, fine." Main clause: 苹果 (S) + 一共 (adverb, "in total," before the predicate) + 多少钱 (question predicate).'},
+        {speaker:'B', speakerLabel:'Shopkeeper', en:'15 kuai in total.', grammar:[13],
+         toks:[tok('一共','yígòng','in total','particle'), tok('十五','shíwǔ','fifteen','noun'), tok('块','kuài','kuai','measure'), tok('。','。','','particle')],
+         structure:'一共 (adverb, fronted since the subject "apples" is already understood) + 十五块 (price, no verb needed).'}
+      ]
+    },
+    languageNotes:[
+      {term:'有没有', pinyin:'yǒu méiyǒu', text:'The A-not-A form of 有 — an alternative to 有...吗 that\'s just as common in speech, especially when asking whether a shop stocks something.'},
+      {term:'一共', pinyin:'yígòng', text:'"In total" — placed before the number when summing up a bill, a very high-frequency word for shopping and paying.'}
+    ],
+    grammarPoints:[
+      {gid:22, note:[
+         '<span class="cn-inline">有 (yǒu)</span>, "to have," is one of the small handful of Chinese verbs that refuses to negate with 不 at all — 不有 is simply never correct. It negates exclusively with <span class="cn-inline">没 (méi)</span>, giving <span class="cn-inline">没有 (méiyǒu)</span>. This isn\'t a special exception invented just for possession, either: 没(有) is the same negative you\'ll eventually use for any action that didn\'t happen in the past, which is why the tracker gives it its own dedicated grammar point rather than lumping it in with Lesson 3\'s 不.',
+         'A handy way to keep the two negatives separated while you\'re still building the habit: <span class="gp-highlight">不 negates what something currently is or generally does</span> (是-sentences, 很+adjective, ongoing states); <span class="gp-highlight">没(有) negates what someone has</span>, or — later on — what already happened. <span class="cn-inline">有没有 (yǒu méiyǒu)</span>, the A-not-A form used in the dialogue, is simply this same verb asked as a question, and it\'s at least as common in everyday speech as 有…吗.'
+       ],
+       examples:[
+         {toks:[tok('你们','nǐmen','you (plural)','pronoun'), tok('有','yǒu','have','verb'), tok('没有','méiyǒu','not have','negation'), tok('牛奶','niúnǎi','milk','noun'), tok('？','？','','particle')], en:'Do you have milk?'},
+         {toks:[tok('我们','wǒmen','we','pronoun'), tok('没有','méiyǒu','don\'t have','negation'), tok('牛奶','niúnǎi','milk','noun'), tok('。','。','','particle')], en:"We don't have milk."},
+         {toks:[tok('我','wǒ','I','pronoun'), tok('没有','méiyǒu','don\'t have','negation'), tok('钱','qián','money','noun'), tok('。','。','','particle')], en:"I don't have money."}
+       ],
+       mistake:'<span class="cn-inline">我们不有牛奶。(Wǒmen bù yǒu niúnǎi.)</span> — 有 (yǒu) can never take 不; always use 没(有) instead, whether negating possession or a past action.',
+       exercises:[
+         {q:"Say \"I don't have money.\"", a:'我没有钱。(Wǒ méiyǒu qián.)'},
+         {q:'Ask "Do you have apples?" using the A-not-A form.', a:'你们有没有苹果？(Nǐmen yǒu méiyǒu píngguǒ?)'}
+       ]
+      },
+      {gid:13, note:[
+         'Beyond 99, Chinese numbers stop grouping in threes the way English does. English climbs hundred → thousand → million, but Chinese climbs <span class="cn-inline">十 (shí)</span> "ten" → <span class="cn-inline">百 (bǎi)</span> "hundred" → <span class="cn-inline">千 (qiān)</span> "thousand" → and then jumps to an entirely new base unit at <span class="cn-inline">万 (wàn)</span> "ten-thousand," rather than continuing to count in thousands. This means large numbers — and therefore larger prices, the kind you\'ll actually run into shopping in Suzhou — are grouped in a genuinely different pattern from what English speakers expect, and it\'s worth building the habit early rather than translating digit-by-digit in your head.',
+         'For everyday prices under a thousand kuai, though, the pattern is mechanical and easy: just combine <span class="gp-highlight">十/百/千</span> the same way you built 0–99 back in Lesson 4\'s number system, reading the number compositionally rather than as separate digits.'
+       ],
+       examples:[
+         {toks:[tok('一共','yígòng','in total','particle'), tok('十五','shíwǔ','fifteen','noun'), tok('块','kuài','kuai','measure'), tok('。','。','','particle')], en:'15 kuai in total.'},
+         {toks:[tok('两','liǎng','two','noun'), tok('百','bǎi','hundred','noun'), tok('块','kuài','kuai','measure')], en:'200 kuai.'},
+         {toks:[tok('一','yī','one','noun'), tok('千','qiān','thousand','noun'), tok('块','kuài','kuai','measure')], en:'1,000 kuai.'}
+       ],
+       mistake:'<span class="cn-inline">十五 (shíwǔ)</span> read aloud as separate digits ("one five") instead of as "ten-five" — Chinese numbers are always built compositionally, not read digit-by-digit like a phone number.',
+       exercises:[
+         {q:'Say "one hundred kuai."', a:'一百块。(Yìbǎi kuài.)'},
+         {q:'Say "two hundred and fifty kuai."', a:'两百五十块。(Liǎngbǎi wǔshí kuài.)'}
+       ]
+      }
+    ],
+    verbSpotlight:{
+      hanzi:'有', pinyin:'yǒu', gloss:'to have',
+      patterns:[
+        {cn:'我有[东西]。', pinyin:'Wǒ yǒu [dōngxi].', en:'I have ___.'},
+        {cn:'你有没有[东西]？', pinyin:'Nǐ yǒu méiyǒu [dōngxi]?', en:'Do you have ___?'},
+        {cn:'我没有[东西]。', pinyin:'Wǒ méiyǒu [dōngxi].', en:"I don't have ___."}
+      ]
+    },
+    vocab:[
+      {hanzi:'有', pinyin:'yǒu', pos:'v', gloss:'to have'},
+      {hanzi:'没有', pinyin:'méiyǒu', pos:'v', gloss:'to not have'},
+      {hanzi:'几', pinyin:'jǐ', pos:'qpr', gloss:'how many (expects a small number)'},
+      {hanzi:'一共', pinyin:'yígòng', pos:'adv', gloss:'in total, altogether'},
+      {hanzi:'苹果', pinyin:'píngguǒ', pos:'n', gloss:'apple'},
+      {hanzi:'牛奶', pinyin:'niúnǎi', pos:'n', gloss:'milk'},
+      {hanzi:'一', pinyin:'yī', pos:'num', gloss:'one'},
+      {hanzi:'三', pinyin:'sān', pos:'num', gloss:'three'},
+      {hanzi:'五', pinyin:'wǔ', pos:'num', gloss:'five'},
+      {hanzi:'你们', pinyin:'nǐmen', pos:'pron', gloss:'you (plural)'},
+      {hanzi:'好吧', pinyin:'hǎo ba', pos:'phrase', gloss:'OK, alright (mild concession)'}
+    ],
+    yourTurn:[
+      {prompt:'Ask a shopkeeper if they have milk, then ask how much it costs in total.',
+       answerToks:[tok('你们','nǐmen','you (plural)','pronoun'), tok('有','yǒu','have','verb'), tok('没有','méiyǒu','not have','negation'), tok('牛奶','niúnǎi','milk','noun'), tok('？','？','','particle'), tok('一共','yígòng','in total','particle'), tok('多少','duōshao','how much','question'), tok('钱','qián','money','noun'), tok('？','？','','particle')],
+       answerEn:'Do you have milk? How much in total?'}
+    ]
+  }
+];
+
+// ============ RENDER: LESSON LIST ============
+function renderLessonList(){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const doneCount = LESSONS.filter(l => completedLessons[l.id]).length;
+  const pct = Math.round((doneCount / LESSONS.length) * 100);
+
+  const prog = document.createElement('div');
+  prog.className = 'progress-card';
+  prog.innerHTML = `
+    <div class="progress-top"><span class="num">${doneCount} / ${LESSONS.length}</span><span class="lbl">lessons complete</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div>
+  `;
+  main.appendChild(prog);
+
+  const grid = document.createElement('div');
+  grid.className = 'lesson-grid';
+
+  LESSONS.forEach(lesson => {
+    const done = !!completedLessons[lesson.id];
+    const card = document.createElement('div');
+    card.className = 'lesson-card' + (done ? ' done' : '');
+    const tagsHtml = (lesson.grammarPoints || []).map(gp => {
+      const g = GRAMMAR[gp.gid];
+      return g ? `<span class="lesson-tag">#${gp.gid} ${g.title}</span>` : '';
+    }).join('');
+    card.innerHTML = `
+      <div class="lesson-num">${lesson.type === 'phonetics' ? lesson.icon : lesson.num}</div>
+      <div class="lesson-body">
+        <p class="lesson-title">${lesson.title}</p>
+        <p class="lesson-cn">${lesson.cn}</p>
+        <div class="lesson-tags">${tagsHtml}</div>
+      </div>
+      ${done ? '<span class="lesson-check">✓</span>' : ''}
+      <svg class="lesson-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    `;
+    card.onclick = () => { currentLesson = lesson; render(); window.scrollTo(0,0); };
+    grid.appendChild(card);
+  });
+
+  main.appendChild(grid);
+}
+
+// ============ RENDER: PHONETICS LESSON (Lesson 0) ============
+function renderPhoneticsLesson(lesson){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const backRow = document.createElement('div');
+  backRow.className = 'back-row';
+  backRow.innerHTML = `<button class="back-btn" id="backToList"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>`;
+  main.appendChild(backRow);
+  backRow.querySelector('#backToList').onclick = () => { currentLesson = null; document.getElementById('searchInput').value = ''; render(); };
+
+  const header = document.createElement('div');
+  header.className = 'lesson-header';
+  header.innerHTML = `<span class="eyebrow">Lesson 0</span><h2>${lesson.title}</h2><p class="cn-title">${lesson.cn}</p>`;
+  main.appendChild(header);
+
+  const introBlock = document.createElement('div');
+  introBlock.className = 'block';
+  introBlock.innerHTML = `<p style="font-size:13.5px;line-height:1.6;margin:0;">${lesson.intro}</p>`;
+  main.appendChild(introBlock);
+
+  const toneBlock = document.createElement('div');
+  toneBlock.className = 'block';
+  toneBlock.innerHTML = `<div class="block-title">The Four Tones (+ neutral)</div>`;
+  const grid = document.createElement('div');
+  grid.className = 'tone-grid';
+  lesson.tones.forEach(t => {
+    const cell = document.createElement('div');
+    cell.className = 'tone-cell';
+    cell.innerHTML = `<div class="t-hanzi">${t.hanzi}</div><div class="t-pinyin">${t.pinyin}</div><div class="t-gloss">${t.gloss}</div><div class="t-num">${t.num}</div>`;
+    cell.onclick = () => speak(t.hanzi);
+    grid.appendChild(cell);
+  });
+  toneBlock.appendChild(grid);
+  const playAllBtn = document.createElement('button');
+  playAllBtn.className = 'complete-btn';
+  playAllBtn.style.marginTop = '10px';
+  playAllBtn.textContent = '🔊 Play all five in sequence';
+  playAllBtn.onclick = () => {
+    let i = 0;
+    const playNext = () => {
+      if (i >= lesson.tones.length) return;
+      const u = new SpeechSynthesisUtterance(lesson.tones[i].hanzi);
+      u.lang = 'zh-CN';
+      if (zhVoice) u.voice = zhVoice;
+      u.rate = speechRate;
+      u.onend = () => { i++; setTimeout(playNext, 250); };
+      speechSynthesis.speak(u);
+    };
+    speechSynthesis.cancel();
+    playNext();
+  };
+  toneBlock.appendChild(playAllBtn);
+  main.appendChild(toneBlock);
+
+  const trapBlock = document.createElement('div');
+  trapBlock.className = 'block';
+  trapBlock.innerHTML = `<div class="block-title">Pinyin Traps for English Speakers</div>`;
+  lesson.traps.forEach(t => {
+    const row = document.createElement('div');
+    row.className = 'trap-row';
+    row.innerHTML = `<div class="tr-pair">${t.pair}</div><div class="tr-note">${t.note}</div>`;
+    trapBlock.appendChild(row);
+  });
+  main.appendChild(trapBlock);
+
+  const sandhiBlock = document.createElement('div');
+  sandhiBlock.className = 'block';
+  sandhiBlock.innerHTML = `<div class="block-title">Tone Change Rules (Sandhi)</div>`;
+  lesson.sandhi.forEach(s => {
+    const row = document.createElement('div');
+    row.className = 'trap-row';
+    row.innerHTML = `<div class="tr-pair">${s.rule}</div><div class="tr-note"><b>${s.example}</b><br>${s.note}</div>`;
+    sandhiBlock.appendChild(row);
+  });
+  main.appendChild(sandhiBlock);
+
+  const ytBlock = document.createElement('div');
+  ytBlock.className = 'block';
+  ytBlock.innerHTML = `<div class="block-title">Your Turn</div><div class="yt-card"><p class="yt-prompt">${lesson.yourTurn}</p></div>`;
+  main.appendChild(ytBlock);
+
+  renderCompleteAndNav(main, lesson);
+}
+
+// ============ RENDER: STANDARD LESSON ============
+function createToggleBlock(titleText){
+  const block = document.createElement('div');
+  block.className = 'block';
+  const titleEl = document.createElement('div');
+  titleEl.className = 'block-title';
+  titleEl.innerHTML = `<span>${titleText}</span><svg class="bt-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"/></svg>`;
+  const content = document.createElement('div');
+  content.className = 'block-content';
+  titleEl.onclick = () => {
+    content.classList.toggle('collapsed');
+    titleEl.classList.toggle('collapsed');
+  };
+  block.appendChild(titleEl);
+  block.appendChild(content);
+  return {block, content};
+}
+
+function renderStandardLesson(lesson){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const backRow = document.createElement('div');
+  backRow.className = 'back-row';
+  backRow.innerHTML = `<button class="back-btn" id="backToList"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg></button>`;
+  main.appendChild(backRow);
+  backRow.querySelector('#backToList').onclick = () => { currentLesson = null; document.getElementById('searchInput').value = ''; render(); };
+
+  const header = document.createElement('div');
+  header.className = 'lesson-header';
+  header.innerHTML = `<span class="eyebrow">Lesson ${lesson.num} · ${lesson.icon}</span><h2>${lesson.title}</h2><p class="cn-title">${lesson.cn}</p>`;
+  main.appendChild(header);
+
+  if (lesson.objectives && lesson.objectives.length){
+    const introCard = document.createElement('div');
+    introCard.className = 'intro-card';
+    const objHtml = lesson.objectives.map(o => `<li>${o}</li>`).join('');
+    introCard.innerHTML = `<div class="intro-label">In this lesson, you'll learn to:</div><ul>${objHtml}</ul>`;
+    main.appendChild(introCard);
+  }
+
+  if (lesson.spiralsIn){
+    const spiralBlock = document.createElement('div');
+    spiralBlock.className = 'block';
+    spiralBlock.innerHTML = `<div class="spiral-box">🔁 <b>Building on:</b> ${lesson.spiralsIn}</div>`;
+    main.appendChild(spiralBlock);
+  }
+
+  if (lesson.grammarPoints && lesson.grammarPoints.length){
+    const {block, content} = createToggleBlock('Grammar');
+    lesson.grammarPoints.forEach((gp, i) => content.appendChild(renderGrammarPoint(gp, i+1)));
+    main.appendChild(block);
+  }
+
+  if (lesson.monologue){
+    const {block, content} = createToggleBlock('Self-Introduction');
+    lesson.monologue.lines.forEach(line => content.appendChild(renderPhraseCard(line)));
+    main.appendChild(block);
+  }
+
+  {
+    const {block, content} = createToggleBlock('Dialogue');
+    lesson.dialogue.lines.forEach(line => content.appendChild(renderPhraseCard(line)));
+    main.appendChild(block);
+  }
+
+  if (lesson.languageNotes && lesson.languageNotes.length){
+    const {block, content} = createToggleBlock('Language Notes');
+    content.appendChild(renderLanguageNotes(lesson.languageNotes));
+    main.appendChild(block);
+  }
+
+  if (lesson.verbSpotlight){
+    const {block, content} = createToggleBlock('Verb Spotlight');
+    content.appendChild(renderVerbSpotlight(lesson.verbSpotlight));
+    main.appendChild(block);
+  }
+
+  if (lesson.registerNote){
+    const {block, content} = createToggleBlock('Register &amp; Politeness');
+    content.innerHTML = `<div class="spiral-box" style="border-color:var(--tier2);background:#f5ecd9;border-left-color:var(--tier2);">${lesson.registerNote}</div>`;
+    main.appendChild(block);
+  }
+
+  {
+    const {block, content} = createToggleBlock('Vocabulary');
+    content.appendChild(renderVocabTable(lesson.vocab));
+    main.appendChild(block);
+  }
+
+  {
+    const {block, content} = createToggleBlock('Your Turn');
+    (lesson.yourTurn || []).forEach(yt => {
+      const card = document.createElement('div');
+      card.className = 'yt-card';
+      const prompt = document.createElement('p');
+      prompt.className = 'yt-prompt';
+      prompt.textContent = yt.prompt;
+      card.appendChild(prompt);
+      const revealBtn = document.createElement('button');
+      revealBtn.className = 'yt-reveal-btn';
+      revealBtn.textContent = 'Show answer';
+      const answerDiv = document.createElement('div');
+      answerDiv.className = 'yt-answer';
+      const answerEn = document.createElement('p');
+      answerEn.style.cssText = 'font-size:12.5px;color:var(--muted);margin:0 0 6px;';
+      answerEn.textContent = yt.answerEn;
+      answerDiv.appendChild(answerEn);
+      const answerRow = document.createElement('div');
+      answerRow.style.cssText = 'display:flex;align-items:center;gap:8px;';
+      answerRow.appendChild(renderTokSpan(yt.answerToks, 'phrase-cn'));
+      const ansAudio = document.createElement('button');
+      ansAudio.className = 'seal-btn';
+      ansAudio.style.cssText = 'width:36px;height:36px;font-size:12px;';
+      ansAudio.textContent = '听';
+      ansAudio.onclick = () => speak(toksToHanzi(yt.answerToks), ansAudio);
+      answerRow.appendChild(ansAudio);
+      answerDiv.appendChild(answerRow);
+      if (showPronunciation){
+        const pronBox = renderPronunciationBox(toksToPinyin(yt.answerToks));
+        if (pronBox){ pronBox.style.marginTop = '8px'; answerDiv.appendChild(pronBox); }
+      }
+      revealBtn.onclick = () => {
+        answerDiv.classList.toggle('show');
+        revealBtn.textContent = answerDiv.classList.contains('show') ? 'Hide answer' : 'Show answer';
+      };
+      card.appendChild(revealBtn);
+      card.appendChild(answerDiv);
+      content.appendChild(card);
+    });
+    main.appendChild(block);
+  }
+
+  if (lesson.situationLink){
+    const clBlock = document.createElement('div');
+    clBlock.className = 'block';
+    clBlock.innerHTML = `<div class="crosslink">📖 Practice more of this in your Suzhou Survival phrasebook → <b>${lesson.situationLink}</b></div>`;
+    main.appendChild(clBlock);
+  }
+
+  renderCompleteAndNav(main, lesson);
+}
+
+function renderCompleteAndNav(main, lesson){
+  const done = !!completedLessons[lesson.id];
+  const completeRow = document.createElement('div');
+  completeRow.className = 'complete-row';
+  const btn = document.createElement('button');
+  btn.className = 'complete-btn' + (done ? ' done' : '');
+  btn.textContent = done ? '✓ Lesson complete' : 'Mark lesson complete';
+  btn.onclick = () => toggleComplete(lesson.id);
+  completeRow.appendChild(btn);
+  main.appendChild(completeRow);
+
+  const idx = LESSONS.findIndex(l => l.id === lesson.id);
+  const navRow = document.createElement('div');
+  navRow.className = 'lesson-nav';
+  const prevBtn = document.createElement('button');
+  prevBtn.textContent = '‹ Prev';
+  prevBtn.disabled = idx <= 0;
+  prevBtn.onclick = () => { currentLesson = LESSONS[idx-1]; render(); window.scrollTo(0,0); };
+  const nextBtn = document.createElement('button');
+  nextBtn.textContent = 'Next ›';
+  nextBtn.disabled = idx >= LESSONS.length - 1;
+  nextBtn.onclick = () => { currentLesson = LESSONS[idx+1]; render(); window.scrollTo(0,0); };
+  navRow.appendChild(prevBtn);
+  navRow.appendChild(nextBtn);
+  main.appendChild(navRow);
+}
+
+// ============ MAIN RENDER ============
+// ============ SEARCH ============
+function stripDiacritics(str){
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+function buildSearchIndex(){
+  const index = [];
+  LESSONS.forEach(l => {
+    const lessonLabel = l.type === 'phonetics' ? 'Lesson 0 · ' + l.title : `Lesson ${l.num} · ${l.title}`;
+    (l.vocab || []).forEach(v => {
+      index.push({kind:'Vocab', lesson:l, lessonLabel, hanzi:v.hanzi, pinyin:v.pinyin, en:v.gloss});
+    });
+    (l.languageNotes || []).forEach(n => {
+      index.push({kind:'Note', lesson:l, lessonLabel, hanzi:n.term, pinyin:n.pinyin || '', en:n.text});
+    });
+    if (l.verbSpotlight){
+      (l.verbSpotlight.patterns || []).forEach(p => {
+        index.push({kind:'Pattern', lesson:l, lessonLabel, hanzi:p.cn, pinyin:p.pinyin, en:p.en});
+      });
+    }
+    const collectLines = (block) => {
+      (block?.lines || []).forEach(line => {
+        const hanzi = toksToHanzi(line.toks);
+        const pinyin = toksToPinyin(line.toks);
+        index.push({kind:'Dialogue', lesson:l, lessonLabel, hanzi, pinyin, en:line.en, toks:line.toks});
+      });
+    };
+    collectLines(l.monologue);
+    collectLines(l.dialogue);
+  });
+  return index;
+}
+
+function renderSearchResults(query){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  const q = query.trim().toLowerCase();
+  const qPlain = stripDiacritics(q);
+  const index = buildSearchIndex();
+  const results = index.filter(r =>
+    (r.hanzi && r.hanzi.includes(query.trim())) ||
+    (r.pinyin && stripDiacritics(r.pinyin.toLowerCase()).includes(qPlain)) ||
+    (r.en && r.en.toLowerCase().includes(q))
+  );
+
+  const label = document.createElement('div');
+  label.className = 'section-label';
+  label.style.cssText = 'font-size:12px;color:var(--muted);margin:14px 0 8px;';
+  label.textContent = results.length + ' result' + (results.length === 1 ? '' : 's');
+  main.appendChild(label);
+
+  if (results.length === 0){
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'No matches yet — try a different word, or browse the lesson list.';
+    main.appendChild(empty);
+    return;
+  }
+
+  results.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'search-result-card';
+    const top = document.createElement('div');
+    top.className = 'sr-top';
+    top.innerHTML = `<span class="sr-kind">${r.kind}</span><span class="sr-lesson">${r.lessonLabel}</span>`;
+    card.appendChild(top);
+    const hanziEl = document.createElement('div');
+    hanziEl.className = 'sr-hanzi';
+    if (r.kind === 'Dialogue' && r.toks){
+      hanziEl.appendChild(renderTokSpan(r.toks));
+    } else {
+      hanziEl.textContent = r.hanzi;
+    }
+    card.appendChild(hanziEl);
+    if (r.pinyin){
+      const py = document.createElement('div');
+      py.className = 'sr-pinyin';
+      py.textContent = r.pinyin;
+      card.appendChild(py);
+    }
+    const en = document.createElement('div');
+    en.className = 'sr-en';
+    en.textContent = r.en;
+    card.appendChild(en);
+    card.onclick = () => {
+      document.getElementById('searchInput').value = '';
+      currentLesson = r.lesson;
+      render();
+      window.scrollTo(0,0);
+    };
+    main.appendChild(card);
+  });
+}
+
+function render(){
+  const searchQuery = document.getElementById('searchInput').value;
+  if (currentLesson === null && searchQuery.trim().length > 0){
+    renderSearchResults(searchQuery);
+  } else if (currentLesson === null){
+    renderLessonList();
+  } else if (currentLesson.type === 'phonetics'){
+    renderPhoneticsLesson(currentLesson);
+  } else {
+    renderStandardLesson(currentLesson);
+  }
+}
+
+// ============ LEGEND MODAL (color key — same pattern as the phrasebook) ============
+function openLegend(){
+  const sheet = document.getElementById('sheetContent');
+  sheet.innerHTML = '<h3>Color key · 颜色说明</h3>';
+  Object.keys(ROLES).forEach(r => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="dot" style="background:${ROLES[r].color}"></span> ${ROLES[r].label}`;
+    sheet.appendChild(item);
+  });
+  const note = document.createElement('p');
+  note.style.cssText = 'font-size:12.5px;color:var(--muted);margin-top:12px;';
+  note.textContent = 'Every Chinese word in a dialogue, example, or vocab list is colored by its grammatical role, matching your Suzhou Survival phrasebook.';
+  sheet.appendChild(note);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'sheet-close';
+  closeBtn.textContent = 'Close';
+  closeBtn.onclick = closeOverlay;
+  sheet.appendChild(closeBtn);
+  document.getElementById('overlay').classList.add('show');
+}
+function closeOverlay(){
+  document.getElementById('overlay').classList.remove('show');
+}
+document.getElementById('legendBtn').onclick = openLegend;
+document.getElementById('overlay').onclick = (e) => { if (e.target.id === 'overlay') closeOverlay(); };
+document.getElementById('searchInput').oninput = () => { currentLesson = null; render(); };
+
+// ============ INIT ============
+document.getElementById('pronToggleBtn').onclick = () => {
+  showPronunciation = !showPronunciation;
+  document.getElementById('pronToggleBtn').classList.toggle('active', showPronunciation);
+  render();
+};
+
+// ============ LAYOUT MODE (desktop-wide by default, toggle to mobile) ============
+const appEl = document.querySelector('.app');
+function setLayoutMode(mobile){
+  appEl.classList.toggle('mobile-mode', mobile);
+  document.getElementById('layoutToggleInput').checked = mobile;
+  document.getElementById('layoutLabel').textContent = mobile ? '📱 Mobile' : '🖥️ Desktop';
+}
+async function loadLayoutPref(){
+  let mobile = window.innerWidth < 700; // sensible default on an actual phone
+  if (window.storage){
+    try{
+      const res = await window.storage.get('layout_mode_v1', false);
+      if (res && res.value) mobile = (res.value === 'mobile');
+    } catch(err){ /* no saved preference yet — fall back to viewport heuristic */ }
+  }
+  setLayoutMode(mobile);
+}
+document.getElementById('layoutToggleInput').onchange = (e) => {
+  const mobile = e.target.checked;
+  setLayoutMode(mobile);
+  if (window.storage){
+    window.storage.set('layout_mode_v1', mobile ? 'mobile' : 'desktop', false).catch(()=>{});
+  }
+};
+loadLayoutPref();
+
+// ============ SPEECH SPEED CONTROL ============
+function setSpeechRate(rate, persist){
+  speechRate = rate;
+  document.querySelectorAll('#speedControl .speed-btn').forEach(b => {
+    b.classList.toggle('active', parseFloat(b.dataset.rate) === rate);
+  });
+  if (persist && window.storage){
+    window.storage.set('speech_rate_v1', String(rate), false).catch(()=>{});
+  }
+}
+document.querySelectorAll('#speedControl .speed-btn').forEach(b => {
+  b.onclick = () => setSpeechRate(parseFloat(b.dataset.rate), true);
+});
+async function loadSpeechRatePref(){
+  if (!window.storage) return;
+  try{
+    const res = await window.storage.get('speech_rate_v1', false);
+    if (res && res.value) setSpeechRate(parseFloat(res.value), false);
+  } catch(err){ /* no saved preference yet — keep the 0.85 default */ }
+}
+loadSpeechRatePref();
+
+render();
+loadProgress();
+</script>
+</body>
+</html>

@@ -1,0 +1,3278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>苏州话 · Suzhou Survival Phrases</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20211d;
+    --paper:#f3f1ea;
+    --paper-raised:#faf9f4;
+    --line:#d8d4c6;
+    --jade:#3f6659;
+    --jade-dim:#e4ece9;
+    --seal:#a8342a;
+    --seal-dim:#f2e1de;
+    --canal:#4a6473;
+    --canal-dim:#e6ebed;
+    --muted:#7a7666;
+    --tier1:#3f6659;
+    --tier2:#b2822e;
+    --tier3:#a8342a;
+
+    --c-pronoun:#4a5f7a;
+    --c-verb:#a8342a;
+    --c-noun:#3f6659;
+    --c-particle:#7b5ea7;
+    --c-question:#b2822e;
+    --c-measure:#2e7c8a;
+    --c-adjective:#8a7b3f;
+    --c-negation:#8c4a4a;
+    --c-aux:#b2622e;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .app{
+    max-width:560px;
+    margin:0 auto;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    background:var(--paper);
+    position:relative;
+  }
+  /* HEADER */
+  header{
+    padding:18px 16px 12px;
+    border-bottom:1px solid var(--line);
+    background:var(--paper);
+    position:sticky;
+    top:0;
+    z-index:20;
+  }
+  .brand{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .brand h1{
+    font-family:'Baloo 2',Georgia,"Songti SC","Noto Serif SC",serif;
+    font-size:24px;
+    font-weight:700;
+    margin:0;
+    letter-spacing:0.2px;
+  }
+  .brand .cn{
+    font-size:14px;
+    color:var(--muted);
+    font-weight:400;
+    margin-left:8px;
+  }
+  .legend-btn{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--muted);
+    border-radius:14px;
+    font-size:12px;
+    padding:5px 10px;
+    cursor:pointer;
+  }
+  .header-btns{display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+  .pron-toggle-btn{
+    background:none;
+    border:1px solid var(--line);
+    color:var(--muted);
+    border-radius:14px;
+    font-size:12px;
+    padding:5px 10px;
+    cursor:pointer;
+  }
+  .pron-toggle-btn.active{
+    background:var(--canal);
+    border-color:var(--canal);
+    color:#fff;
+  }
+  .speed-control{display:flex;border:1px solid var(--line);border-radius:14px;overflow:hidden;}
+  .speed-btn{background:none;border:none;border-right:1px solid var(--line);color:var(--muted);
+    font-size:11.5px;padding:5px 9px;cursor:pointer;}
+  .speed-btn:last-child{border-right:none;}
+  .speed-btn.active{background:var(--jade);color:#fff;}
+  .pron-box{
+    margin-top:8px;
+    background:var(--canal-dim);
+    border-left:3px solid var(--canal);
+    border-radius:8px;
+    padding:8px 10px;
+  }
+  .pron-sounds-like{
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--seal);
+    margin-bottom:4px;
+  }
+  .pron-tones{
+    font-size:12px;
+    font-weight:600;
+    color:var(--canal);
+    margin-bottom:4px;
+  }
+  .pron-tip{
+    font-size:11.5px;
+    color:var(--ink);
+    line-height:1.5;
+    margin-top:2px;
+  }
+  .searchbar{
+    display:flex;
+    align-items:center;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:8px 12px;
+  }
+  .searchbar input{
+    border:none;
+    background:none;
+    outline:none;
+    flex:1;
+    font-size:15px;
+    color:var(--ink);
+    font-family:inherit;
+  }
+  .searchbar input::placeholder{color:var(--muted);}
+  .searchbar svg{margin-right:8px;flex-shrink:0;}
+
+  .breadcrumb-row{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:10px 16px 0;
+  }
+  .back-btn{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:26px;height:26px;
+    flex-shrink:0;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:8px;
+    color:var(--jade);
+    cursor:pointer;
+    padding:0;
+  }
+  .back-btn:active{border-color:var(--jade);}
+  .back-btn.hidden{visibility:hidden;}
+  .breadcrumb{
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:4px;
+    font-size:13px;
+    color:var(--muted);
+    flex:1;
+    min-width:0;
+  }
+  .breadcrumb .crumb{
+    cursor:pointer;
+    color:var(--jade);
+  }
+  .breadcrumb .crumb.current{
+    color:var(--muted);
+    cursor:default;
+  }
+  .breadcrumb .sep{color:var(--line);}
+
+  .section-subhead{
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--muted);
+    background:var(--jade-dim);
+    border-radius:6px;
+    padding:6px 10px;
+    margin:16px 0 8px;
+  }
+  .section-subhead:first-child{margin-top:0;}
+  .group-badge{
+    font-size:10px;
+    color:var(--jade);
+    background:var(--jade-dim);
+    border-radius:20px;
+    padding:2px 8px;
+    margin-left:6px;
+  }
+
+  /* TEACHING CARD (Sentence Patterns) */
+  .teaching-card{
+    background:var(--jade-dim);
+    border:1px solid var(--jade);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:14px;
+  }
+  .teaching-title{
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+    color:var(--jade);
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  .teaching-overview{
+    font-size:14px;
+    line-height:1.55;
+    color:var(--ink);
+    margin:0 0 12px;
+  }
+  .keyword-list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .keyword-item{
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    background:var(--paper-raised);
+    border-radius:8px;
+    padding:8px 10px;
+  }
+  .keyword-item .kw-hanzi{
+    font-size:18px;
+    font-family:"PingFang SC","Noto Sans SC",sans-serif;
+    color:var(--jade);
+    flex-shrink:0;
+  }
+  .keyword-item .kw-pinyin{
+    font-size:12px;
+    color:var(--muted);
+    flex-shrink:0;
+  }
+  .keyword-item .kw-meaning{
+    font-size:12.5px;
+    color:var(--ink);
+  }
+
+  /* CATEGORY HEADER ROW (label + flashcard button) */
+  .cat-header-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:18px 0 8px;
+  }
+  .cat-header-row .section-label{margin:0;}
+  .flash-trigger{
+    font-size:12px;
+    color:var(--jade);
+    background:var(--jade-dim);
+    border:1px solid var(--jade);
+    border-radius:20px;
+    padding:5px 12px;
+    cursor:pointer;
+  }
+
+  /* FLASHCARD OVERLAY */
+  .flash-overlay{
+    position:fixed;
+    inset:0;
+    background:var(--paper);
+    display:none;
+    flex-direction:column;
+    z-index:60;
+  }
+  .flash-overlay.show{display:flex;}
+  .flash-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .flash-close{
+    background:none;border:none;
+    font-size:22px;color:var(--muted);
+    cursor:pointer;line-height:1;
+    padding:4px 8px;
+  }
+  .flash-progress{font-size:13px;color:var(--muted);}
+  .flash-dir-toggle{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12px;
+    color:var(--muted);
+  }
+  .flash-dir-toggle button{
+    font-size:11.5px;
+    padding:4px 9px;
+    border-radius:14px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--muted);
+    cursor:pointer;
+  }
+  .flash-dir-toggle button.active{
+    background:var(--jade);
+    color:#fff;
+    border-color:var(--jade);
+  }
+  .flash-body{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .flash-card{
+    width:100%;
+    max-width:400px;
+    min-height:220px;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:28px 22px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    gap:10px;
+    cursor:pointer;
+    box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  }
+  .flash-card .fc-main{
+    font-size:22px;
+    font-weight:600;
+    color:var(--ink);
+  }
+  .flash-card .fc-main.cn{
+    font-size:30px;
+    font-family:"PingFang SC","Noto Sans SC",sans-serif;
+  }
+  .flash-card .fc-sub{
+    font-size:14px;
+    color:var(--muted);
+  }
+  .flash-hint{
+    font-size:11.5px;
+    color:var(--muted);
+    font-style:italic;
+    margin-top:14px;
+  }
+  .fc-audio-btn{
+    margin-top:12px;
+    width:44px;height:44px;
+    border-radius:50%;
+    border:none;
+    background:var(--seal);
+    color:#fff;
+    font-size:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+  }
+  .fc-audio-btn:active{transform:scale(0.94);}
+  .flash-nav{
+    display:flex;
+    gap:10px;
+    padding:16px;
+    border-top:1px solid var(--line);
+  }
+  .flash-nav button{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--ink);
+    font-size:14px;
+    cursor:pointer;
+  }
+  .flash-nav button.primary{
+    background:var(--jade);
+    color:#fff;
+    border-color:var(--jade);
+  }
+
+  /* NOTES / INBOX PAGE */
+  .notes-intro{
+    font-size:13px;
+    color:var(--muted);
+    line-height:1.5;
+    margin:0 0 14px;
+  }
+  .notes-input-row{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .notes-input-row textarea{
+    width:100%;
+    min-height:64px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:10px 12px;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    background:var(--paper-raised);
+    resize:vertical;
+  }
+  .notes-actions{
+    display:flex;
+    gap:8px;
+  }
+  .notes-actions button{
+    flex:1;
+    padding:10px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    font-size:13.5px;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .notes-actions button.primary{
+    background:var(--jade);
+    color:#fff;
+    border-color:var(--jade);
+  }
+  .note-item{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:10px 12px;
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .note-item .note-text{
+    font-size:14px;
+    color:var(--ink);
+    white-space:pre-wrap;
+    flex:1;
+  }
+  .note-item .note-date{
+    font-size:10.5px;
+    color:var(--muted);
+    margin-top:4px;
+  }
+  .note-item .note-del{
+    background:none;
+    border:none;
+    color:var(--seal);
+    font-size:16px;
+    cursor:pointer;
+    flex-shrink:0;
+    line-height:1;
+  }
+
+  main{
+    flex:1;
+    padding:14px 16px 90px;
+    overflow-y:auto;
+  }
+
+  /* CATEGORY GRID */
+  .section-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--muted);
+    margin:18px 0 8px;
+  }
+  .section-label:first-child{margin-top:2px;}
+
+  /* HOME STATS / DASHBOARD */
+  .stats-card{
+    background:var(--jade);
+    border-radius:16px;
+    padding:16px 18px;
+    margin:14px 0 4px;
+    color:#fff;
+  }
+  .stats-row{
+    display:flex;
+    gap:24px;
+  }
+  .stat-block{
+    display:flex;
+    flex-direction:column;
+  }
+  .stat-num{
+    font-family:'Baloo 2',sans-serif;
+    font-size:22px;
+    font-weight:700;
+    line-height:1.1;
+  }
+  .stat-label{
+    font-size:11px;
+    opacity:0.85;
+    margin-top:2px;
+  }
+  .continue-btn{
+    display:block;
+    width:100%;
+    margin-top:14px;
+    padding:11px 14px;
+    background:rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.35);
+    border-radius:10px;
+    color:#fff;
+    font-size:13.5px;
+    text-align:left;
+    cursor:pointer;
+  }
+  .continue-btn:active{background:rgba(255,255,255,0.25);}
+  .cat-card{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:8px;
+    cursor:pointer;
+    transition:border-color .15s ease;
+  }
+  .cat-card:active{border-color:var(--jade);}
+  .cat-card.disabled{
+    opacity:0.55;
+    cursor:default;
+  }
+  .cat-icon{
+    width:40px;height:40px;
+    border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;
+    background:var(--jade-dim);
+    color:var(--jade);
+    flex-shrink:0;
+  }
+  .cat-card.disabled .cat-icon{background:#ece9e0;color:var(--muted);}
+  .cat-body{flex:1;min-width:0;}
+  .cat-title{font-family:'Baloo 2',sans-serif;font-size:16.5px;font-weight:600;margin:0 0 2px;}
+  .cat-sub{font-size:12.5px;color:var(--muted);margin:0;}
+  .cat-count{
+    font-size:12px;
+    color:var(--muted);
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:3px 9px;
+    flex-shrink:0;
+  }
+  .soon-tag{
+    font-size:10.5px;
+    color:var(--seal);
+    background:var(--seal-dim);
+    border-radius:20px;
+    padding:3px 8px;
+    flex-shrink:0;
+  }
+  .chevron{color:var(--line);flex-shrink:0;}
+
+  /* PHRASE CARD */
+  .phrase-card{
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    margin-bottom:12px;
+  }
+  .phrase-en{
+    font-size:16.5px;
+    font-weight:600;
+    color:var(--ink);
+    margin:0 0 8px;
+  }
+  .phrase-row{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+  }
+  .phrase-cn{
+    font-size:24px;
+    line-height:1.5;
+    flex:1;
+    font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
+  }
+  .tok{
+    cursor:default;
+    border-bottom:2px solid transparent;
+    padding-bottom:1px;
+  }
+  .tok.swap{
+    cursor:pointer;
+    border-bottom:2px dashed currentColor;
+  }
+  .tok.swap:active{opacity:0.6;}
+
+  .seal-btn{
+    flex-shrink:0;
+    width:42px;height:42px;
+    border-radius:8px;
+    background:var(--seal);
+    color:#f3ece9;
+    border:none;
+    font-size:13px;
+    font-weight:600;
+    font-family:"PingFang SC","Noto Sans SC",sans-serif;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    box-shadow:0 1px 0 rgba(0,0,0,0.15) inset;
+  }
+  .seal-btn:active{transform:scale(0.94);}
+  .seal-btn.playing{background:var(--jade);}
+
+  .extend-btn{
+    flex-shrink:0;
+    width:42px;height:42px;
+    border-radius:8px;
+    background:var(--paper);
+    color:var(--jade);
+    border:1px solid var(--line);
+    font-size:16px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+  }
+  .extend-btn:active{transform:scale(0.94);}
+  .extend-btn.loading{opacity:0.5;pointer-events:none;}
+
+  .extend-panel{
+    margin-top:12px;
+    border-top:1px dashed var(--line);
+    padding-top:12px;
+  }
+  .extend-status{
+    font-size:12.5px;
+    color:var(--muted);
+    font-style:italic;
+  }
+  .extend-result{
+    background:var(--jade-dim);
+    border-radius:10px;
+    padding:12px;
+    margin-top:6px;
+  }
+  .extend-result .phrase-en{color:var(--jade);font-weight:600;}
+  .extend-note{
+    font-size:12px;
+    color:var(--ink);
+    margin-top:8px;
+    padding-top:8px;
+    border-top:1px solid var(--line);
+  }
+  .extend-actions{
+    display:flex;
+    gap:8px;
+    margin-top:10px;
+  }
+  .extend-actions button{
+    flex:1;
+    font-size:12.5px;
+    padding:8px;
+    border-radius:8px;
+    border:1px solid var(--line);
+    background:var(--paper-raised);
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .extend-actions button.save-btn{
+    background:var(--jade);
+    color:#fff;
+    border-color:var(--jade);
+  }
+  .extend-actions button.save-btn.saved{
+    background:var(--muted);
+    border-color:var(--muted);
+    pointer-events:none;
+  }
+  .extend-error{
+    font-size:12.5px;
+    color:var(--seal);
+  }
+  .extension-source{
+    font-size:11.5px;
+    color:var(--muted);
+    font-style:italic;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px solid var(--line);
+  }
+  .extension-delete{
+    font-size:11px;
+    color:var(--seal);
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    margin-top:6px;
+  }
+
+  .swap-hint{
+    font-size:11px;
+    color:var(--muted);
+    margin:6px 0 0;
+    font-style:italic;
+  }
+
+  .breakdown{
+    margin-top:12px;
+    border-top:1px solid var(--line);
+    padding-top:10px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .tok-chip{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:52px;
+    padding:6px 8px;
+    border-radius:8px;
+    background:var(--paper);
+    border:1px solid var(--line);
+  }
+  .tok-chip .h{
+    font-size:16px;
+    font-weight:600;
+  }
+  .tok-chip .p{
+    font-size:10.5px;
+    color:var(--muted);
+    margin-top:1px;
+  }
+  .tok-chip .g{
+    font-size:10px;
+    color:var(--ink);
+    margin-top:2px;
+    text-align:center;
+  }
+  .tok-chip .dot{
+    width:6px;height:6px;
+    border-radius:50%;
+    margin-top:3px;
+  }
+  .chip-audio-btn{
+    margin-top:5px;
+    background:none;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:2px 8px;
+    font-size:11px;
+    cursor:pointer;
+    color:var(--jade);
+  }
+  .chip-audio-btn:active{background:var(--jade-dim);}
+  .chip-audio-btn.playing{background:var(--jade);color:#fff;border-color:var(--jade);}
+  .tone-badge{
+    font-size:8.5px;
+    color:var(--canal);
+    background:var(--canal-dim);
+    border-radius:6px;
+    padding:1px 5px;
+    margin-top:4px;
+    white-space:nowrap;
+  }
+  .sounds-like{
+    font-size:9.5px;
+    color:var(--seal);
+    font-weight:700;
+    margin-top:3px;
+    white-space:nowrap;
+  }
+  .chip-info-btn{
+    margin-top:4px;
+    width:16px;height:16px;
+    border-radius:50%;
+    border:1px solid var(--canal);
+    color:var(--canal);
+    background:none;
+    font-size:9px;
+    line-height:1;
+    cursor:pointer;
+    padding:0;
+  }
+  .chip-tip{
+    font-size:10px;
+    color:var(--ink);
+    line-height:1.4;
+    margin-top:5px;
+    max-width:150px;
+    text-align:left;
+    background:var(--paper-raised);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:6px 7px;
+    display:none;
+  }
+  .chip-tip.show{display:block;}
+
+  .tags-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+    margin-top:12px;
+  }
+  .gram-pill{
+    font-size:11px;
+    padding:3px 9px;
+    border-radius:20px;
+    border:1px solid;
+    cursor:pointer;
+    background:none;
+  }
+  .gram-pill.t1{color:var(--tier1);border-color:var(--tier1);}
+  .gram-pill.t2{color:var(--tier2);border-color:var(--tier2);}
+  .gram-pill.t3{color:var(--tier3);border-color:var(--tier3);}
+
+  .gram-tip{
+    font-size:12.5px;
+    color:var(--ink);
+    background:var(--jade-dim);
+    border-radius:8px;
+    padding:8px 10px;
+    margin-top:8px;
+    display:none;
+  }
+  .gram-tip.show{display:block;}
+  .gram-tip b{color:var(--jade);}
+
+  .structure-box{background:var(--canal-dim);border-left:3px solid var(--canal);border-radius:8px;
+    padding:8px 11px;margin-top:12px;}
+  .structure-box .sb-label{font-size:9.5px;text-transform:uppercase;letter-spacing:0.6px;color:var(--canal);font-weight:800;margin-bottom:3px;}
+  .structure-box .sb-text{font-size:12.5px;color:var(--ink);line-height:1.5;}
+  .structure-box .sb-text b{color:var(--canal);}
+  .structure-box .sb-slot{font-weight:700;color:var(--jade);}
+
+  /* MODAL / LEGEND */
+  .overlay{
+    position:absolute;
+    inset:0;
+    background:rgba(20,20,17,0.45);
+    display:none;
+    align-items:flex-end;
+    z-index:50;
+  }
+  .overlay.show{display:flex;}
+  .sheet{
+    background:var(--paper-raised);
+    width:100%;
+    border-radius:16px 16px 0 0;
+    padding:20px 18px 28px;
+    max-height:75vh;
+    overflow-y:auto;
+  }
+  .sheet h3{margin:0 0 12px;font-family:Georgia,"Songti SC",serif;}
+  .legend-item{
+    display:flex;align-items:center;gap:10px;
+    padding:8px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .legend-item .dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+  .sheet-close{
+    display:block;
+    width:100%;
+    text-align:center;
+    margin-top:14px;
+    padding:10px;
+    background:var(--jade);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    font-size:14px;
+    cursor:pointer;
+  }
+
+  /* EMPTY / NO RESULTS */
+  .empty{
+    text-align:center;
+    color:var(--muted);
+    padding:40px 20px;
+    font-size:14px;
+  }
+
+  /* BOTTOM NAV */
+  nav.bottom{
+    position:sticky;
+    bottom:0;
+    background:var(--paper-raised);
+    border-top:1px solid var(--line);
+    display:flex;
+    padding:8px 0 max(8px, env(safe-area-inset-bottom));
+    z-index:20;
+  }
+  nav.bottom button{
+    flex:1;
+    background:none;
+    border:none;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    color:var(--muted);
+    font-size:10.5px;
+    cursor:pointer;
+    font-family:inherit;
+  }
+  nav.bottom button.active{color:var(--jade);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="brand">
+      <h1>Suzhou Survival <span class="cn">苏州生存手册</span></h1>
+      <div class="header-btns">
+        <button class="pron-toggle-btn" id="pronToggleBtn">🗣️ Pronunciation</button>
+        <div class="speed-control" id="speedControl">
+          <button class="speed-btn" data-rate="0.6">🐢 Slow</button>
+          <button class="speed-btn active" data-rate="0.85">▶ Normal</button>
+          <button class="speed-btn" data-rate="1.1">⏩ Fast</button>
+        </div>
+        <button class="legend-btn" id="legendBtn">Color key</button>
+      </div>
+    </div>
+    <div class="searchbar">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7a7666" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="searchInput" type="text" placeholder="Search English, pinyin, or 汉字...">
+    </div>
+  </header>
+
+  <div class="breadcrumb-row">
+    <button class="back-btn" id="backBtn" title="Back">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="breadcrumb" id="breadcrumb"></div>
+  </div>
+
+  <main id="main"></main>
+
+  <nav class="bottom">
+    <button id="navHome" class="active">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Situations
+    </button>
+    <button id="navSearch">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
+  </nav>
+
+  <div class="overlay" id="overlay">
+    <div class="sheet" id="sheetContent"></div>
+  </div>
+
+  <div class="flash-overlay" id="flashOverlay">
+    <div class="flash-top">
+      <button class="flash-close" id="flashClose">&times;</button>
+      <span class="flash-progress" id="flashProgress"></span>
+      <div class="flash-dir-toggle">
+        <button id="flashDirZh">中文 first</button>
+        <button id="flashDirEn">English first</button>
+      </div>
+    </div>
+    <div class="flash-body">
+      <div class="flash-card" id="flashCard"></div>
+    </div>
+    <div class="flash-nav">
+      <button id="flashPrev">‹ Prev</button>
+      <button id="flashPrimary" class="primary">Flip</button>
+      <button id="flashNext">Next ›</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ============ ROLE COLORS ============
+const ROLES = {
+  pronoun:   {color:'var(--c-pronoun)',   label:'Pronoun (I / you / he...)'},
+  verb:      {color:'var(--c-verb)',      label:'Verb'},
+  noun:      {color:'var(--c-noun)',      label:'Noun / object'},
+  particle:  {color:'var(--c-particle)',  label:'Particle / grammar word'},
+  question:  {color:'var(--c-question)',  label:'Question word'},
+  measure:   {color:'var(--c-measure)',   label:'Number / measure word'},
+  adjective: {color:'var(--c-adjective)', label:'Adjective'},
+  negation:  {color:'var(--c-negation)',  label:'Negation'},
+  aux:       {color:'var(--c-aux)',       label:'Auxiliary verb (want/can/will)'}
+};
+
+// ============ GRAMMAR QUICK REFERENCE ============
+// Sourced directly from the 'Grammar' sheet of chinese_learning_tracker.xlsx — IDs, tiers, and titles match that workbook exactly.
+const GRAMMAR = {
+  1: {tier:1, title:'Basic Sentence Order (SVO)', structure:'Subject + Verb + Object', example:'他吃饭', examplePinyin:'Tā chī fàn', exampleEn:'He eats food.', tip:'No articles (a/an/the) in Chinese.'},
+  2: {tier:1, title:'Negation with 不/没', structure:'Subject + 不/没 + Verb', example:'他不是学生', examplePinyin:'Tā bú shì xuéshēng', exampleEn:'He is not a student.', tip:'不 for general negation; 没 only negates 有 (to have).'},
+  3: {tier:1, title:'Simple Adjectives (很)', structure:'Subject + 很 + Adjective', example:'她很好看', examplePinyin:'Tā hěn hǎokàn', exampleEn:'She is good-looking.', tip:'是 is NOT used to link subject+adjective. 很 here is often neutral, not \'very\'.'},
+  4: {tier:2, title:'Adjectives with 的', structure:'Adjective + 的 + Noun', example:'聪明的学生', examplePinyin:'Cōngmíng de xuéshēng', exampleEn:'Smart student(s)', tip:'的 dropped for common fixed phrases (小杯子).'},
+  5: {tier:3, title:'Plurals', structure:'(no change to noun; context implies plural)', example:'他是学生 / 他们是学生', examplePinyin:'Tā shì xuéshēng / Tāmen shì xuéshēng', exampleEn:'He is a student. / They are students.', tip:'们 only for pronouns/people words, never with a number.'},
+  6: {tier:3, title:'Colors', structure:'Color + 色 (as noun); Color + 的 + Noun (as adjective)', example:'蓝色的汽车', examplePinyin:'Lánsè de qìchē', exampleEn:'Blue car', tip:'色/的 often dropped in fixed terms e.g. 红苹果.'},
+  7: {tier:2, title:'Possessions with 的', structure:'Owner + 的 + Noun', example:'你的车', examplePinyin:'Nǐ de chē', exampleEn:'Your car', tip:'的 dropped for family/close institutions: 我妈妈, not 我的妈妈.'},
+  8: {tier:1, title:'Auxiliary Verbs (想/要/会)', structure:'Subject + Aux Verb + Verb + Object', example:'我想说中文', examplePinyin:'Wǒ xiǎng shuō Zhōngwén', exampleEn:'I want to speak Chinese.', tip:'想=want/wish, 要=want/will/should, 会=capable of/will.'},
+  9: {tier:2, title:'Expressing \'and\' with 和', structure:'Noun + 和 + Noun', example:'兔子喜欢萝卜和生菜', examplePinyin:'Tùzi xǐhuan luóbo hé shēngcài', exampleEn:'Rabbits like carrots and lettuce.', tip:'和 links nouns only, not clauses or verbs.'},
+  10: {tier:1, title:'Basic Numbers (0-99)', structure:'Tens digit + 十 + ones digit', example:'三十八', examplePinyin:'Sānshíbā', exampleEn:'38', tip:'11-19 = 十 + digit; 20/30... = digit + 十.'},
+  11: {tier:1, title:'Quantity & Measure Words', structure:'Number + Measure Word + Noun', example:'一个问题', examplePinyin:'Yí gè wèntí', exampleEn:'One question', tip:'个 is the universal fallback measure word.'},
+  12: {tier:1, title:'\'This\' and \'That\' (这个/那个)', structure:'这/那 + 个 + (Noun)', example:'我要这个', examplePinyin:'Wǒ yào zhège', exampleEn:'I want this one.', tip:'Essential for pointing at menus/products.'},
+  13: {tier:3, title:'Large Numbers (100-100M)', structure:'Number + 百/千/万/亿', example:'两千五百', examplePinyin:'Liǎngqiān wǔbǎi', exampleEn:'2,500', tip:'Chinese base unit is 10,000 (万), not 1,000.'},
+  14: {tier:2, title:'Days of the Week', structure:'星期 + number (1-6); Sunday = 星期天/日', example:'星期三', examplePinyin:'Xīngqīsān', exampleEn:'Wednesday', tip:'礼拜 and 周 are alternate words for \'week\'.'},
+  15: {tier:2, title:'Time', structure:'Hour + 点 + Minute + 分', example:'七点半', examplePinyin:'Qī diǎn bàn', exampleEn:'7:30', tip:'半 = half; 分 often dropped in speech.'},
+  16: {tier:3, title:'Duration of Time', structure:'Number + (个) + Time Unit', example:'两个小时', examplePinyin:'Liǎng gè xiǎoshí', exampleEn:'Two hours', tip:'个 usage varies by unit — must memorize per unit.'},
+  17: {tier:1, title:'Basic Questions with 吗', structure:'Statement + 吗？', example:'你要去超市吗？', examplePinyin:'Nǐ yào qù chāoshì ma?', exampleEn:'Do you want to go to the supermarket?', tip:'Turns any statement into yes/no question; nothing else moves.'},
+  18: {tier:1, title:'Yes/No Questions with 不 (A-not-A)', structure:'Verb/Adj + 不 + Verb/Adj', example:'你去不去？', examplePinyin:'Nǐ qù bu qù?', exampleEn:'Are you going (or not)?', tip:'有 negates with 没: 有没有?'},
+  19: {tier:2, title:'Time Words/Phrases', structure:'(Time) + Subject + (Time) + Verb + Object', example:'我明天去商场', examplePinyin:'Wǒ míngtiān qù shāngchǎng', exampleEn:'I will go to the store tomorrow.', tip:'No verb tense — time is shown by time words only.'},
+  20: {tier:2, title:'Past Actions with 了', structure:'Verb + 了', example:'我去了商场', examplePinyin:'Wǒ qù le shāngchǎng', exampleEn:'I went to the store.', tip:'Marks completion, NOT past tense — can appear in future sentences too.'},
+  21: {tier:2, title:'Past Experiences with 过', structure:'Verb + 过', example:'我去过', examplePinyin:'Wǒ qù guo', exampleEn:'I\'ve been there.', tip:'Marks lifetime experience, not just \'past\'.'},
+  22: {tier:2, title:'Negative Past Actions with 没(有)', structure:'没(有) + Verb', example:'我没看过', examplePinyin:'Wǒ méi kàn guo', exampleEn:'I have not seen (it).', tip:'ALL verbs use 没(有) to negate the past, not just 有.'},
+  23: {tier:1, title:'Future Actions with 要/会', structure:'Subject + 要/会 + Verb', example:'你一定会成功', examplePinyin:'Nǐ yídìng huì chénggōng', exampleEn:'You will definitely succeed.', tip:'要=intention/plan; 会=likelihood/certainty.'},
+  24: {tier:1, title:'Location (在)', structure:'Subject + 在 + Place (as verb); or 在+Place before main verb', example:'我在家', examplePinyin:'Wǒ zài jiā', exampleEn:'I am at home.', tip:'在-phrase goes before the verb, unlike English.'},
+  25: {tier:2, title:'Action in Progress with 在', structure:'在 + Verb (like \'-ing\')', example:'你在上班吗？', examplePinyin:'Nǐ zài shàngbān ma?', exampleEn:'Are you working?', tip:'正在 emphasizes \'right now\'.'},
+  26: {tier:1, title:'Who? What? Where? Which?', structure:'Question word replaces the answer\'s position', example:'她是谁？', examplePinyin:'Tā shì shéi?', exampleEn:'Who is she?', tip:'谁/什么/哪里/哪儿/哪个 — word order doesn\'t change.'},
+  27: {tier:1, title:'Why? How?', structure:'为什么 (why, after subject); 怎么 (how, before verb)', example:'你为什么想去日本？', examplePinyin:'Nǐ wèishénme xiǎng qù Rìběn?', exampleEn:'Why do you want to go to Japan?', tip:'因为 = \'because\', starts the answer.'},
+  28: {tier:2, title:'\'All\' and \'Also\' (都/也)', structure:'Subject + 都/也 + Verb/Adj', example:'我们都喜欢吃西瓜', examplePinyin:'Wǒmen dōu xǐhuan chī xīguā', exampleEn:'We all like watermelon.', tip:'都 = all/both; 也 = also/too.'},
+  29: {tier:1, title:'Ability, Possibility, Permission (能/可以)', structure:'Subject + 能/可以 + Verb', example:'我可以请个假吗？', examplePinyin:'Wǒ kěyǐ qǐng gè jià ma?', exampleEn:'Can I take a day off?', tip:'能=ability/possibility; 可以=possibility/permission.'},
+  30: {tier:1, title:'Commands', structure:'Verb (+ Object), optionally + 请 before', example:'请进来', examplePinyin:'Qǐng jìnlái', exampleEn:'Please come in.', tip:'请 softens any command into a polite request.'},
+  31: {tier:2, title:'Negative Commands', structure:'不要/别 + Verb', example:'别说谎', examplePinyin:'Bié shuōhuǎng', exampleEn:'Don\'t tell lies.', tip:'不要 and 别 are interchangeable.'},
+  32: {tier:2, title:'Suggestions (吧)', structure:'Statement + 吧', example:'咱们一起逛街吧', examplePinyin:'Zánmen yìqǐ guàngjiē ba', exampleEn:'Let\'s go shopping together!', tip:'咱们=we (incl. listener); 我们=we (may exclude listener).'},
+  33: {tier:2, title:'Asking About Choices (还是)', structure:'Option A + 还是 + Option B？', example:'你要冰水还是热水？', examplePinyin:'Nǐ yào bīngshuǐ háishi rèshuǐ?', exampleEn:'Do you want ice water or hot water?', tip:'还是 is question-only; use 或者 for statements.'},
+  34: {tier:3, title:'Verb + Complement (得)', structure:'Verb + 得 + (很) + Adjective', example:'你做得很好', examplePinyin:'Nǐ zuò de hěn hǎo', exampleEn:'You did a great job.', tip:'得 links a verb to a result/degree complement.'},
+  35: {tier:3, title:'Adverbs with 地', structure:'Adjective + 地 + Verb', example:'乌龟慢慢地爬', examplePinyin:'Wūguī mànmàn de pá', exampleEn:'Turtles crawl slowly.', tip:'地 = the Chinese \'-ly\'; single-character adjectives often double.'},
+  36: {tier:3, title:'\'More\' and \'Most\' (更/最)', structure:'更/最 + Adjective', example:'我最喜欢猫', examplePinyin:'Wǒ zuì xǐhuan māo', exampleEn:'Cats are my favorite.', tip:'Can precede certain mental-state verbs too (爱/恨/希望).'},
+  37: {tier:3, title:'Extremes with 太', structure:'太 + Adjective + 了', example:'这个太可爱了！', examplePinyin:'Zhège tài kě\'ài le!', exampleEn:'This is so cute!', tip:'太 = \'too\' or \'so\', always paired with 了 in this pattern.'},
+  38: {tier:2, title:'Questions with 呢', structure:'Noun/Pronoun + 呢', example:'你呢？', examplePinyin:'Nǐ ne?', exampleEn:'What about you?', tip:'Also asks \'where is X?\' when something is obviously missing.'},
+  39: {tier:3, title:'Tag Questions', structure:'Statement + 对吗/是吗/好吗', example:'你说你是医生，对吗？', examplePinyin:'Nǐ shuō nǐ shì yīshēng, duì ma?', exampleEn:'You said you\'re a doctor, right?', tip:'对不对/是不是/好不好 are more direct/blunt versions.'},
+  40: {tier:2, title:'Age', structure:'Number + 岁 (+了)', example:'我27岁了', examplePinyin:'Wǒ èrshíqī suì le', exampleEn:'I am 27 years old.', tip:'了 implies \'have turned\' — a change of state.'},
+  41: {tier:3, title:'Date', structure:'Year (digit by digit) + 年 + Month + 月 + Day + 号/日', example:'二零二四年十月十八号', examplePinyin:'Èr líng èr sì nián shí yuè shíbā hào', exampleEn:'October 18th, 2024', tip:'Year read digit-by-digit, not as a whole number; year comes first.'},
+};
+
+// ============ SENTENCE STRUCTURE (computed, not hand-authored — scales to every phrase) ============
+// Fixed greetings/expressions are best learned whole rather than mechanically decomposed.
+const FIXED_PHRASES = new Set([
+  '你好','您好','谢谢','谢谢你','不客气','再见','对不起','没关系','早上好','晚安',
+  '很高兴认识你','不好意思','慢走','没事','麻烦你了','辛苦了','一路平安','慢用','请慢用',
+  '打扰了','借过','没问题','好的','好吧','是的','当然'
+]);
+
+function hasVerbOrAux(toks){
+  return toks.some(t => t.role === 'verb' || t.role === 'aux');
+}
+
+function tagToken(t, seenVerbRef, prevHanzi, phraseHasVerb, seenSubjectRef){
+  if (t.hanzi === '很') return null; // just the required 很+adj linker — already named by the pattern prefix
+  if (prevHanzi === '在' && (t.role === 'pronoun' || t.role === 'noun')) return 'place';
+  switch (t.role){
+    case 'pronoun':
+    case 'noun':
+      if (seenVerbRef.v) return 'O';
+      if (!phraseHasVerb && seenSubjectRef.v) return 'complement';
+      seenSubjectRef.v = true;
+      return 'S';
+    case 'verb':
+      seenVerbRef.v = true;
+      return 'V';
+    case 'aux':
+      seenVerbRef.v = true;
+      return 'Aux';
+    case 'adjective':
+      return seenVerbRef.v ? 'Adj' : 'Adj (predicate)';
+    case 'question':
+      return 'question word';
+    case 'measure':
+      return 'measure word';
+    case 'negation':
+      return 'negation';
+    case 'particle':
+      if (t.hanzi === '吗') return 'turns it into a question';
+      if (t.hanzi === '呢') return 'follow-up particle';
+      if (t.hanzi === '了') return 'completion particle';
+      if (t.hanzi === '过') return 'experience particle';
+      if (['的','地','得'].includes(t.hanzi)) return 'linking particle';
+      if (t.hanzi === '在') return null; // handled contextually, skip generic tag
+      return 'particle';
+    default:
+      return null;
+  }
+}
+
+// toks here should be the CURRENTLY DISPLAYED tokens (after swap resolution) — role never
+// changes when a word is swapped, only the hanzi, so the tags stay correct automatically.
+function describeStructure(toks, grammarIds){
+  if (toks.length <= 1) return null; // nothing structural to explain about a single word
+  const hanziJoined = toks.map(t=>t.hanzi).join('');
+  if (FIXED_PHRASES.has(hanziJoined)){
+    return 'Fixed phrase — best learned as one chunk rather than decomposed into Subject-Verb-Object.';
+  }
+  const seenVerbRef = {v:false};
+  const seenSubjectRef = {v:false};
+  const phraseHasVerb = hasVerbOrAux(toks);
+  const raw = [];
+  let prevHanzi = null;
+  toks.forEach(t => {
+    const tag = tagToken(t, seenVerbRef, prevHanzi, phraseHasVerb, seenSubjectRef);
+    if (tag) raw.push({hanzi:t.hanzi, tag});
+    prevHanzi = t.hanzi;
+  });
+  const merged = [];
+  raw.forEach(item => {
+    const last = merged[merged.length-1];
+    if (last && last.tag === item.tag){
+      last.hanzi += item.hanzi;
+    } else {
+      merged.push({...item});
+    }
+  });
+  const parts = merged.map(m => `${m.hanzi}(${m.tag})`);
+  if (parts.length <= 1) return null;
+  let patternLabel = '';
+  if (grammarIds && grammarIds.length && GRAMMAR[grammarIds[0]]){
+    patternLabel = GRAMMAR[grammarIds[0]].structure + ' — ';
+  }
+  return patternLabel + parts.join(' + ');
+}
+
+function tok(hanzi, pinyin, gloss, role, swap){
+  return {hanzi, pinyin, gloss, role, swap};
+}
+
+// ============ PRONUNCIATION GUIDE ENGINE ============
+function stripTonesAndGetTones(pinyinRaw){
+  const toneMap = {
+    'ā':['a',1],'á':['a',2],'ǎ':['a',3],'à':['a',4],
+    'ē':['e',1],'é':['e',2],'ě':['e',3],'è':['e',4],
+    'ī':['i',1],'í':['i',2],'ǐ':['i',3],'ì':['i',4],
+    'ō':['o',1],'ó':['o',2],'ǒ':['o',3],'ò':['o',4],
+    'ū':['u',1],'ú':['u',2],'ǔ':['u',3],'ù':['u',4],
+    'ǖ':['ü',1],'ǘ':['ü',2],'ǚ':['ü',3],'ǜ':['ü',4]
+  };
+  let plain = '';
+  const tones = [];
+  for (const ch of pinyinRaw){
+    if (toneMap[ch]){
+      plain += toneMap[ch][0];
+      tones.push(toneMap[ch][1]);
+    } else if (/[a-züA-ZÜ]/.test(ch)){
+      plain += ch.toLowerCase();
+    }
+  }
+  return {plain, tones};
+}
+
+// ============ PINYIN -> ENGLISH-SOUNDS-LIKE APPROXIMATION ============
+const PY_INITIALS = ['zh','ch','sh','b','p','m','f','d','t','n','l','g','k','h','j','q','x','r','z','c','s','y','w'];
+const PY_FINALS = [
+  'iang','iong','uang','ueng',
+  'ian','iao','uai','uan','ing','ong','ang','eng',
+  'ai','ei','ao','ou','an','en','er','ia','ie','iu','ua','uo','ui','ue','ve','un','in',
+  'a','o','e','i','u','v','n','ng'
+];
+function splitPySyllables(word){
+  const syllables = [];
+  let i = 0;
+  while (i < word.length){
+    let matched = false;
+    for (const init of PY_INITIALS){
+      if (word.startsWith(init, i)){
+        for (const fin of PY_FINALS){
+          if (fin.length && word.startsWith(fin, i + init.length)){
+            syllables.push(init + fin);
+            i += init.length + fin.length;
+            matched = true;
+            break;
+          }
+        }
+        if (matched) break;
+      }
+    }
+    if (matched) continue;
+    for (const fin of PY_FINALS){
+      if (fin.length && word.startsWith(fin, i)){
+        syllables.push(fin);
+        i += fin.length;
+        matched = true;
+        break;
+      }
+    }
+    if (matched) continue;
+    syllables.push(word[i]);
+    i += 1;
+  }
+  return syllables;
+}
+const PY_INITIAL_SOUND = {
+  '':'', 'b':'b','p':'p','m':'m','f':'f','d':'d','t':'t','n':'n','l':'l',
+  'g':'g','k':'k','h':'h','j':'j','q':'ch','x':'sh',
+  'zh':'j','ch':'ch','sh':'sh','r':'r','z':'dz','c':'ts','s':'s','y':'y','w':'w'
+};
+const PY_FINAL_SOUND = {
+  'a':'ah','o':'aw','e':'uh','i':'ee','u':'oo','v':'ü','n':'n','ng':'ng',
+  'ai':'eye','ei':'ay','ao':'ow','ou':'oh','an':'ahn','en':'un','er':'are',
+  'ia':'yah','ie':'yeh','iu':'yo','ua':'wah','uo':'waw','ui':'way','ue':'yweh','ve':'yweh',
+  'un':'wun','in':'een',
+  'ang':'ahng','eng':'ung',
+  'ian':'yen','iao':'yow','uai':'why','uan':'wahn','ing':'ing','ong':'oong',
+  'iang':'yahng','iong':'yoong','uang':'wahng','ueng':'wung'
+};
+const PY_SYLLABLE_OVERRIDES = {
+  'zhi':'jr', 'chi':'chr', 'shi':'shr', 'ri':'rr',
+  'zi':'dzuh', 'ci':'tsuh', 'si':'suh',
+  'yi':'ee', 'wu':'woo', 'yu':'yew',
+  'er':'are', 'e':'uh', 'a':'ah', 'o':'aw',
+  'yan':'yen', 'yang':'yahng', 'ye':'yeh', 'yao':'yow', 'you':'yo',
+  'ying':'ing', 'yong':'yoong', 'yin':'een', 'yue':'yweh', 'yuan':'ywen', 'yun':'ywun',
+  'wa':'wah', 'wo':'waw', 'wai':'why', 'wei':'way', 'wan':'wahn', 'wang':'wahng', 'wen':'wun', 'weng':'wung'
+};
+function pySyllableToEnglish(syl){
+  if (PY_SYLLABLE_OVERRIDES[syl] !== undefined) return PY_SYLLABLE_OVERRIDES[syl];
+  for (const init of PY_INITIALS){
+    if (syl.startsWith(init) && init.length){
+      const rest = syl.slice(init.length);
+      if (PY_FINAL_SOUND[rest] !== undefined){
+        let initSound = PY_INITIAL_SOUND[init];
+        let finalSound = PY_FINAL_SOUND[rest];
+        if (['j','q','x'].includes(init) && rest === 'u') finalSound = 'ü';
+        if (['j','q','x'].includes(init) && rest === 'un') finalSound = 'ün';
+        if (['j','q','x'].includes(init) && rest === 'uan') finalSound = 'wen';
+        return initSound + finalSound;
+      }
+    }
+  }
+  if (PY_FINAL_SOUND[syl] !== undefined) return PY_FINAL_SOUND[syl];
+  return syl;
+}
+// Embedded English proper nouns (Julien, Anna...) have no tone marks and start capitalized — skip these.
+function looksLikeEmbeddedEnglish(word){
+  return /^[A-Z]/.test(word) && !/[āáǎàēéěèīíǐìōóǒòūúǔùǖǘǚǜ]/.test(word);
+}
+function pinyinToEnglishApprox(pinyinRaw){
+  const rawWords = pinyinRaw.split(/[\s'’\-]+/).filter(Boolean);
+  const approxWords = rawWords.map(rw => {
+    if (looksLikeEmbeddedEnglish(rw)) return null;
+    const {plain} = stripTonesAndGetTones(rw);
+    if (!plain) return null;
+    const syls = splitPySyllables(plain);
+    return syls.map(pySyllableToEnglish).join('-');
+  });
+  if (approxWords.some(w => w === null)) return null;
+  return approxWords.join(' ');
+}
+
+function computeTips(pinyinText){
+  const {plain, tones} = stripTonesAndGetTones(pinyinText);
+  const tips = [];
+  const seen = new Set();
+  let working = plain;
+
+  [
+    ['zh',"zh — like the 'j' in judge, but tongue curled back (retroflex)."],
+    ['ch',"ch — like the 'ch' in church, but tongue curled back (retroflex)."],
+    ['sh',"sh — like English 'sh', but tongue curled back (retroflex)."]
+  ].forEach(([pat, tip]) => {
+    if (working.includes(pat)){ tips.push(tip); seen.add(tip); working = working.split(pat).join(''); }
+  });
+
+  [
+    ['q',"q — like 'ch' in 'cheese', but tongue tip down, front of the mouth — lighter than English ch."],
+    ['x',"x — a soft, hissy 'sh' made with a flat tongue near the front — not like English 'sh'."],
+    ['j',"j — like the 'j' in 'jeep', but tongue flat, front of the mouth."],
+    ['r',"r — between English 'r' and 'zh'; tongue curled back with a slight buzz, no lip rounding."],
+    ['c',"c — like the 'ts' in 'cats', with a puff of air."],
+    ['z',"z — like the 'ds' in 'kids', tongue flat against the back of the teeth."]
+  ].forEach(([pat, tip]) => {
+    if (working.includes(pat) && !seen.has(tip)){ tips.push(tip); seen.add(tip); }
+  });
+
+  [
+    ['ang',"ang — 'ah' plus a nasal ending; the tongue never touches the roof of the mouth."],
+    ['eng',"eng — like the 'ung' in 'sung'."],
+    ['ong',"ong — rounded lips, like 'oong'."],
+    ['ie',"ie — like the 'ye' in 'yes'."],
+    ['ui',"ui — like the word 'way'."],
+    ['iu',"iu — like the 'yo' in 'yo-yo'."],
+    ['er',"er — tongue curled back, like the 'ar' in American 'butter'."]
+  ].forEach(([pat, tip]) => {
+    if (plain.includes(pat) && !seen.has(tip)){ tips.push(tip); seen.add(tip); }
+  });
+
+  if (/[jqxy]u/.test(plain)){
+    const tip = "ü — round your lips as if saying 'oo', but say 'ee'; no English equivalent. (Written as plain u after j/q/x/y.)";
+    if (!seen.has(tip)){ tips.push(tip); seen.add(tip); }
+  }
+
+  if (['zhi','chi','shi','ri','zi','ci','si'].some(s => plain.includes(s))){
+    const tip = "i after zh/ch/sh/r/z/c/s isn't the 'ee' sound it is everywhere else — it's a buzzy, near-vowel-less continuation of the consonant, closer to \"-r\" or \"-zzz\" than \"-ee\". This is one of the sounds text-to-speech voices most often flatten out, so don't trust an \"ee\"-sounding rendering of 十/是/四/日 as fully accurate.";
+    tips.push(tip);
+  }
+
+  const toneShapes = {1:'flat & high',2:'rising',3:'dip then rise',4:'sharp fall'};
+  let toneSummary = '';
+  if (tones.length){
+    toneSummary = tones.map(t => t + (toneShapes[t] ? ' (' + toneShapes[t] + ')' : '')).join(' · ');
+  } else if (/[a-züAEIOU]/i.test(plain)){
+    toneSummary = 'neutral (light, no strong pitch)';
+  }
+  return {tips, toneSummary};
+}
+function renderPronunciationBox(pinyinText){
+  const {tips, toneSummary} = computeTips(pinyinText);
+  const soundsLike = pinyinToEnglishApprox(pinyinText);
+  if (!tips.length && !toneSummary && !soundsLike) return null;
+  const box = document.createElement('div');
+  box.className = 'pron-box';
+  let html = '';
+  if (soundsLike) html += `<div class="pron-sounds-like">🔤 Sounds like: <b>${soundsLike}</b></div>`;
+  if (toneSummary) html += `<div class="pron-tones">🎵 ${toneSummary}</div>`;
+  if (tips.length) html += tips.map(t => `<div class="pron-tip">${t}</div>`).join('');
+  box.innerHTML = html;
+  return box;
+}
+
+let chipTipCounter = 0;
+const toneShapeShort = {1:'flat & high',2:'rising',3:'dip, rise',4:'sharp fall'};
+// Appends a compact per-word tone badge, an English-sounds-like text, plus (only if there's
+// a real sound trap) a small tappable ⓘ that reveals a one-word tip.
+function appendChipPronunciation(chip, pinyinText){
+  const {tips, tones} = (() => {
+    const raw = computeTips(pinyinText);
+    const {tones: toneNums} = stripTonesAndGetTones(pinyinText);
+    return {tips: raw.tips, tones: toneNums};
+  })();
+  const soundsLike = pinyinToEnglishApprox(pinyinText);
+
+  if (tones.length){
+    const badge = document.createElement('span');
+    badge.className = 'tone-badge';
+    badge.textContent = tones.map(t => t + (toneShapeShort[t] ? ' · ' + toneShapeShort[t] : '')).join(' / ');
+    chip.appendChild(badge);
+  }
+
+  if (soundsLike){
+    const sl = document.createElement('span');
+    sl.className = 'sounds-like';
+    sl.textContent = '≈ ' + soundsLike;
+    chip.appendChild(sl);
+  }
+
+  if (tips.length){
+    chipTipCounter++;
+    const tipId = 'chiptip_' + chipTipCounter;
+    const infoBtn = document.createElement('button');
+    infoBtn.className = 'chip-info-btn';
+    infoBtn.textContent = 'ⓘ';
+    infoBtn.title = 'How to say this sound';
+    infoBtn.onclick = () => { document.getElementById(tipId).classList.toggle('show'); };
+    chip.appendChild(infoBtn);
+    const tipBox = document.createElement('div');
+    tipBox.className = 'chip-tip';
+    tipBox.id = tipId;
+    tipBox.innerHTML = tips.map(t => `<div>${t}</div>`).join('');
+    chip.appendChild(tipBox);
+  }
+}
+
+// ============ PHRASE DATA ============
+const DATA = {
+  greetings: {
+    name:'Greetings & Introductions', cn:'问候与自我介绍', icon:'🙋',
+    phrases:[
+      {en:'Hello.', grammar:[], toks:[
+        tok('你','nǐ','you','pronoun'), tok('好','hǎo','good','adjective')
+      ]},
+      {en:"My name is Julien.", grammar:[], toks:[
+        tok('我','wǒ','I','pronoun'), tok('叫','jiào','am called','verb'), tok('Julien','Julien','(name)','noun')
+      ]},
+      {en:"What's your name?", grammar:[26], toks:[
+        tok('你','nǐ','you','pronoun'), tok('叫','jiào','are called','verb'), tok('什么','shénme','what','question'), tok('名字','míngzi','name','noun')
+      ]},
+      {en:'Nice to meet you.', grammar:[3], toks:[
+        tok('很','hěn','very','particle'), tok('高兴','gāoxìng','happy','adjective'), tok('认识','rènshi','to meet','verb'), tok('你','nǐ','you','pronoun')
+      ]},
+      {en:"I'm French.", grammar:[], toks:[
+        tok('我','wǒ','I','pronoun'), tok('是','shì','am','verb'),
+        tok('法国人','Fǎguórén','French person','noun',[
+          {hanzi:'法国人',pinyin:'Fǎguórén',gloss:'French person'},
+          {hanzi:'美国人',pinyin:'Měiguórén',gloss:'American'},
+          {hanzi:'英国人',pinyin:'Yīngguórén',gloss:'British'},
+          {hanzi:'加拿大人',pinyin:'Jiānádàrén',gloss:'Canadian'}
+        ])
+      ]},
+      {en:'Goodbye.', grammar:[], toks:[
+        tok('再','zài','again','particle'), tok('见','jiàn','see','verb')
+      ]},
+      {en:'Good morning.', grammar:[], toks:[
+        tok('早上','zǎoshang','morning','noun'), tok('好','hǎo','good','adjective')
+      ]},
+      {en:'How are you?', grammar:[17], toks:[
+        tok('你','nǐ','you','pronoun'), tok('好','hǎo','good','adjective'), tok('吗','ma','?','particle')
+      ]},
+      {en:'See you later.', grammar:[], toks:[
+        tok('一会儿','yíhuìr','in a moment','particle'), tok('见','jiàn','see','verb')
+      ]},
+      {en:'Thank you.', grammar:[], toks:[
+        tok('谢谢','xièxie','thanks','verb')
+      ]},
+      {en:"You're welcome.", grammar:[], toks:[
+        tok('不客气','bú kèqi',"you're welcome",'particle')
+      ]}
+    ]
+  },
+  smalltalk: {
+    name:'Small Talk / Social', cn:'聊天', icon:'💬',
+    phrases:[
+      {en:'Where are you from?', grammar:[26], toks:[
+        tok('你','nǐ','you','pronoun'), tok('是','shì','are','verb'), tok('哪','nǎ','which','question'), tok('国','guó','country','noun'), tok('人','rén','person','noun')
+      ]},
+      {en:'Can you speak Chinese?', grammar:[8,17], toks:[
+        tok('你','nǐ','you','pronoun'), tok('会','huì','can','aux'), tok('说','shuō','speak','verb'), tok('中文','Zhōngwén','Chinese','noun'), tok('吗','ma','?','particle')
+      ]},
+      {en:"I'm learning Chinese.", grammar:[25], toks:[
+        tok('我','wǒ','I','pronoun'), tok('在','zài','-ing','particle'), tok('学','xué','learn','verb'), tok('中文','Zhōngwén','Chinese','noun')
+      ]},
+      {en:'What do you think?', grammar:[], toks:[
+        tok('你','nǐ','you','pronoun'), tok('觉得','juéde','feel/think','verb'), tok('怎么样','zěnmeyàng','how about it','question')
+      ]},
+      {en:'The weather is nice.', grammar:[3], toks:[
+        tok('天气','tiānqì','weather','noun'), tok('很','hěn','very','particle'),
+        tok('好','hǎo','good','adjective',[
+          {hanzi:'好',pinyin:'hǎo',gloss:'good'},
+          {hanzi:'热',pinyin:'rè',gloss:'hot'},
+          {hanzi:'冷',pinyin:'lěng',gloss:'cold'},
+          {hanzi:'不好',pinyin:'bù hǎo',gloss:'not good'}
+        ])
+      ]},
+      {en:'Where do you live?', grammar:[24,26], toks:[
+        tok('你','nǐ','you','pronoun'), tok('住','zhù','live','verb'), tok('在','zài','at','particle'), tok('哪里','nǎlǐ','where','question')
+      ]},
+      {en:'I live in Suzhou.', grammar:[24], toks:[
+        tok('我','wǒ','I','pronoun'), tok('住','zhù','live','verb'), tok('在','zài','at','particle'), tok('苏州','Sūzhōu','Suzhou','noun')
+      ]},
+      {en:'Have you eaten yet?', grammar:[20], toks:[
+        tok('你','nǐ','you','pronoun'), tok('吃','chī','eat','verb'), tok('了','le','(completed)','particle'), tok('吗','ma','?','particle')
+      ]},
+      {en:'What do you do for work?', grammar:[26], toks:[
+        tok('你','nǐ','you','pronoun'), tok('做','zuò','do','verb'), tok('什么','shénme','what','question'), tok('工作','gōngzuò','work','noun')
+      ]},
+      {en:'Where are you going?', grammar:[26], section:'Where are you going / been?', toks:[
+        tok('你','nǐ','you','pronoun'), tok('去','qù','go','verb'), tok('哪儿','nǎr','where','question')
+      ]},
+      {en:"I'm going to the supermarket.", grammar:[], section:'Where are you going / been?', toks:[
+        tok('我','wǒ','I','pronoun'), tok('去','qù','go','verb'),
+        tok('超市','chāoshì','supermarket','noun',[
+          {hanzi:'超市',pinyin:'chāoshì',gloss:'supermarket'},
+          {hanzi:'公司',pinyin:'gōngsī',gloss:'work / the office'},
+          {hanzi:'学校',pinyin:'xuéxiào',gloss:'school'},
+          {hanzi:'朋友家',pinyin:'péngyou jiā',gloss:"a friend's place"}
+        ])
+      ]},
+      {en:'Where have you been (just now)?', grammar:[20,26], section:'Where are you going / been?', toks:[
+        tok('你','nǐ','you','pronoun'), tok('刚才','gāngcái','just now','particle'), tok('去','qù','go','verb'), tok('哪儿','nǎr','where','question'), tok('了','le','(completed)','particle')
+      ]},
+      {en:'Have you ever been to Shanghai?', grammar:[21,17], section:'Where are you going / been?', toks:[
+        tok('你','nǐ','you','pronoun'), tok('去','qù','go','verb'), tok('过','guo','(ever)','particle'),
+        tok('上海','Shànghǎi','Shanghai','noun',[
+          {hanzi:'上海',pinyin:'Shànghǎi',gloss:'Shanghai'},
+          {hanzi:'北京',pinyin:'Běijīng',gloss:'Beijing'},
+          {hanzi:'杭州',pinyin:'Hángzhōu',gloss:'Hangzhou'}
+        ]),
+        tok('吗','ma','?','particle')
+      ]},
+      {en:'What do you like to eat?', grammar:[26], section:'Likes & preferences', toks:[
+        tok('你','nǐ','you','pronoun'), tok('喜欢','xǐhuan','like','verb'), tok('吃','chī','eat','verb'), tok('什么','shénme','what','question')
+      ]},
+      {en:'I like Chinese food.', grammar:[], section:'Likes & preferences', toks:[
+        tok('我','wǒ','I','pronoun'), tok('喜欢','xǐhuan','like','verb'), tok('中国菜','Zhōngguó cài','Chinese food','noun')
+      ]},
+      {en:"I don't like spicy food.", grammar:[2], section:'Likes & preferences', toks:[
+        tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('喜欢','xǐhuan','like','verb'), tok('辣','là','spicy','adjective'), tok('的','de','(thing that is)','particle')
+      ]}
+    ]
+  },
+  food: {
+    name:'Food & Restaurants', cn:'餐厅', icon:'🥢',
+    phrases:[
+      {en:'I want this one.', grammar:[8,12], toks:[
+        tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'),
+        tok('这个','zhège','this one','pronoun',[
+          {hanzi:'这个',pinyin:'zhège',gloss:'this one'},
+          {hanzi:'那个',pinyin:'nàge',gloss:'that one'},
+          {hanzi:'这两个',pinyin:'zhè liǎng gè',gloss:'these two'},
+          {hanzi:'多一点',pinyin:'duō yìdiǎn',gloss:'a bit more'}
+        ])
+      ]},
+      {en:'How much is this?', grammar:[26], toks:[
+        tok('这个','zhège','this','pronoun'), tok('多少','duōshǎo','how much','question'), tok('钱','qián','money','noun')
+      ]},
+      {en:'Not spicy, please.', grammar:[2], toks:[
+        tok('不要','búyào',"don't want",'negation'), tok('辣','là','spicy','adjective')
+      ]},
+      {en:'Check, please.', grammar:[], toks:[
+        tok('买单','mǎidān','pay the bill','verb')
+      ]},
+      {en:'Is it tasty?', grammar:[17], toks:[
+        tok('好吃','hǎochī','tasty','adjective'), tok('吗','ma','?','particle')
+      ]},
+      {en:"I don't eat spicy food.", grammar:[2], toks:[
+        tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('吃','chī','eat','verb'), tok('辣','là','spicy','adjective')
+      ]},
+      {en:'Menu, please.', grammar:[30], toks:[
+        tok('请','qǐng','please','verb'), tok('给','gěi','give','verb'), tok('我','wǒ','me','pronoun'), tok('菜单','càidān','menu','noun')
+      ]},
+      {en:'I want two of these.', grammar:[11,12], toks:[
+        tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('两','liǎng','two','measure'), tok('个','ge','(measure)','measure'), tok('这个','zhège','this','pronoun')
+      ]},
+      {en:'This is delicious!', grammar:[3], toks:[
+        tok('这个','zhège','this','pronoun'), tok('很','hěn','very','particle'), tok('好吃','hǎochī','tasty','adjective')
+      ]},
+      {en:'One more bowl of rice, please.', grammar:[11], toks:[
+        tok('再','zài','again/more','particle'), tok('来','lái','bring','verb'), tok('一','yī','one','measure'), tok('碗','wǎn','bowl','measure'), tok('米饭','mǐfàn','rice','noun')
+      ]},
+      {en:'Water, please.', grammar:[11], toks:[
+        tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('一','yī','one','measure'), tok('杯','bēi','cup/glass','measure'), tok('水','shuǐ','water','noun')
+      ]}
+    ]
+  },
+  transport: {
+    name:'Transport', cn:'交通', icon:'🚕',
+    phrases:[
+      {en:'Driver, please go here.', grammar:[30], toks:[
+        tok('师傅','shīfu','driver','noun'), tok('请','qǐng','please','verb'), tok('去','qù','go','verb'),
+        tok('这里','zhèlǐ','here','pronoun',[
+          {hanzi:'这里',pinyin:'zhèlǐ',gloss:'here'},
+          {hanzi:'机场',pinyin:'jīchǎng',gloss:'airport'},
+          {hanzi:'火车站',pinyin:'huǒchē zhàn',gloss:'train station'},
+          {hanzi:'市中心',pinyin:'shì zhōngxīn',gloss:'city center'}
+        ])
+      ]},
+      {en:'Have we arrived?', grammar:[20,17], toks:[
+        tok('到','dào','arrive','verb'), tok('了','le','(completed)','particle'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Can you stop here?', grammar:[29,17], toks:[
+        tok('可以','kěyǐ','can','aux'), tok('停','tíng','stop','verb'), tok('在','zài','at','particle'), tok('这里','zhèlǐ','here','pronoun'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Where is the subway station?', grammar:[24,26], toks:[
+        tok('地铁站','dìtiě zhàn','subway station','noun'), tok('在','zài','is at','verb'), tok('哪里','nǎlǐ','where','question')
+      ]},
+      {en:'How much to the airport?', grammar:[26], toks:[
+        tok('多少钱','duōshǎo qián','how much money','question'), tok('到','dào','to','verb'),
+        tok('机场','jīchǎng','airport','noun',[
+          {hanzi:'机场',pinyin:'jīchǎng',gloss:'airport'},
+          {hanzi:'火车站',pinyin:'huǒchē zhàn',gloss:'train station'},
+          {hanzi:'市中心',pinyin:'shì zhōngxīn',gloss:'city center'}
+        ])
+      ]},
+      {en:'Please turn on the meter.', grammar:[30], toks:[
+        tok('请','qǐng','please','verb'), tok('打表','dǎ biǎo','turn on the meter','verb')
+      ]},
+      {en:'How long will it take?', grammar:[26], toks:[
+        tok('要','yào','will take','aux'), tok('多久','duōjiǔ','how long','question')
+      ]},
+      {en:'I want to go to this address.', grammar:[8,12], toks:[
+        tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('去','qù','go','verb'), tok('这个','zhège','this','pronoun'), tok('地址','dìzhǐ','address','noun')
+      ]}
+    ]
+  },
+  money: {
+    name:'Numbers & Money', cn:'数字与价钱', icon:'💴',
+    phrases:[
+      {en:'Too expensive.', grammar:[37], toks:[
+        tok('太','tài','too','particle'), tok('贵','guì','expensive','adjective'), tok('了','le','(change)','particle')
+      ]},
+      {en:'Can it be a little cheaper?', grammar:[29,17], toks:[
+        tok('可以','kěyǐ','can','aux'), tok('便宜','piányi','cheap','adjective'), tok('一点','yìdiǎn','a little','measure'), tok('吗','ma','?','particle')
+      ]},
+      {en:'How much in total?', grammar:[], toks:[
+        tok('一共','yígòng','in total','particle'), tok('多少','duōshǎo','how much','question'), tok('钱','qián','money','noun')
+      ]},
+      {en:'How much per jin (500g)?', grammar:[], toks:[
+        tok('这个','zhège','this','pronoun'), tok('多少钱','duōshǎo qián','how much','question'), tok('一斤','yì jīn','per jin','measure')
+      ]},
+      {en:"I'll pay cash.", grammar:[], toks:[
+        tok('我','wǒ','I','pronoun'), tok('给','gěi','give','verb'), tok('你','nǐ','you','pronoun'), tok('现金','xiànjīn','cash','noun')
+      ]},
+      {en:'Do you accept WeChat Pay?', grammar:[17,29], toks:[
+        tok('可以','kěyǐ','can','aux'), tok('用','yòng','use','verb'), tok('微信','Wēixìn','WeChat','noun'), tok('支付','zhīfù','pay','verb'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Do you have change?', grammar:[17], toks:[
+        tok('你','nǐ','you','pronoun'), tok('有','yǒu','have','verb'), tok('零钱','língqián','change','noun'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Please scan this QR code.', grammar:[30], toks:[
+        tok('请','qǐng','please','verb'), tok('扫','sǎo','scan','verb'), tok('这个','zhège','this','pronoun'), tok('二维码','èrwéimǎ','QR code','noun')
+      ]}
+    ]
+  },
+  numbers: {
+    name:'Numbers & Counting', cn:'数字与量词', icon:'🔢',
+    subcats:{
+      basics: {
+        name:'Counting 0–100', cn:'从零数到一百', icon:'🔟',
+        teaching:{
+          overview:'Chinese counting is built from a small set of pieces, not memorized case by case like English "eleven, twelve, thirteen." Learn 0–10 by heart, then everything up to 99 is just assembly: 11–19 is 十 (ten) plus the ones digit, and 20/30/40...90 is the digit plus 十. Combine both for numbers like 二十一 (21) = two-ten-one.',
+          keywords:[
+            {hanzi:'十', pinyin:'shí', meaning:'ten — the building block for every teen number and every multiple of ten'},
+            {hanzi:'二十一', pinyin:'èrshíyī', meaning:'twenty-one — literally "two-ten-one" (tens digit + 十 + ones digit)'},
+            {hanzi:'两', pinyin:'liǎng', meaning:'the word swapped in for 二 whenever a measure word follows, e.g. 两个人 not 二个人'},
+            {hanzi:'百', pinyin:'bǎi', meaning:'hundred — 一百 = 100, 两百 = 200'}
+          ]
+        },
+        phrases:[
+          {en:'0', grammar:[10], toks:[tok('零','líng','zero','measure')]},
+          {en:'1', grammar:[10], toks:[tok('一','yī','one','measure')]},
+          {en:'2', grammar:[10], toks:[tok('二','èr','two','measure')]},
+          {en:'3', grammar:[10], toks:[tok('三','sān','three','measure')]},
+          {en:'4', grammar:[10], toks:[tok('四','sì','four','measure')]},
+          {en:'5', grammar:[10], toks:[tok('五','wǔ','five','measure')]},
+          {en:'6', grammar:[10], toks:[tok('六','liù','six','measure')]},
+          {en:'7', grammar:[10], toks:[tok('七','qī','seven','measure')]},
+          {en:'8', grammar:[10], toks:[tok('八','bā','eight','measure')]},
+          {en:'9', grammar:[10], toks:[tok('九','jiǔ','nine','measure')]},
+          {en:'10', grammar:[10], toks:[tok('十','shí','ten','measure')]},
+          {en:'11', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('一','yī','one','measure')]},
+          {en:'12', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('二','èr','two','measure')]},
+          {en:'13', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('三','sān','three','measure')]},
+          {en:'14', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('四','sì','four','measure')]},
+          {en:'15', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('五','wǔ','five','measure')]},
+          {en:'16', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('六','liù','six','measure')]},
+          {en:'17', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('七','qī','seven','measure')]},
+          {en:'18', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('八','bā','eight','measure')]},
+          {en:'19', grammar:[10], toks:[tok('十','shí','ten','measure'), tok('九','jiǔ','nine','measure')]},
+          {en:'20', grammar:[10], toks:[tok('二','èr','two (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'30', grammar:[10], toks:[tok('三','sān','three (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'40', grammar:[10], toks:[tok('四','sì','four (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'50', grammar:[10], toks:[tok('五','wǔ','five (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'60', grammar:[10], toks:[tok('六','liù','six (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'70', grammar:[10], toks:[tok('七','qī','seven (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'80', grammar:[10], toks:[tok('八','bā','eight (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'90', grammar:[10], toks:[tok('九','jiǔ','nine (tens digit)','measure'), tok('十','shí','ten','measure')]},
+          {en:'21', grammar:[10], toks:[tok('二','èr','two','measure'), tok('十','shí','ten','measure'), tok('一','yī','one','measure')]},
+          {en:'99', grammar:[10], toks:[tok('九','jiǔ','nine','measure'), tok('十','shí','ten','measure'), tok('九','jiǔ','nine','measure')]},
+          {en:'100', grammar:[13], toks:[tok('一','yī','one','measure'), tok('百','bǎi','hundred','measure')]},
+        ]
+      },
+      counting: {
+        name:'Counting People & Items', cn:'量词', icon:'🧮',
+        teaching:{
+          overview:'A number almost never attaches directly to a noun in Chinese — a measure word sits between them, chosen by the shape or category of what you\'re counting. 个 is the safe fallback for almost anything if you forget the specific one.',
+          keywords:[
+            {hanzi:'个', pinyin:'ge', meaning:'the universal fallback measure word — works for people, generic objects, almost anything'},
+            {hanzi:'几', pinyin:'jǐ', meaning:'"how many?" — expects a small, countable answer'}
+          ]
+        },
+        phrases:[
+          {en:'How many people?', grammar:[26,11], toks:[
+            tok('几','jǐ','how many','question'), tok('个','ge','(measure)','measure'), tok('人','rén','people','noun')
+          ]},
+          {en:'Three people.', grammar:[11], toks:[
+            tok('三','sān','three','measure'), tok('个','ge','(measure)','measure'), tok('人','rén','people','noun')
+          ]},
+          {en:'Two bottles of water.', grammar:[11,9], toks:[
+            tok('两','liǎng','two','measure'), tok('瓶','píng','bottle','measure'), tok('水','shuǐ','water','noun')
+          ]}
+        ]
+      },
+      codes: {
+        name:'Phone / Room / Bus Numbers', cn:'号码（分开读）', icon:'🔢',
+        teaching:{
+          overview:'For codes and IDs — phone numbers, room numbers, bus numbers — Chinese reads each digit separately rather than as a whole number (like English does too, actually), and 1 is almost always said as 幺 (yāo) instead of 一 in this context, to avoid confusion with 七 (qī) over the phone.',
+          keywords:[
+            {hanzi:'幺', pinyin:'yāo', meaning:'the spoken substitute for 1 (一) in phone numbers and codes'},
+            {hanzi:'多少', pinyin:'duōshǎo', meaning:'"what/how much" — used to ask for a number when the answer could be large'}
+          ]
+        },
+        phrases:[
+          {en:"What's your phone number?", grammar:[26], toks:[
+            tok('你的','nǐ de','your','particle'), tok('电话号码','diànhuà hàomǎ','phone number','noun'), tok('是','shì','is','verb'), tok('多少','duōshǎo','what/how much','question')
+          ]},
+          {en:'My number is 138-1234-5678.', grammar:[10], toks:[
+            tok('我的','wǒ de','my','particle'), tok('号码','hàomǎ','number','noun'), tok('是','shì','is','verb'), tok('138-1234-5678','yāo sān bā, yāo èr sān sì, wǔ liù qī bā','(said digit by digit — 1 is often "yāo" here)','noun')
+          ]},
+          {en:'Room 305.', grammar:[10], toks:[
+            tok('305','sān líng wǔ','three-zero-five','noun'), tok('房间','fángjiān','room','noun')
+          ]}
+        ]
+      },
+      ordinals: {
+        name:'Ordinals · First, Second...', cn:'第一，第二……', icon:'🥇',
+        teaching:{
+          overview:'Turning a plain number into an ordinal just means adding 第 in front — no irregular forms like English\'s "first/second/third." 第 + number works the same way all the way up.',
+          keywords:[
+            {hanzi:'第', pinyin:'dì', meaning:'ordinal marker — 第 + number = "the Nth"'}
+          ]
+        },
+        phrases:[
+          {en:'1st', grammar:[10], toks:[tok('第一','dì yī','first','noun')]},
+          {en:'2nd', grammar:[10], toks:[tok('第二','dì èr','second','noun')]},
+          {en:'3rd', grammar:[10], toks:[tok('第三','dì sān','third','noun')]},
+          {en:'4th', grammar:[10], toks:[tok('第四','dì sì','fourth','noun')]},
+          {en:'5th', grammar:[10], toks:[tok('第五','dì wǔ','fifth','noun')]},
+          {en:'10th', grammar:[10], toks:[tok('第十','dì shí','tenth','noun')]},
+          {en:'The first one.', grammar:[10,11], toks:[
+            tok('第一','dì yī','first','noun',[
+              {hanzi:'第一',pinyin:'dì yī',gloss:'first'},
+              {hanzi:'第二',pinyin:'dì èr',gloss:'second'},
+              {hanzi:'第三',pinyin:'dì sān',gloss:'third'}
+            ]),
+            tok('个','ge','(measure)','measure')
+          ]},
+          {en:'The third floor.', grammar:[10], toks:[
+            tok('三','sān','three','measure'), tok('楼','lóu','floor','noun')
+          ]}
+        ]
+      }
+    }
+  },
+  directions: {
+    name:'Directions & Locations', cn:'方向与位置', icon:'🧭',
+    phrases:[
+      {en:"Excuse me, where's the bathroom?", grammar:[24,26], toks:[
+        tok('请问','qǐngwèn','excuse me','verb'), tok('洗手间','xǐshǒujiān','bathroom','noun'), tok('在','zài','is at','verb'), tok('哪里','nǎlǐ','where','question')
+      ]},
+      {en:'Go straight.', grammar:[], toks:[
+        tok('一直','yìzhí','straight','particle'), tok('走','zǒu','go/walk','verb')
+      ]},
+      {en:'Turn left.', grammar:[], toks:[
+        tok('往','wǎng','toward','particle'),
+        tok('左','zuǒ','left','noun',[
+          {hanzi:'左',pinyin:'zuǒ',gloss:'left'},
+          {hanzi:'右',pinyin:'yòu',gloss:'right'}
+        ]),
+        tok('转','zhuǎn','turn','verb')
+      ]},
+      {en:'Is it far from here?', grammar:[17], toks:[
+        tok('离','lí','from','particle'), tok('这里','zhèlǐ','here','pronoun'), tok('远','yuǎn','far','adjective'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Is it nearby?', grammar:[17], toks:[
+        tok('在','zài','is at','verb'), tok('附近','fùjìn','nearby','noun'), tok('吗','ma','?','particle')
+      ]},
+      {en:"It's over there.", grammar:[24], toks:[
+        tok('在','zài','is at','verb'), tok('那边','nàbiān','over there','pronoun')
+      ]},
+      {en:"I'm lost.", grammar:[], toks:[
+        tok('我','wǒ','I','pronoun'), tok('迷路','mílù','lost the way','verb'), tok('了','le','(change)','particle')
+      ]}
+    ]
+  },
+  apologies: {
+    name:'Apologies & Clarification', cn:'道歉与澄清', icon:'🙏',
+    phrases:[
+      {en:'Sorry.', grammar:[], toks:[
+        tok('对不起','duìbuqǐ','sorry','verb')
+      ]},
+      {en:"It's okay / no worries.", grammar:[], toks:[
+        tok('没关系','méi guānxi','never mind','particle')
+      ]},
+      {en:'Please say it again.', grammar:[30], toks:[
+        tok('请','qǐng','please','verb'), tok('再','zài','again','particle'), tok('说','shuō','speak','verb'), tok('一遍','yí biàn','one time','measure')
+      ]},
+      {en:"I don't understand.", grammar:[2], toks:[
+        tok('我','wǒ','I','pronoun'), tok('听','tīng','listen','verb'), tok('不','bù','not','negation'), tok('懂','dǒng','understand','verb')
+      ]},
+      {en:'Can you speak more slowly?', grammar:[29,17], toks:[
+        tok('你','nǐ','you','pronoun'), tok('能','néng','can','aux'), tok('说','shuō','speak','verb'), tok('慢','màn','slow','adjective'), tok('一点','yìdiǎn','a little','measure'), tok('吗','ma','?','particle')
+      ]},
+      {en:'What does that mean?', grammar:[26], toks:[
+        tok('什么','shénme','what','question'), tok('意思','yìsi','meaning','noun')
+      ]},
+      {en:'I made a mistake.', grammar:[], toks:[
+        tok('我','wǒ','I','pronoun'), tok('弄错','nòngcuò','made a mistake','verb'), tok('了','le','(change)','particle')
+      ]},
+      {en:'Can you write it down?', grammar:[29,30,17], toks:[
+        tok('你','nǐ','you','pronoun'), tok('能','néng','can','aux'), tok('写','xiě','write','verb'), tok('一下','yíxià','briefly','particle'), tok('吗','ma','?','particle')
+      ]}
+    ]
+  },
+  requests: {
+    name:'Requests & Permission', cn:'请求与许可', icon:'🤝',
+    phrases:[
+      {en:'Is that okay?', grammar:[29,17], toks:[
+        tok('可以','kěyǐ','can/may','aux'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Please help me for a moment.', grammar:[30], toks:[
+        tok('请','qǐng','please','verb'), tok('帮','bāng','help','verb'), tok('我','wǒ','me','pronoun'), tok('一下','yíxià','briefly','particle')
+      ]},
+      {en:'Can I take a look?', grammar:[29,17], toks:[
+        tok('我','wǒ','I','pronoun'), tok('可以','kěyǐ','can','aux'), tok('看','kàn','look','verb'), tok('一下','yíxià','briefly','particle'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Please wait a moment.', grammar:[30], toks:[
+        tok('请','qǐng','please','verb'), tok('等','děng','wait','verb'), tok('一下','yíxià','a moment','particle')
+      ]},
+      {en:'Can I use your phone for a bit?', grammar:[29,7,17], toks:[
+        tok('我','wǒ','I','pronoun'), tok('能','néng','can','aux'), tok('用','yòng','use','verb'), tok('一下','yíxià','briefly','particle'), tok('你的','nǐ de','your','particle'), tok('手机','shǒujī','phone','noun'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Please come here.', grammar:[30], toks:[
+        tok('请','qǐng','please','verb'), tok('过来','guòlái','come over','verb')
+      ]},
+      {en:'Can you recommend something?', grammar:[29,17], toks:[
+        tok('你','nǐ','you','pronoun'), tok('能','néng','can','aux'), tok('推荐','tuījiàn','recommend','verb'), tok('一下','yíxià','briefly','particle'), tok('吗','ma','?','particle')
+      ]}
+    ]
+  },
+  time: {
+    name:'Time & Scheduling', cn:'时间与安排', icon:'🕒',
+    phrases:[
+      {en:'What time is it?', grammar:[15,26], section:'Telling time', toks:[
+        tok('现在','xiànzài','now','noun'), tok('几','jǐ','what','question'), tok('点','diǎn',"o'clock",'measure')
+      ]},
+      {en:"It's 4:20pm.", grammar:[15], section:'Telling time', toks:[
+        tok('现在','xiànzài','now','noun'), tok('下午','xiàwǔ','PM','noun'), tok('四','sì','four','measure'), tok('点','diǎn',"o'clock",'measure'), tok('二十','èrshí','twenty','measure'), tok('分','fēn','minutes','measure')
+      ]},
+      {en:"What's today's date?", grammar:[26], section:'Dates & days', toks:[
+        tok('今天','jīntiān','today','noun'), tok('几','jǐ','what','question'), tok('号','hào','date','measure')
+      ]},
+      {en:'Today is Tuesday.', grammar:[14], section:'Dates & days', toks:[
+        tok('今天','jīntiān','today','noun'),
+        tok('星期二','xīngqī\'èr','Tuesday','noun',[
+          {hanzi:'星期一',pinyin:'xīngqīyī',gloss:'Monday'},
+          {hanzi:'星期二',pinyin:'xīngqī\'èr',gloss:'Tuesday'},
+          {hanzi:'星期三',pinyin:'xīngqīsān',gloss:'Wednesday'},
+          {hanzi:'星期四',pinyin:'xīngqīsì',gloss:'Thursday'},
+          {hanzi:'星期五',pinyin:'xīngqīwǔ',gloss:'Friday'},
+          {hanzi:'星期六',pinyin:'xīngqīliù',gloss:'Saturday'},
+          {hanzi:'星期天',pinyin:'xīngqītiān',gloss:'Sunday'}
+        ])
+      ]},
+      {en:'What day of the week is it?', grammar:[14,26], section:'Dates & days', toks:[
+        tok('今天','jīntiān','today','noun'), tok('星期','xīngqī','week','noun'), tok('几','jǐ','what','question')
+      ]},
+      {en:"I'd like to schedule an appointment for 3pm on Tuesday.", grammar:[15,14,8], section:'Making a plan', toks:[
+        tok('我','wǒ','I','pronoun'), tok('想','xiǎng','would like','aux'), tok('预约','yùyuē','book/schedule','verb'), tok('星期二','xīngqī\'èr','Tuesday','noun'), tok('下午','xiàwǔ','PM','noun'), tok('三','sān','three','measure'), tok('点','diǎn',"o'clock",'measure')
+      ]},
+      {en:'Are you free at 2pm?', grammar:[15,17], section:'Making a plan', toks:[
+        tok('你','nǐ','you','pronoun'), tok('下午','xiàwǔ','PM','noun'), tok('两','liǎng','two','measure'), tok('点','diǎn',"o'clock",'measure'), tok('有空','yǒukòng','free/available','adjective'), tok('吗','ma','?','particle')
+      ]},
+      {en:"Let's meet tomorrow.", grammar:[], section:'Making a plan', toks:[
+        tok('我们','wǒmen','we','pronoun'), tok('明天','míngtiān','tomorrow','noun'), tok('见面','jiànmiàn','meet','verb'), tok('吧','ba','(suggestion)','particle')
+      ]},
+      {en:"I'll be a little late.", grammar:[], section:'Making a plan', toks:[
+        tok('我','wǒ','I','pronoun'), tok('会','huì','will','aux'), tok('晚','wǎn','late','adjective'), tok('一点','yìdiǎn','a little','measure'), tok('到','dào','arrive','verb')
+      ]}
+    ]
+  },
+  patterns: {
+    name:'Sentence Patterns', cn:'句型练习', icon:'🧩',
+    subcats:{
+      can: {
+        name:'Can · 能 / 可以 / 会', cn:'能力与许可', icon:'✅',
+        teaching:{
+          overview:'Chinese has three main ways to say "can," and picking the right one matters more than in English: 会 for something you learned how to do, 能 for something you\'re able to do right now given the circumstances, and 可以 for permission — asking or granting whether something is allowed.',
+          keywords:[
+            {hanzi:'会', pinyin:'huì', meaning:'can (skill) — a learned ability, like a language or an instrument'},
+            {hanzi:'能', pinyin:'néng', meaning:'can (ability/circumstance) — physically or situationally able to, right now'},
+            {hanzi:'可以', pinyin:'kěyǐ', meaning:'can/may (permission) — is it allowed?'}
+          ]
+        },
+        phrases:[
+          {en:'I can speak a little Chinese.', grammar:[29], section:'Skill (会)', toks:[
+            tok('我','wǒ','I','pronoun'), tok('会','huì','can (skill)','aux'), tok('说','shuō','speak','verb'), tok('一点','yìdiǎn','a little','measure'), tok('中文','Zhōngwén','Chinese','noun')
+          ]},
+          {en:'I know how to use chopsticks.', grammar:[29], section:'Skill (会)', toks:[
+            tok('我','wǒ','I','pronoun'), tok('会','huì','know how to','aux'), tok('用','yòng','use','verb'), tok('筷子','kuàizi','chopsticks','noun')
+          ]},
+          {en:"I can't come today.", grammar:[29,2], section:'Ability / circumstance (能)', toks:[
+            tok('我','wǒ','I','pronoun'), tok('今天','jīntiān','today','noun'), tok('不','bù','not','negation'), tok('能','néng','can','aux'), tok('来','lái','come','verb')
+          ]},
+          {en:'Can you help me?', grammar:[29,17], section:'Ability / circumstance (能)', toks:[
+            tok('你','nǐ','you','pronoun'), tok('能','néng','can','aux'), tok('帮','bāng','help','verb'), tok('我','wǒ','me','pronoun'), tok('吗','ma','?','particle')
+          ]},
+          {en:'May I sit here?', grammar:[29,17,24], section:'Permission (可以)', toks:[
+            tok('我','wǒ','I','pronoun'), tok('可以','kěyǐ','may','aux'), tok('坐','zuò','sit','verb'), tok('这里','zhèlǐ','here','pronoun'), tok('吗','ma','?','particle')
+          ]},
+          {en:'You may not smoke here.', grammar:[29,2,24], section:'Permission (可以)', toks:[
+            tok('这里','zhèlǐ','here','pronoun'), tok('不','bù','not','negation'), tok('可以','kěyǐ','may','aux'), tok('抽烟','chōuyān','smoke','verb')
+          ]}
+        ]
+      },
+      wantto: {
+        name:'Want To · 想 / 要', cn:'想要与需要', icon:'💭',
+        teaching:{
+          overview:'想 and 要 both sit before a verb to mean "want to," but 想 is a softer wish ("I\'d like to...") while 要 is more direct and decisive — it\'s also the word you reach for to order food or state you want something outright.',
+          keywords:[
+            {hanzi:'想', pinyin:'xiǎng', meaning:'would like to — a softer wish or preference'},
+            {hanzi:'要', pinyin:'yào', meaning:'want to / will — direct, also used for ordering & stating you want a noun'}
+          ]
+        },
+        phrases:[
+          {en:'I want to eat Chinese food.', grammar:[8], section:'想 — would like to', toks:[
+            tok('我','wǒ','I','pronoun'), tok('想','xiǎng','would like to','aux'), tok('吃','chī','eat','verb'), tok('中国菜','Zhōngguó cài','Chinese food','noun')
+          ]},
+          {en:'I want to rest for a bit.', grammar:[8,30], section:'想 — would like to', toks:[
+            tok('我','wǒ','I','pronoun'), tok('想','xiǎng','would like to','aux'), tok('休息','xiūxi','rest','verb'), tok('一下','yíxià','briefly','particle')
+          ]},
+          {en:"I don't want to go.", grammar:[8,2], section:'想 — would like to', toks:[
+            tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('想','xiǎng','want to','aux'), tok('去','qù','go','verb')
+          ]},
+          {en:'I want to buy this.', grammar:[8,12], section:'要 — want / will (direct, also for ordering)', toks:[
+            tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('买','mǎi','buy','verb'), tok('这个','zhège','this','pronoun')
+          ]},
+          {en:'What do you want to drink?', grammar:[8,26], section:'要 — want / will (direct, also for ordering)', toks:[
+            tok('你','nǐ','you','pronoun'), tok('要','yào','want','aux'), tok('喝','hē','drink','verb'), tok('什么','shénme','what','question')
+          ]},
+          {en:"I don't need this, thanks.", grammar:[2], section:'要 — want / will (direct, also for ordering)', toks:[
+            tok('不','bù','not','negation'), tok('要','yào','want','aux'), tok('了','le','(change)','particle'), tok('谢谢','xièxie','thanks','verb')
+          ]}
+        ]
+      },
+      mayi: {
+        name:'May I? · 可以...吗', cn:'请求许可', icon:'🙋‍♂️',
+        teaching:{
+          overview:'"May I...?" is built like most yes/no questions: state what you\'d like to do with 可以 in front of the verb, then add 吗 at the very end. Nothing else in the sentence moves or changes.',
+          keywords:[
+            {hanzi:'可以', pinyin:'kěyǐ', meaning:'may / is it OK to...'},
+            {hanzi:'吗', pinyin:'ma', meaning:'turns any statement into a yes/no question'}
+          ]
+        },
+        phrases:[
+          {en:'May I ask a question?', grammar:[29,17], toks:[
+            tok('我','wǒ','I','pronoun'), tok('可以','kěyǐ','may','aux'), tok('问','wèn','ask','verb'), tok('一个','yí ge','a','measure'), tok('问题','wèntí','question','noun'), tok('吗','ma','?','particle')
+          ]},
+          {en:'May I have some water, please?', grammar:[29,17], toks:[
+            tok('可以','kěyǐ','may','aux'), tok('给','gěi','give','verb'), tok('我','wǒ','me','pronoun'), tok('一点','yìdiǎn','a little','measure'), tok('水','shuǐ','water','noun'), tok('吗','ma','?','particle')
+          ]},
+          {en:'Excuse me, may I pass?', grammar:[29,17,30], toks:[
+            tok('请问','qǐngwèn','excuse me','verb'), tok('我','wǒ','I','pronoun'), tok('可以','kěyǐ','may','aux'), tok('过','guò','pass','verb'), tok('一下','yíxià','briefly','particle'), tok('吗','ma','?','particle')
+          ]},
+          {en:'May I take a photo here?', grammar:[29,17,24], toks:[
+            tok('这里','zhèlǐ','here','pronoun'), tok('可以','kěyǐ','may','aux'), tok('拍照','pāizhào','take photos','verb'), tok('吗','ma','?','particle')
+          ]}
+        ]
+      },
+      want: {
+        name:'Want · 要 + noun', cn:'想要某物', icon:'🎯',
+        teaching:{
+          overview:'When "want" is followed by a thing (a noun) instead of an action, 要 does the job on its own — no extra verb needed. If a number comes before the noun, you almost always need a measure word between them (一杯咖啡, not 一咖啡).',
+          keywords:[
+            {hanzi:'要', pinyin:'yào', meaning:'want (+ noun)'},
+            {hanzi:'只', pinyin:'zhǐ', meaning:'only'},
+            {hanzi:'本', pinyin:'běn', meaning:'measure word used for books'}
+          ]
+        },
+        phrases:[
+          {en:'I want this book.', grammar:[8,11,12], toks:[
+            tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('这','zhè','this','pronoun'), tok('本','běn','(measure, books)','measure'), tok('书','shū','book','noun')
+          ]},
+          {en:'I want some coffee.', grammar:[8,11], toks:[
+            tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('一','yī','a','measure'), tok('杯','bēi','cup','measure'), tok('咖啡','kāfēi','coffee','noun')
+          ]},
+          {en:'I only want this one, not that one.', grammar:[8,12,2], toks:[
+            tok('我','wǒ','I','pronoun'), tok('只','zhǐ','only','particle'), tok('要','yào','want','aux'), tok('这个','zhège','this one','pronoun'), tok('，不','，bù',', not','negation'), tok('要','yào','want','aux'), tok('那个','nàge','that one','pronoun')
+          ]},
+          {en:'What do you want?', grammar:[8,26], toks:[
+            tok('你','nǐ','you','pronoun'), tok('要','yào','want','aux'), tok('什么','shénme','what','question')
+          ]}
+        ]
+      },
+      needneed: {
+        name:'Need To / Need', cn:'需要', icon:'📌',
+        teaching:{
+          overview:'需要 works as both a full verb ("to need [a thing]") and an auxiliary verb ("need to [do something]") — it doesn\'t change form either way, which makes it simpler than English\'s need/have-to split.',
+          keywords:[
+            {hanzi:'需要', pinyin:'xūyào', meaning:'need / need to'},
+            {hanzi:'别的', pinyin:'biéde', meaning:'something else / anything else'}
+          ]
+        },
+        phrases:[
+          {en:'I need to go to the bathroom.', grammar:[8], toks:[
+            tok('我','wǒ','I','pronoun'), tok('需要','xūyào','need to','aux'), tok('去','qù','go','verb'), tok('洗手间','xǐshǒujiān','bathroom','noun')
+          ]},
+          {en:'I need a pen.', grammar:[11], toks:[
+            tok('我','wǒ','I','pronoun'), tok('需要','xūyào','need','verb'), tok('一','yī','a','measure'), tok('支','zhī','(measure, pens)','measure'), tok('笔','bǐ','pen','noun')
+          ]},
+          {en:'Do you need help?', grammar:[17], toks:[
+            tok('你','nǐ','you','pronoun'), tok('需要','xūyào','need','verb'), tok('帮助','bāngzhù','help','noun'), tok('吗','ma','?','particle')
+          ]},
+          {en:"I don't need anything else.", grammar:[2], toks:[
+            tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('需要','xūyào','need','verb'), tok('别的','biéde','anything else','noun'), tok('了','le','(change)','particle')
+          ]}
+        ]
+      },
+      havehave: {
+        name:'Have To / Have', cn:'必须与拥有', icon:'🎒',
+        teaching:{
+          overview:'"Have to" (obligation) and "have" (possession) are completely unrelated words in Chinese, unlike English where both use "have." 得/必须 express obligation right before a verb; 有 expresses possession before a noun — and its negative is always 没有, never 不有.',
+          keywords:[
+            {hanzi:'得', pinyin:'děi', meaning:'have to / must — spoken, casual'},
+            {hanzi:'必须', pinyin:'bìxū', meaning:'must — stronger, more formal obligation'},
+            {hanzi:'有', pinyin:'yǒu', meaning:'to have / there is'},
+            {hanzi:'没有', pinyin:'méiyǒu', meaning:'don\'t have / there isn\'t — the only way 有 gets negated'}
+          ]
+        },
+        phrases:[
+          {en:'I have to go now.', grammar:[20], toks:[
+            tok('我','wǒ','I','pronoun'), tok('现在','xiànzài','now','noun'), tok('得','děi','have to','aux'), tok('走','zǒu','go','verb'), tok('了','le','(change)','particle')
+          ]},
+          {en:'You must bring your passport.', grammar:[], toks:[
+            tok('你','nǐ','you','pronoun'), tok('必须','bìxū','must','aux'), tok('带','dài','bring','verb'), tok('护照','hùzhào','passport','noun')
+          ]},
+          {en:'Do you have an umbrella?', grammar:[17], toks:[
+            tok('你','nǐ','you','pronoun'), tok('有','yǒu','have','verb'), tok('雨伞','yǔsǎn','umbrella','noun'), tok('吗','ma','?','particle')
+          ]},
+          {en:"I don't have money on me.", grammar:[2], toks:[
+            tok('我','wǒ','I','pronoun'), tok('身上','shēnshang','on me','noun'), tok('没有','méiyǒu',"don't have",'negation'), tok('钱','qián','money','noun')
+          ]}
+        ]
+      },
+      donot: {
+        name:'Do Not · 不要 / 别', cn:'禁止与劝阻', icon:'🚫',
+        teaching:{
+          overview:'别 and 不要 are interchangeable ways to tell someone not to do something — 别 feels a touch more casual and spoken, 不要 a bit more neutral. Both sit directly in front of the verb, and adding 请 in front of either softens it into a polite request rather than a blunt order.',
+          keywords:[
+            {hanzi:'别', pinyin:'bié', meaning:'don\'t — casual, spoken'},
+            {hanzi:'不要', pinyin:'búyào', meaning:'don\'t — neutral'},
+            {hanzi:'请', pinyin:'qǐng', meaning:'please — softens a command'}
+          ]
+        },
+        phrases:[
+          {en:"Don't worry.", grammar:[31], toks:[
+            tok('别','bié',"don't",'negation'), tok('担心','dānxīn','worry','verb')
+          ]},
+          {en:"Please don't smoke here.", grammar:[31,30,24], toks:[
+            tok('请','qǐng','please','verb'), tok('不要','búyào',"don't",'negation'), tok('在','zài','at','particle'), tok('这里','zhèlǐ','here','pronoun'), tok('抽烟','chōuyān','smoke','verb')
+          ]},
+          {en:"Don't tell anyone.", grammar:[31], toks:[
+            tok('别','bié',"don't",'negation'), tok('告诉','gàosu','tell','verb'), tok('别人','biérén','anyone else','noun')
+          ]},
+          {en:"Don't touch, please.", grammar:[31,30], toks:[
+            tok('请','qǐng','please','verb'), tok('不要','búyào',"don't",'negation'), tok('摸','mō','touch','verb')
+          ]}
+        ]
+      },
+      likedislike: {
+        name:'Like / Dislike · 喜欢', cn:'喜好', icon:'❤️',
+        teaching:{
+          overview:'喜欢 behaves like a completely normal verb: put 不 in front to dislike something, or 很 in front to intensify it (很喜欢 = "really like," not literally "very like"). Use 更 to compare two things and say which is liked more.',
+          keywords:[
+            {hanzi:'喜欢', pinyin:'xǐhuan', meaning:'to like'},
+            {hanzi:'不喜欢', pinyin:'bù xǐhuan', meaning:'don\'t like'},
+            {hanzi:'更', pinyin:'gèng', meaning:'more — comparative'}
+          ]
+        },
+        phrases:[
+          {en:'I like this color.', grammar:[12], toks:[
+            tok('我','wǒ','I','pronoun'), tok('喜欢','xǐhuan','like','verb'), tok('这个','zhège','this','pronoun'), tok('颜色','yánsè','color','noun')
+          ]},
+          {en:"I don't like crowds.", grammar:[2], toks:[
+            tok('我','wǒ','I','pronoun'), tok('不','bù','not','negation'), tok('喜欢','xǐhuan','like','verb'), tok('人多','rén duō','crowded (many people)','adjective'), tok('的','de','(the kind that is)','particle'), tok('地方','dìfang','place','noun')
+          ]},
+          {en:'Which one do you like more?', grammar:[36,26], toks:[
+            tok('你','nǐ','you','pronoun'), tok('更','gèng','more','particle'), tok('喜欢','xǐhuan','like','verb'), tok('哪个','nǎge','which one','question')
+          ]},
+          {en:'I really like Suzhou.', grammar:[], toks:[
+            tok('我','wǒ','I','pronoun'), tok('很','hěn','really','particle'), tok('喜欢','xǐhuan','like','verb'), tok('苏州','Sūzhōu','Suzhou','noun')
+          ]}
+        ]
+      },
+      thesethose: {
+        name:'These / Those · 这些 / 那些', cn:'指示代词（复数）', icon:'👉',
+        teaching:{
+          overview:'这些 and 那些 are just 这个/那个 (this/that) with 个 swapped for 些, which marks an unspecified plural — no counting required, just "a bunch of these" versus "a bunch of those."',
+          keywords:[
+            {hanzi:'这些', pinyin:'zhèxiē', meaning:'these'},
+            {hanzi:'那些', pinyin:'nàxiē', meaning:'those'}
+          ]
+        },
+        phrases:[
+          {en:'These are my friends.', grammar:[12,7], toks:[
+            tok('这些','zhèxiē','these','pronoun'), tok('是','shì','are','verb'), tok('我的','wǒ de','my','particle'), tok('朋友','péngyou','friends','noun')
+          ]},
+          {en:'How much are those?', grammar:[12,26], toks:[
+            tok('那些','nàxiē','those','pronoun'), tok('多少','duōshǎo','how much','question'), tok('钱','qián','money','noun')
+          ]},
+          {en:'I want these, not those.', grammar:[12,2], toks:[
+            tok('我','wǒ','I','pronoun'), tok('要','yào','want','aux'), tok('这些','zhèxiē','these','pronoun'), tok('，不','，bù',', not','negation'), tok('要','yào','want','aux'), tok('那些','nàxiē','those','pronoun')
+          ]},
+          {en:'Are these fresh?', grammar:[12,17], toks:[
+            tok('这些','zhèxiē','these','pronoun'), tok('新鲜','xīnxiān','fresh','adjective'), tok('吗','ma','?','particle')
+          ]}
+        ]
+      },
+      thereis: {
+        name:'There Is / Is There? · 有', cn:'存在句', icon:'📍',
+        teaching:{
+          overview:'To say something exists somewhere, the place comes first, then 有, then the thing — the reverse order from English\'s "there is a shop over there." Negate with 没有 — 有 always negates with 没, never with 不.',
+          keywords:[
+            {hanzi:'有', pinyin:'yǒu', meaning:'there is / there are'},
+            {hanzi:'没有', pinyin:'méiyǒu', meaning:'there isn\'t / there aren\'t'}
+          ]
+        },
+        phrases:[
+          {en:'Is there a bathroom nearby?', grammar:[24,17], toks:[
+            tok('附近','fùjìn','nearby','noun'), tok('有','yǒu','is there','verb'), tok('洗手间','xǐshǒujiān','bathroom','noun'), tok('吗','ma','?','particle')
+          ]},
+          {en:"There's a supermarket over there.", grammar:[24,11], toks:[
+            tok('那边','nàbiān','over there','pronoun'), tok('有','yǒu','there is','verb'), tok('一','yī','a','measure'), tok('个','ge','(measure)','measure'), tok('超市','chāoshì','supermarket','noun')
+          ]},
+          {en:"There isn't any hot water.", grammar:[2], toks:[
+            tok('没有','méiyǒu',"there isn't",'negation'), tok('热水','rèshuǐ','hot water','noun')
+          ]},
+          {en:'Is there anyone here?', grammar:[24,17], toks:[
+            tok('这里','zhèlǐ','here','pronoun'), tok('有','yǒu','is there','verb'), tok('人','rén','anyone','noun'), tok('吗','ma','?','particle')
+          ]}
+        ]
+      },
+      questions: {
+        name:'Questions', cn:'各种提问方式', icon:'❓',
+        teaching:{
+          overview:'Chinese has several question styles beyond 吗: A-not-A repeats the verb or adjective with 不 in between for a neutral "...or not?"; 呢 turns a bare noun into "what about ___?" or "where\'s ___?"; and tag questions like 对吗 tack a quick check onto the end of a statement, similar to "...right?" in English.',
+          keywords:[
+            {hanzi:'吗', pinyin:'ma', meaning:'yes/no question marker'},
+            {hanzi:'不', pinyin:'bù', meaning:'the "not" in A-not-A questions, e.g. 去不去?'},
+            {hanzi:'呢', pinyin:'ne', meaning:'"what about...?" / "where is...?"'},
+            {hanzi:'对吗', pinyin:'duì ma', meaning:'"...right?" — a tag question'}
+          ]
+        },
+        phrases:[
+          {en:'Are you going or not?', grammar:[18], section:'A-not-A (你去不去?)', toks:[
+            tok('你','nǐ','you','pronoun'), tok('去','qù','go','verb'), tok('不','bù','not','negation'), tok('去','qù','go','verb')
+          ]},
+          {en:'Is this spicy or not?', grammar:[18], section:'A-not-A (你去不去?)', toks:[
+            tok('这个','zhège','this','pronoun'), tok('辣','là','spicy','adjective'), tok('不','bù','not','negation'), tok('辣','là','spicy','adjective')
+          ]},
+          {en:"I'm fine, what about you?", grammar:[38], section:'呢 — "what about...?"', toks:[
+            tok('我','wǒ','I','pronoun'), tok('很','hěn','','particle'), tok('好','hǎo','good','adjective'), tok('，你','，nǐ',', you','pronoun'), tok('呢','ne','what about','particle')
+          ]},
+          {en:"Where's my phone?", grammar:[38,7], section:'呢 — "what about...?"', toks:[
+            tok('我的','wǒ de','my','particle'), tok('手机','shǒujī','phone','noun'), tok('呢','ne','where is','particle')
+          ]},
+          {en:"You're a doctor, right?", grammar:[39], section:'Tag questions (对吗 / 是吗)', toks:[
+            tok('你','nǐ','you','pronoun'), tok('是','shì','are','verb'), tok('医生','yīshēng','doctor','noun'), tok('，对','，duì',', right','particle'), tok('吗','ma','?','particle')
+          ]},
+          {en:'Who is that?', grammar:[26], section:'Question words', toks:[
+            tok('那','nà','that','pronoun'), tok('是','shì','is','verb'), tok('谁','shéi','who','question')
+          ]}
+        ]
+      }
+    }
+  },
+  haggling: {
+    name:'Price Haggling', cn:'讲价', icon:'💰',
+    phrases:[
+      {en:'Can you make it cheaper?', grammar:[29,17], toks:[
+        tok('便宜','piányi','cheap','adjective'), tok('一点','yìdiǎn','a little','measure'), tok('，可以','，kěyǐ',', can','aux'), tok('吗','ma','?','particle')
+      ]},
+      {en:"That's too expensive.", grammar:[37], toks:[
+        tok('太','tài','too','particle'), tok('贵','guì','expensive','adjective'), tok('了','le','(extreme)','particle')
+      ]},
+      {en:'How about 20 yuan?', grammar:[10], toks:[
+        tok('二十','èrshí','twenty','measure'), tok('块','kuài','yuan','measure'), tok('钱','qián','money','noun'), tok('，怎么样','，zěnmeyàng',', how about it','question')
+      ]},
+      {en:"I'll give you 15, final offer.", grammar:[10], toks:[
+        tok('十五','shíwǔ','fifteen','measure'), tok('块','kuài','yuan','measure'), tok('，最后','，zuìhòu',', final','particle'), tok('一次','yí cì','one time','measure')
+      ]},
+      {en:'If I buy two, can you give a discount?', grammar:[29,17,9], toks:[
+        tok('如果','rúguǒ','if','particle'), tok('我','wǒ','I','pronoun'), tok('买','mǎi','buy','verb'), tok('两','liǎng','two','measure'), tok('个','ge','(measure)','measure'), tok('，可以','，kěyǐ',', can','aux'), tok('便宜','piányi','discount (be cheaper)','adjective'), tok('点','diǎn','a bit','measure'), tok('吗','ma','?','particle')
+      ]},
+      {en:'Deal!', grammar:[], toks:[
+        tok('成交','chéngjiāo','deal/agreed','verb')
+      ]},
+      {en:"No, too expensive, I'll pass.", grammar:[37], toks:[
+        tok('不用','búyòng','no need','negation'), tok('了','le','(change)','particle'), tok('，太','，tài',', too','particle'), tok('贵','guì','expensive','adjective'), tok('了','le','','particle')
+      ]},
+      {en:'Is this your best price?', grammar:[17], toks:[
+        tok('这','zhè','this','pronoun'), tok('是','shì','is','verb'), tok('最低价','zuìdījià','lowest price','noun'), tok('吗','ma','?','particle')
+      ]}
+    ]
+  },
+  myext: {
+    name:'My Extensions', cn:'我扩展的句子', icon:'🌱', dynamic:true,
+    phrases:[]
+  },
+  inbox: {
+    name:'Notes to Add', cn:'待办笔记', icon:'📝', isNotes:true
+  },
+  shopping:   {name:'Shopping', cn:'购物', icon:'🛍️', comingSoon:true},
+  health:     {name:'Health & Emergencies', cn:'健康与紧急情况', icon:'🏥', comingSoon:true},
+  filler:     {name:'General / Filler', cn:'通用词', icon:'🔤', comingSoon:true}
+};
+
+// ============ STATE ============
+let path = [];          // e.g. [] = home, ['patterns'] = group page, ['patterns','can'] = leaf phrase list
+let historyStack = [];  // previous paths, for the back button
+let swapState = {};     // key: pathKey+phraseIdx+tokIdx -> selected index
+let showPronunciation = false; // global toggle for the pronunciation guide boxes
+let extendResults = {}; // key: pathKey_idx -> {status:'loading'|'done'|'error', data, errorMsg}
+let savedExtensions = []; // phrases the user has saved from the Extend feature, persisted via window.storage
+let savedNotes = []; // free-text vocab/phrase notes to add later, persisted via window.storage
+let flashState = null; // {phrases, idx, direction:'zh'|'en', flipped}
+let progressState = {streakCount: 0, lastActiveDate: null, totalCardsReviewed: 0, lastCategory: null};
+
+// ============ NAV HELPERS ============
+function getNode(p){
+  if (!p.length) return null;
+  let node = DATA[p[0]];
+  for (let i = 1; i < p.length; i++){
+    node = node && node.subcats ? node.subcats[p[i]] : null;
+  }
+  return node || null;
+}
+function countPhrases(node){
+  if (!node || node.comingSoon) return 0;
+  if (node.isNotes) return savedNotes.length;
+  if (node.subcats) return Object.keys(node.subcats).reduce((sum,k)=>sum+countPhrases(node.subcats[k]),0);
+  return (node.phrases || []).length;
+}
+function collectLeaves(node, p, out){
+  if (!node || node.comingSoon) return;
+  if (node.subcats){
+    Object.keys(node.subcats).forEach(k => collectLeaves(node.subcats[k], [...p, k], out));
+  } else if (node.phrases){
+    out.push({path: p, node});
+  }
+}
+function goTo(newPath){
+  historyStack.push(path.slice());
+  path = newPath;
+  document.getElementById('searchInput').value = '';
+  render();
+}
+function goHome(){
+  historyStack.push(path.slice());
+  path = [];
+  document.getElementById('searchInput').value = '';
+  render();
+}
+function goBack(){
+  const q = document.getElementById('searchInput').value.trim();
+  if (q){
+    document.getElementById('searchInput').value = '';
+    render();
+    return;
+  }
+  path = historyStack.length ? historyStack.pop() : path.slice(0, -1);
+  render();
+}
+
+// ============ TTS ============
+let zhVoice = null;
+let speechRate = 0.85; // adjustable playback speed, persisted below
+function loadVoice(){
+  const voices = speechSynthesis.getVoices();
+  zhVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('zh')) || null;
+}
+if ('speechSynthesis' in window){
+  loadVoice();
+  speechSynthesis.onvoiceschanged = loadVoice;
+}
+function speak(text, btn){
+  if (!('speechSynthesis' in window)){
+    alert('Audio not supported on this device/browser.');
+    return;
+  }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'zh-CN';
+  if (zhVoice) u.voice = zhVoice;
+  u.rate = speechRate;
+  if (btn) btn.classList.add('playing');
+  u.onend = () => { if (btn) btn.classList.remove('playing'); };
+  u.onerror = () => { if (btn) btn.classList.remove('playing'); };
+  speechSynthesis.speak(u);
+}
+
+// ============ EXTEND: build a more advanced phrase from a base phrase ============
+const ROLE_KEYS = Object.keys(ROLES).join('|');
+
+function fullHanzi(catId, idx, phrase){
+  return phrase.toks.map((t, ti) => {
+    const key = catId + '_' + idx + '_' + ti;
+    const selIdx = swapState[key] || 0;
+    return t.swap ? t.swap[selIdx].hanzi : t.hanzi;
+  }).join('');
+}
+function fullPinyin(catId, idx, phrase){
+  return phrase.toks.map((t, ti) => {
+    const key = catId + '_' + idx + '_' + ti;
+    const selIdx = swapState[key] || 0;
+    return t.swap ? t.swap[selIdx].pinyin : t.pinyin;
+  }).join(' ');
+}
+
+async function generateExtension(extKey, catId, idx, phrase, panelEl){
+  extendResults[extKey] = {status:'loading'};
+  renderExtendPanel(panelEl, extKey, catId, idx, phrase);
+
+  const baseHanzi = fullHanzi(catId, idx, phrase);
+  const basePinyin = fullPinyin(catId, idx, phrase);
+
+  const prompt = `You are helping a learner of Mandarin Chinese (finished HSK1, lives in Suzhou, China) turn a simple survival phrase into ONE more advanced, natural variant that still expresses the same core idea — e.g. "I'm learning Chinese" -> "I've been learning Chinese for a month".
+
+Base phrase:
+English: ${phrase.en}
+Chinese: ${baseHanzi}
+Pinyin: ${basePinyin}
+
+Return STRICT JSON ONLY — no markdown code fences, no commentary before or after — in exactly this shape:
+{"en":"...","toks":[{"hanzi":"...","pinyin":"...","gloss":"...","role":"pronoun|verb|noun|particle|question|measure|adjective|negation|aux"}],"note":"one short plain-English sentence (under 25 words) naming what was added compared to the base phrase"}
+
+Rules:
+- "toks" are word-by-word tokens; their "hanzi" values concatenated in order (no spaces) must form the exact full sentence.
+- role must be exactly one of: ${ROLE_KEYS}
+- Keep it natural spoken Mandarin appropriate for someone who just finished HSK1 — not textbook-stiff, not HSK4+ vocabulary.
+- Stay on the same topic as the base phrase; genuinely build on it rather than replacing it.`;
+
+  try{
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{role:'user', content: prompt}]
+      })
+    });
+    const data = await response.json();
+    const textBlocks = (data.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+    const clean = textBlocks.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+    if (!parsed.en || !Array.isArray(parsed.toks) || !parsed.toks.length){
+      throw new Error('Unexpected response shape');
+    }
+    extendResults[extKey] = {status:'done', data: parsed, baseEn: phrase.en};
+  } catch(err){
+    console.error('Extend error:', err);
+    extendResults[extKey] = {status:'error', errorMsg: 'Could not generate a phrase right now. Try again in a moment.'};
+  }
+  renderExtendPanel(panelEl, extKey, catId, idx, phrase);
+}
+
+function renderExtendPanel(panelEl, extKey, catId, idx, phrase){
+  const result = extendResults[extKey];
+  panelEl.innerHTML = '';
+  if (!result) return;
+
+  if (result.status === 'loading'){
+    const p = document.createElement('p');
+    p.className = 'extend-status';
+    p.textContent = '✨ Building a more advanced phrase...';
+    panelEl.appendChild(p);
+    return;
+  }
+
+  if (result.status === 'error'){
+    const p = document.createElement('p');
+    p.className = 'extend-error';
+    p.textContent = result.errorMsg;
+    panelEl.appendChild(p);
+    const retry = document.createElement('button');
+    retry.className = 'extend-btn';
+    retry.style.cssText = 'width:auto;padding:6px 12px;margin-top:6px;';
+    retry.textContent = 'Retry';
+    retry.onclick = () => generateExtension(extKey, catId, idx, phrase, panelEl);
+    panelEl.appendChild(retry);
+    return;
+  }
+
+  // status === 'done'
+  const d = result.data;
+  const box = document.createElement('div');
+  box.className = 'extend-result';
+
+  const enP = document.createElement('p');
+  enP.className = 'phrase-en';
+  enP.textContent = d.en;
+  box.appendChild(enP);
+
+  const cnP = document.createElement('p');
+  cnP.style.cssText = 'font-size:20px;line-height:1.5;margin:4px 0;';
+  d.toks.forEach(t => {
+    const span = document.createElement('span');
+    span.style.color = (ROLES[t.role] || ROLES.noun).color;
+    span.textContent = t.hanzi;
+    cnP.appendChild(span);
+  });
+  box.appendChild(cnP);
+
+  const pyP = document.createElement('p');
+  pyP.style.cssText = 'font-size:12.5px;color:var(--muted);margin:2px 0 0;';
+  const extendPinyinText = d.toks.map(t=>t.pinyin).join(' · ');
+  pyP.textContent = extendPinyinText;
+  box.appendChild(pyP);
+
+  if (showPronunciation){
+    const pronBox = renderPronunciationBox(extendPinyinText);
+    if (pronBox) box.appendChild(pronBox);
+  }
+
+  const seal = document.createElement('button');
+  seal.className = 'seal-btn';
+  seal.style.cssText = 'margin-top:8px;';
+  seal.textContent = '听';
+  seal.onclick = () => speak(d.toks.map(t=>t.hanzi).join(''), seal);
+  box.appendChild(seal);
+
+  if (d.note){
+    const note = document.createElement('p');
+    note.className = 'extend-note';
+    note.textContent = d.note;
+    box.appendChild(note);
+  }
+
+  const actions = document.createElement('div');
+  actions.className = 'extend-actions';
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'save-btn';
+  const alreadySaved = savedExtensions.some(e => e.en === d.en && e.baseEn === (result.baseEn || phrase.en));
+  saveBtn.textContent = alreadySaved ? 'Saved ✓' : '💾 Save to My Extensions';
+  if (alreadySaved) saveBtn.classList.add('saved');
+  saveBtn.onclick = () => saveExtension(d, result.baseEn || phrase.en, saveBtn);
+  actions.appendChild(saveBtn);
+
+  const retryBtn = document.createElement('button');
+  retryBtn.textContent = '🔄 Try another';
+  retryBtn.onclick = () => generateExtension(extKey, catId, idx, phrase, panelEl);
+  actions.appendChild(retryBtn);
+
+  box.appendChild(actions);
+  panelEl.appendChild(box);
+}
+
+async function saveExtension(d, baseEn, saveBtn){
+  savedExtensions.push({
+    en: d.en,
+    toks: d.toks,
+    note: d.note || '',
+    baseEn: baseEn,
+    grammar: [],
+    savedAt: Date.now()
+  });
+  DATA.myext.phrases = savedExtensions;
+  saveBtn.textContent = 'Saved ✓';
+  saveBtn.classList.add('saved');
+  try{
+    await persistExtensions();
+  } catch(err){
+    console.error('Could not persist extension:', err);
+  }
+}
+
+function deleteExtension(idx){
+  savedExtensions.splice(idx, 1);
+  DATA.myext.phrases = savedExtensions;
+  persistExtensions().catch(err => console.error('Could not persist deletion:', err));
+  render();
+}
+
+async function persistExtensions(){
+  if (!window.storage) return;
+  await window.storage.set('extensions_v1', JSON.stringify(savedExtensions), false);
+}
+
+async function loadExtensions(){
+  if (!window.storage) return;
+  try{
+    const res = await window.storage.get('extensions_v1', false);
+    savedExtensions = res && res.value ? JSON.parse(res.value) : [];
+  } catch(err){
+    savedExtensions = [];
+  }
+  DATA.myext.phrases = savedExtensions;
+  if (path.length === 1 && path[0] === 'myext'){
+    render();
+  }
+}
+
+// ============ FLASHCARDS ============
+function phraseHanzi(phrase){
+  return phrase.toks.map(t => t.swap ? t.swap[0].hanzi : t.hanzi).join('');
+}
+function phrasePinyin(phrase){
+  return phrase.toks.map(t => t.swap ? t.swap[0].pinyin : t.pinyin).join(' ');
+}
+function openFlashcards(phrases){
+  flashState = {phrases, idx: 0, direction: 'zh', flipped: false};
+  document.getElementById('flashOverlay').classList.add('show');
+  renderFlashcard();
+}
+function closeFlashcards(){
+  document.getElementById('flashOverlay').classList.remove('show');
+  if ('speechSynthesis' in window) speechSynthesis.cancel();
+  flashState = null;
+}
+function setFlashDirection(dir){
+  if (!flashState) return;
+  flashState.direction = dir;
+  flashState.flipped = false;
+  renderFlashcard();
+}
+function flipFlashcard(){
+  if (!flashState) return;
+  flashState.flipped = !flashState.flipped;
+  if (flashState.flipped) recordCardReviewed();
+  renderFlashcard();
+}
+function nextFlashcard(){
+  if (!flashState) return;
+  flashState.idx = (flashState.idx + 1) % flashState.phrases.length;
+  flashState.flipped = false;
+  renderFlashcard();
+}
+function prevFlashcard(){
+  if (!flashState) return;
+  flashState.idx = (flashState.idx - 1 + flashState.phrases.length) % flashState.phrases.length;
+  flashState.flipped = false;
+  renderFlashcard();
+}
+function renderFlashcard(){
+  if (!flashState) return;
+  const {phrases, idx, direction, flipped} = flashState;
+  const phrase = phrases[idx];
+  document.getElementById('flashProgress').textContent = (idx+1) + ' / ' + phrases.length;
+  document.getElementById('flashDirZh').classList.toggle('active', direction === 'zh');
+  document.getElementById('flashDirEn').classList.toggle('active', direction === 'en');
+
+  const showChineseSide = (direction === 'zh') !== flipped; // front=zh unless flipped, and vice versa for direction=en
+  const cardEl = document.getElementById('flashCard');
+  cardEl.innerHTML = '';
+
+  if (showChineseSide){
+    const main = document.createElement('div');
+    main.className = 'fc-main cn';
+    main.textContent = phraseHanzi(phrase);
+    cardEl.appendChild(main);
+    const sub = document.createElement('div');
+    sub.className = 'fc-sub';
+    sub.textContent = phrasePinyin(phrase);
+    cardEl.appendChild(sub);
+    if (showPronunciation){
+      const pronBox = renderPronunciationBox(phrasePinyin(phrase));
+      if (pronBox){ pronBox.style.textAlign = 'left'; pronBox.style.marginTop = '10px'; cardEl.appendChild(pronBox); }
+    }
+  } else {
+    const main = document.createElement('div');
+    main.className = 'fc-main';
+    main.textContent = phrase.en;
+    cardEl.appendChild(main);
+  }
+
+  const audioBtn = document.createElement('button');
+  audioBtn.className = 'fc-audio-btn';
+  audioBtn.textContent = '🔊';
+  audioBtn.title = 'Play pronunciation';
+  audioBtn.onclick = (e) => {
+    e.stopPropagation();
+    speak(phraseHanzi(phrase), audioBtn);
+  };
+  cardEl.appendChild(audioBtn);
+
+  const hint = document.createElement('div');
+  hint.className = 'flash-hint';
+  hint.textContent = 'Tap the card to flip';
+  cardEl.appendChild(hint);
+
+  cardEl.onclick = flipFlashcard;
+  document.getElementById('flashPrimary').textContent = flipped ? 'Flip back' : 'Flip';
+}
+
+// ============ NOTES / INBOX ============
+function renderNotesPage(node){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  const intro = document.createElement('p');
+  intro.className = 'notes-intro';
+  intro.textContent = "Jot down vocab or phrases you want added to the phrasebook — saved right on this device. When you're back at your computer, tap \"Copy all\" and paste them into your workbook or a new chat with Claude.";
+  main.appendChild(intro);
+
+  const inputRow = document.createElement('div');
+  inputRow.className = 'notes-input-row';
+  const textarea = document.createElement('textarea');
+  textarea.id = 'noteInput';
+  textarea.placeholder = 'e.g. 打包 dǎbāo — to get food to go / take away';
+  inputRow.appendChild(textarea);
+  const addBtn = document.createElement('button');
+  addBtn.className = 'primary';
+  addBtn.textContent = '+ Add note';
+  addBtn.onclick = () => addNote();
+  inputRow.appendChild(addBtn);
+  main.appendChild(inputRow);
+
+  if (savedNotes.length > 0){
+    const actions = document.createElement('div');
+    actions.className = 'notes-actions';
+    const copyBtn = document.createElement('button');
+    copyBtn.textContent = '📋 Copy all as text';
+    copyBtn.onclick = () => copyAllNotes(copyBtn);
+    actions.appendChild(copyBtn);
+    main.appendChild(actions);
+  }
+
+  const label = document.createElement('div');
+  label.className = 'section-label';
+  label.textContent = savedNotes.length + ' note' + (savedNotes.length===1?'':'s');
+  main.appendChild(label);
+
+  if (savedNotes.length === 0){
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'No notes yet — jot something above.';
+    main.appendChild(empty);
+    return;
+  }
+
+  [...savedNotes].reverse().forEach((note, revIdx) => {
+    const realIdx = savedNotes.length - 1 - revIdx;
+    const item = document.createElement('div');
+    item.className = 'note-item';
+    const textWrap = document.createElement('div');
+    const textEl = document.createElement('div');
+    textEl.className = 'note-text';
+    textEl.textContent = note.text;
+    textWrap.appendChild(textEl);
+    const dateEl = document.createElement('div');
+    dateEl.className = 'note-date';
+    dateEl.textContent = new Date(note.addedAt).toLocaleDateString();
+    textWrap.appendChild(dateEl);
+    item.appendChild(textWrap);
+    const delBtn = document.createElement('button');
+    delBtn.className = 'note-del';
+    delBtn.textContent = '✕';
+    delBtn.onclick = () => deleteNote(realIdx);
+    item.appendChild(delBtn);
+    main.appendChild(item);
+  });
+}
+function addNote(){
+  const textarea = document.getElementById('noteInput');
+  const text = textarea.value.trim();
+  if (!text) return;
+  savedNotes.push({text, addedAt: Date.now()});
+  persistNotes().catch(err => console.error('Could not persist note:', err));
+  render();
+}
+function deleteNote(idx){
+  savedNotes.splice(idx, 1);
+  persistNotes().catch(err => console.error('Could not persist note deletion:', err));
+  render();
+}
+function copyAllNotes(btn){
+  const text = savedNotes.map(n => n.text).join('\n');
+  const done = () => { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = '📋 Copy all as text'; }, 1500); };
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(() => alert('Could not copy — select and copy the notes manually.'));
+  } else {
+    alert('Clipboard not available on this device/browser — select and copy the notes manually.');
+  }
+}
+async function persistNotes(){
+  if (!window.storage) return;
+  await window.storage.set('notes_v1', JSON.stringify(savedNotes), false);
+}
+async function loadNotes(){
+  if (!window.storage) return;
+  try{
+    const res = await window.storage.get('notes_v1', false);
+    savedNotes = res && res.value ? JSON.parse(res.value) : [];
+  } catch(err){
+    savedNotes = [];
+  }
+  if (path.length === 1 && path[0] === 'inbox'){
+    render();
+  } else if (path.length === 0){
+    render();
+  }
+}
+
+// ============ PROGRESS / DASHBOARD ============
+function todayStr(){
+  return new Date().toISOString().slice(0, 10);
+}
+function yesterdayStr(){
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  return d.toISOString().slice(0, 10);
+}
+let progressSaveTimer = null;
+let progressSaveChain = Promise.resolve();
+function persistProgress(){
+  if (!window.storage) return;
+  if (progressSaveTimer) clearTimeout(progressSaveTimer);
+  progressSaveTimer = setTimeout(() => {
+    progressSaveTimer = null;
+    const snapshot = JSON.stringify(progressState);
+    // chain onto any prior save so writes never overlap, and one failure never blocks the next attempt
+    progressSaveChain = progressSaveChain
+      .catch(() => {})
+      .then(() => window.storage.set('progress_v1', snapshot, false))
+      .catch(err => console.error('Could not persist progress:', err));
+  }, 600);
+}
+async function loadProgress(){
+  if (!window.storage) return;
+  try{
+    const res = await window.storage.get('progress_v1', false);
+    if (res && res.value) progressState = JSON.parse(res.value);
+  } catch(err){
+    // no prior progress — defaults stand
+  }
+
+  const today = todayStr();
+  if (progressState.lastActiveDate === today){
+    // already counted today
+  } else if (progressState.lastActiveDate === yesterdayStr()){
+    progressState.streakCount = (progressState.streakCount || 0) + 1;
+    progressState.lastActiveDate = today;
+  } else {
+    progressState.streakCount = 1;
+    progressState.lastActiveDate = today;
+  }
+  persistProgress();
+  if (path.length === 0){
+    render();
+  }
+}
+function recordCardReviewed(){
+  progressState.totalCardsReviewed = (progressState.totalCardsReviewed || 0) + 1;
+  persistProgress();
+}
+function recordCategoryVisit(p, node){
+  progressState.lastCategory = {path: p.slice(), name: node.name};
+  persistProgress();
+}
+
+// ============ RENDER: BREADCRUMB ============
+function renderBreadcrumb(){
+  const bc = document.getElementById('breadcrumb');
+  bc.innerHTML = '';
+  const home = document.createElement('span');
+  home.className = 'crumb' + (path.length ? '' : ' current');
+  home.textContent = 'Situations';
+  home.onclick = () => { if (path.length) goHome(); };
+  bc.appendChild(home);
+
+  path.forEach((key, i) => {
+    const node = getNode(path.slice(0, i+1));
+    if (!node) return;
+    const sep = document.createElement('span');
+    sep.className = 'sep';
+    sep.textContent = '›';
+    bc.appendChild(sep);
+    const isLast = i === path.length - 1;
+    const crumb = document.createElement('span');
+    crumb.className = 'crumb' + (isLast ? ' current' : '');
+    crumb.textContent = node.name;
+    if (!isLast){
+      const jumpPath = path.slice(0, i+1);
+      crumb.onclick = () => goTo(jumpPath);
+    }
+    bc.appendChild(crumb);
+  });
+
+  const backBtn = document.getElementById('backBtn');
+  const query = document.getElementById('searchInput').value.trim();
+  backBtn.classList.toggle('hidden', path.length === 0 && !query);
+}
+
+// ============ RENDER: A GRID OF CARDS (used for home + group pages) ============
+function renderCardsGrid(entries, labelText){
+  // entries: [{id, node, onClick}]
+  const main = document.getElementById('main');
+  const label = document.createElement('div');
+  label.className = 'section-label';
+  label.textContent = labelText;
+  main.appendChild(label);
+
+  entries.forEach(({node, onClick}) => {
+    const card = document.createElement('div');
+    card.className = 'cat-card' + (node.comingSoon ? ' disabled' : '');
+    const count = countPhrases(node);
+    const isGroup = !!node.subcats;
+    card.innerHTML = `
+      <div class="cat-icon">${node.icon}</div>
+      <div class="cat-body">
+        <p class="cat-title">${node.name}</p>
+        <p class="cat-sub">${node.cn}</p>
+      </div>
+      ${node.comingSoon
+        ? '<span class="soon-tag">Coming soon</span>'
+        : `<span class="cat-count">${count} ${node.isNotes ? 'note' + (count===1?'':'s') : 'phrases'}</span><svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>`
+      }
+    `;
+    if (!node.comingSoon){
+      card.onclick = onClick;
+    }
+    main.appendChild(card);
+  });
+}
+
+// ============ RENDER: HOME (TOP-LEVEL GRID) ============
+function renderHome(query){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+
+  if (query){
+    renderSearchResults(query);
+    return;
+  }
+
+  renderStatsCard(main);
+
+  const entries = Object.keys(DATA).map(id => ({
+    node: DATA[id],
+    onClick: () => goTo([id])
+  }));
+  renderCardsGrid(entries, 'Situations');
+}
+
+function renderStatsCard(main){
+  const card = document.createElement('div');
+  card.className = 'stats-card';
+
+  const row = document.createElement('div');
+  row.className = 'stats-row';
+  row.innerHTML = `
+    <div class="stat-block">
+      <div class="stat-num">🔥 ${progressState.streakCount || 0}</div>
+      <div class="stat-label">day streak</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">${progressState.totalCardsReviewed || 0}</div>
+      <div class="stat-label">cards reviewed</div>
+    </div>
+  `;
+  card.appendChild(row);
+
+  if (progressState.lastCategory && getNode(progressState.lastCategory.path)){
+    const btn = document.createElement('button');
+    btn.className = 'continue-btn';
+    btn.textContent = `Continue: ${progressState.lastCategory.name} →`;
+    btn.onclick = () => goTo(progressState.lastCategory.path.slice());
+    card.appendChild(btn);
+  }
+
+  main.appendChild(card);
+}
+
+// ============ RENDER: SEARCH RESULTS ============
+function renderSearchResults(query){
+  const main = document.getElementById('main');
+  const q = query.toLowerCase();
+  const allLeaves = [];
+  Object.keys(DATA).forEach(id => collectLeaves(DATA[id], [id], allLeaves));
+
+  let results = [];
+  allLeaves.forEach(({path: leafPath, node}) => {
+    node.phrases.forEach((phrase, idx) => {
+      const hanzi = phrase.toks.map(t=>t.hanzi).join('');
+      const pinyin = phrase.toks.map(t=>t.pinyin).join(' ');
+      const hay = (phrase.en + ' ' + hanzi + ' ' + pinyin).toLowerCase();
+      if (hay.includes(q)) results.push({pathKey: leafPath.join('_'), idx, phrase});
+    });
+  });
+
+  const label = document.createElement('div');
+  label.className = 'section-label';
+  label.textContent = results.length + ' result' + (results.length===1?'':'s');
+  main.appendChild(label);
+
+  if (results.length === 0){
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'No phrases match yet — try a different word, or browse Situations.';
+    main.appendChild(empty);
+    return;
+  }
+
+  results.forEach(r => {
+    main.appendChild(renderPhraseCard(r.pathKey, r.idx, r.phrase));
+  });
+}
+
+// ============ RENDER: GROUP PAGE (a category made of sub-categories) ============
+function renderGroup(p, node){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  const entries = Object.keys(node.subcats).map(key => ({
+    node: node.subcats[key],
+    onClick: () => goTo([...p, key])
+  }));
+  renderCardsGrid(entries, Object.keys(node.subcats).length + ' pattern group' + (Object.keys(node.subcats).length===1?'':'s'));
+}
+
+// ============ RENDER: CATEGORY DETAIL (leaf: a plain phrase list) ============
+function renderCategory(p, node){
+  const main = document.getElementById('main');
+  main.innerHTML = '';
+  const pathKey = p.join('_');
+  if (!node.dynamic) recordCategoryVisit(p, node);
+
+  const headerRow = document.createElement('div');
+  headerRow.className = 'cat-header-row';
+  const label = document.createElement('div');
+  label.className = 'section-label';
+  label.textContent = node.phrases.length + ' phrases';
+  headerRow.appendChild(label);
+  if (node.phrases.length > 0){
+    const flashBtn = document.createElement('button');
+    flashBtn.className = 'flash-trigger';
+    flashBtn.textContent = '🗂 Flashcards';
+    flashBtn.onclick = () => openFlashcards(node.phrases);
+    headerRow.appendChild(flashBtn);
+  }
+  main.appendChild(headerRow);
+
+  if (node.teaching){
+    const tc = document.createElement('div');
+    tc.className = 'teaching-card';
+    const title = document.createElement('p');
+    title.className = 'teaching-title';
+    title.textContent = 'How this pattern works';
+    tc.appendChild(title);
+    const overview = document.createElement('p');
+    overview.className = 'teaching-overview';
+    overview.textContent = node.teaching.overview;
+    tc.appendChild(overview);
+    const kwList = document.createElement('div');
+    kwList.className = 'keyword-list';
+    node.teaching.keywords.forEach(kw => {
+      const item = document.createElement('div');
+      item.className = 'keyword-item';
+      item.innerHTML = `<span class="kw-hanzi">${kw.hanzi}</span><span class="kw-pinyin">${kw.pinyin}</span><span class="kw-meaning">${kw.meaning}</span>`;
+      kwList.appendChild(item);
+    });
+    tc.appendChild(kwList);
+    main.appendChild(tc);
+  }
+
+  if (node.dynamic && node.phrases.length === 0){
+    const empty = document.createElement('div');
+    empty.className = 'empty';
+    empty.textContent = 'No saved extensions yet — tap ✨ on any phrase in the phrasebook, generate an advanced version, then Save it here.';
+    main.appendChild(empty);
+    return;
+  }
+
+  let lastSection = null;
+  node.phrases.forEach((phrase, idx) => {
+    if (phrase.section && phrase.section !== lastSection){
+      lastSection = phrase.section;
+      const sub = document.createElement('div');
+      sub.className = 'section-subhead';
+      sub.textContent = lastSection;
+      main.appendChild(sub);
+    }
+    main.appendChild(renderPhraseCard(pathKey, idx, phrase));
+  });
+}
+
+// ============ RENDER: ONE PHRASE CARD ============
+function renderPhraseCard(catId, idx, phrase){
+  const card = document.createElement('div');
+  card.className = 'phrase-card';
+
+  const enP = document.createElement('p');
+  enP.className = 'phrase-en';
+  enP.textContent = phrase.en;
+  card.appendChild(enP);
+
+  const row = document.createElement('div');
+  row.className = 'phrase-row';
+
+  const cnDiv = document.createElement('div');
+  cnDiv.className = 'phrase-cn';
+
+  let hasSwap = false;
+
+  phrase.toks.forEach((t, ti) => {
+    const key = catId + '_' + idx + '_' + ti;
+    const selIdx = swapState[key] || 0;
+    const displayTok = t.swap ? t.swap[selIdx] : t;
+
+    const span = document.createElement('span');
+    span.className = 'tok' + (t.swap ? ' swap' : '');
+    span.style.color = ROLES[t.role].color;
+    span.textContent = displayTok.hanzi;
+    span.dataset.key = key;
+
+    if (t.swap){
+      hasSwap = true;
+      span.onclick = () => {
+        swapState[key] = (selIdx + 1) % t.swap.length;
+        renderInPlace();
+      };
+    }
+    cnDiv.appendChild(span);
+  });
+
+  row.appendChild(cnDiv);
+
+  const btn = document.createElement('button');
+  btn.className = 'seal-btn';
+  btn.textContent = '听';
+  btn.onclick = () => {
+    const fullText = phrase.toks.map((t, ti) => {
+      const key = catId + '_' + idx + '_' + ti;
+      const selIdx = swapState[key] || 0;
+      return t.swap ? t.swap[selIdx].hanzi : t.hanzi;
+    }).join('');
+    speak(fullText, btn);
+  };
+  row.appendChild(btn);
+
+  if (catId !== 'myext'){
+    const extBtn = document.createElement('button');
+    extBtn.className = 'extend-btn';
+    extBtn.textContent = '✨';
+    extBtn.title = 'Build a more advanced phrase from this one';
+    const extKey = catId + '_' + idx;
+    extBtn.onclick = () => {
+      const panel = card.querySelector('.extend-panel');
+      const showing = panel.style.display !== 'none';
+      if (extendResults[extKey] || showing){
+        panel.style.display = showing ? 'none' : 'block';
+        if (!showing) renderExtendPanel(panel, extKey, catId, idx, phrase);
+      } else {
+        panel.style.display = 'block';
+        generateExtension(extKey, catId, idx, phrase, panel);
+      }
+    };
+    row.appendChild(extBtn);
+  }
+
+  card.appendChild(row);
+
+  if (hasSwap){
+    const hint = document.createElement('p');
+    hint.className = 'swap-hint';
+    hint.textContent = 'Dashed underline = tap to swap in another word';
+    card.appendChild(hint);
+  }
+
+  // pinyin line
+  const pinyinLine = document.createElement('p');
+  pinyinLine.style.cssText = 'font-size:13px;color:var(--muted);margin:8px 0 0;';
+  const fullPinyinText = phrase.toks.map((t, ti) => {
+    const key = catId + '_' + idx + '_' + ti;
+    const selIdx = swapState[key] || 0;
+    return t.swap ? t.swap[selIdx].pinyin : t.pinyin;
+  }).join(' · ');
+  pinyinLine.textContent = fullPinyinText;
+  card.appendChild(pinyinLine);
+
+  // word-by-word breakdown
+  const breakdown = document.createElement('div');
+  breakdown.className = 'breakdown';
+  const displayToksForStructure = [];
+  phrase.toks.forEach((t, ti) => {
+    const key = catId + '_' + idx + '_' + ti;
+    const selIdx = swapState[key] || 0;
+    const displayTok = t.swap ? t.swap[selIdx] : t;
+    displayToksForStructure.push({hanzi: displayTok.hanzi, role: t.role});
+    const chip = document.createElement('div');
+    chip.className = 'tok-chip';
+    chip.innerHTML = `
+      <span class="h" style="color:${ROLES[t.role].color}">${displayTok.hanzi}</span>
+      <span class="p">${displayTok.pinyin}</span>
+      <span class="g">${displayTok.gloss}</span>
+      <span class="dot" style="background:${ROLES[t.role].color}"></span>
+    `;
+    if (!/^[，。？！]$/.test(displayTok.hanzi)){
+      const wordAudioBtn = document.createElement('button');
+      wordAudioBtn.className = 'chip-audio-btn';
+      wordAudioBtn.textContent = '🔊';
+      wordAudioBtn.title = 'Hear just this word';
+      wordAudioBtn.onclick = () => speak(displayTok.hanzi, wordAudioBtn);
+      chip.appendChild(wordAudioBtn);
+    }
+    if (showPronunciation) appendChipPronunciation(chip, displayTok.pinyin);
+    breakdown.appendChild(chip);
+  });
+  card.appendChild(breakdown);
+
+  // sentence structure box
+  const structureText = describeStructure(displayToksForStructure, phrase.grammar);
+  if (structureText){
+    const sBox = document.createElement('div');
+    sBox.className = 'structure-box';
+    sBox.innerHTML = `<div class="sb-label">🧩 Sentence Structure</div><div class="sb-text">${structureText}</div>`;
+    card.appendChild(sBox);
+  }
+
+  // grammar pills
+  if (phrase.grammar && phrase.grammar.length){
+    const tagsRow = document.createElement('div');
+    tagsRow.className = 'tags-row';
+    phrase.grammar.forEach(gnum => {
+      const g = GRAMMAR[gnum];
+      if (!g) return;
+      const pill = document.createElement('button');
+      pill.className = 'gram-pill t' + g.tier;
+      pill.textContent = '#' + gnum + ' ' + g.title;
+      const tipId = 'tip_' + catId + '_' + idx + '_' + gnum;
+      pill.onclick = () => {
+        const tip = card.querySelector('#' + tipId);
+        tip.classList.toggle('show');
+      };
+      tagsRow.appendChild(pill);
+    });
+    card.appendChild(tagsRow);
+    phrase.grammar.forEach(gnum => {
+      const g = GRAMMAR[gnum];
+      if (!g) return;
+      const tip = document.createElement('div');
+      tip.className = 'gram-tip';
+      tip.id = 'tip_' + catId + '_' + idx + '_' + gnum;
+      tip.innerHTML = `<b>#${gnum} ${g.title}</b> — ${g.tip}<br><span style="color:var(--muted);font-size:11.5px;">${g.structure} · e.g. ${g.example} (${g.examplePinyin}) — ${g.exampleEn}</span>`;
+      card.appendChild(tip);
+    });
+  }
+
+  // extension source note + delete (only on the My Extensions page)
+  if (catId === 'myext' && phrase.note){
+    const src = document.createElement('div');
+    src.className = 'extension-source';
+    src.innerHTML = `Built on: <b>${phrase.baseEn || '?'}</b> — ${phrase.note}`;
+    card.appendChild(src);
+    const delBtn = document.createElement('button');
+    delBtn.className = 'extension-delete';
+    delBtn.textContent = 'Remove from My Extensions';
+    delBtn.onclick = () => deleteExtension(idx);
+    card.appendChild(delBtn);
+  }
+
+  // extend panel (hidden until the ✨ button is tapped)
+  if (catId !== 'myext'){
+    const panel = document.createElement('div');
+    panel.className = 'extend-panel';
+    panel.style.display = 'none';
+    card.appendChild(panel);
+  }
+
+  return card;
+}
+
+function renderInPlace(){
+  // Re-render whatever's currently shown, preserving scroll position roughly
+  const scrollY = window.scrollY;
+  render();
+  window.scrollTo(0, scrollY);
+}
+
+// ============ MAIN RENDER ============
+function render(){
+  renderBreadcrumb();
+  const query = document.getElementById('searchInput').value.trim();
+  document.getElementById('navHome').classList.toggle('active', !query);
+  document.getElementById('navSearch').classList.toggle('active', !!query);
+  if (query){
+    document.getElementById('main').innerHTML = '';
+    renderSearchResults(query);
+    return;
+  }
+  if (path.length === 0){
+    renderHome(null);
+    return;
+  }
+  const node = getNode(path);
+  if (!node){ path = []; renderHome(null); return; }
+  if (node.isNotes){
+    renderNotesPage(node);
+  } else if (node.subcats){
+    renderGroup(path, node);
+  } else {
+    renderCategory(path, node);
+  }
+}
+
+// ============ LEGEND MODAL ============
+function openLegend(){
+  const sheet = document.getElementById('sheetContent');
+  sheet.innerHTML = '<h3>Color key · 颜色说明</h3>';
+  Object.keys(ROLES).forEach(r => {
+    const item = document.createElement('div');
+    item.className = 'legend-item';
+    item.innerHTML = `<span class="dot" style="background:${ROLES[r].color}"></span> ${ROLES[r].label}`;
+    sheet.appendChild(item);
+  });
+  const note = document.createElement('p');
+  note.style.cssText = 'font-size:12.5px;color:var(--muted);margin-top:12px;';
+  note.textContent = 'Dashed-underlined words are swappable — tap them to cycle through alternatives. Colored pills below a phrase link to grammar points from your reference sheet.';
+  sheet.appendChild(note);
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'sheet-close';
+  closeBtn.textContent = 'Close';
+  closeBtn.onclick = closeOverlay;
+  sheet.appendChild(closeBtn);
+  document.getElementById('overlay').classList.add('show');
+}
+function closeOverlay(){
+  document.getElementById('overlay').classList.remove('show');
+}
+
+// ============ EVENTS ============
+document.getElementById('legendBtn').onclick = openLegend;
+document.getElementById('pronToggleBtn').onclick = () => {
+  showPronunciation = !showPronunciation;
+  document.getElementById('pronToggleBtn').classList.toggle('active', showPronunciation);
+  render();
+  if (flashState) renderFlashcard();
+};
+document.getElementById('overlay').onclick = (e) => {
+  if (e.target.id === 'overlay') closeOverlay();
+};
+document.getElementById('searchInput').oninput = () => { render(); };
+document.getElementById('navHome').onclick = () => {
+  document.getElementById('searchInput').value = '';
+  path = [];
+  historyStack = [];
+  render();
+};
+document.getElementById('navSearch').onclick = () => {
+  document.getElementById('searchInput').focus();
+};
+document.getElementById('backBtn').onclick = goBack;
+document.getElementById('flashClose').onclick = closeFlashcards;
+document.getElementById('flashDirZh').onclick = () => setFlashDirection('zh');
+document.getElementById('flashDirEn').onclick = () => setFlashDirection('en');
+document.getElementById('flashPrev').onclick = prevFlashcard;
+document.getElementById('flashNext').onclick = nextFlashcard;
+document.getElementById('flashPrimary').onclick = flipFlashcard;
+
+// ============ SPEECH SPEED CONTROL ============
+function setSpeechRate(rate, persist){
+  speechRate = rate;
+  document.querySelectorAll('#speedControl .speed-btn').forEach(b => {
+    b.classList.toggle('active', parseFloat(b.dataset.rate) === rate);
+  });
+  if (persist && window.storage){
+    window.storage.set('speech_rate_v1', String(rate), false).catch(()=>{});
+  }
+}
+document.querySelectorAll('#speedControl .speed-btn').forEach(b => {
+  b.onclick = () => setSpeechRate(parseFloat(b.dataset.rate), true);
+});
+async function loadSpeechRatePref(){
+  if (!window.storage) return;
+  try{
+    const res = await window.storage.get('speech_rate_v1', false);
+    if (res && res.value) setSpeechRate(parseFloat(res.value), false);
+  } catch(err){ /* no saved preference yet — keep the 0.85 default */ }
+}
+loadSpeechRatePref();
+
+// ============ INIT ============
+render();
+loadExtensions();
+loadNotes();
+loadProgress();
+</script>
+</body>
+</html>
