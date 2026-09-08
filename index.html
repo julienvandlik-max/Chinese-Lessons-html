@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>从零开始 · Chinese Learning Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20211d;
+    --paper:#f3f1ea;
+    --paper-raised:#faf9f4;
+    --line:#d8d4c6;
+    --jade:#3f6659;
+    --jade-dim:#e4ece9;
+    --seal:#a8342a;
+    --seal-dim:#f2e1de;
+    --canal:#4a6473;
+    --canal-dim:#e6ebed;
+    --muted:#7a7666;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:48px 20px;
+  }
+  .brand{text-align:center;margin-bottom:8px;}
+  .brand h1{
+    font-family:'Baloo 2',sans-serif;
+    font-size:40px;
+    font-weight:800;
+    color:var(--jade);
+    margin:0;
+    letter-spacing:0.3px;
+  }
+  .brand .cn{
+    display:block;
+    font-size:15px;
+    color:var(--muted);
+    font-weight:400;
+    margin-top:6px;
+  }
+  .subtitle{
+    max-width:420px;
+    text-align:center;
+    font-size:14.5px;
+    color:var(--muted);
+    line-height:1.6;
+    margin:14px 0 40px;
+  }
+  .cards{
+    width:100%;
+    max-width:480px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    background:var(--paper-raised);
+    border:1.5px solid var(--line);
+    border-radius:16px;
+    padding:20px;
+    text-decoration:none;
+    color:var(--ink);
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .card:active{transform:scale(0.98);}
+  .card.lessons:hover{border-color:var(--jade);}
+  .card.phrasebook:hover{border-color:var(--seal);}
+  .card-icon{
+    flex-shrink:0;
+    width:52px;height:52px;
+    border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;
+  }
+  .card.lessons .card-icon{background:var(--jade-dim);}
+  .card.phrasebook .card-icon{background:var(--seal-dim);}
+  .card-body{flex:1;min-width:0;}
+  .card-title{
+    font-family:'Baloo 2',sans-serif;
+    font-size:17px;
+    font-weight:700;
+    margin:0 0 2px;
+  }
+  .card.lessons .card-title{color:var(--jade);}
+  .card.phrasebook .card-title{color:var(--seal);}
+  .card-cn{font-size:12.5px;color:var(--muted);margin:0 0 6px;}
+  .card-desc{font-size:13px;color:var(--ink);line-height:1.5;margin:0;}
+  .card-chevron{flex-shrink:0;color:var(--muted);}
+
+  footer{
+    margin-top:48px;
+    font-size:12px;
+    color:var(--muted);
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="brand">
+    <h1>从零开始<span class="cn">Chinese Learning Hub</span></h1>
+  </div>
+  <p class="subtitle">Two tools, one path — structured lessons for building the grammar from scratch, and a quick-reference phrasebook for daily life in Suzhou.</p>
+
+  <div class="cards">
+    <a class="card lessons" href="chinese_lessons.html">
+      <div class="card-icon">📖</div>
+      <div class="card-body">
+        <p class="card-title">Chinese Lessons</p>
+        <p class="card-cn">认识新朋友 · 从零开始</p>
+        <p class="card-desc">Lesson-by-lesson grammar, dialogues, and vocabulary — start here to build the fundamentals.</p>
+      </div>
+      <svg class="card-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+
+    <a class="card phrasebook" href="suzhou_phrasebook.html">
+      <div class="card-icon">🗺️</div>
+      <div class="card-body">
+        <p class="card-title">Suzhou Survival Phrasebook</p>
+        <p class="card-cn">苏州生存手册</p>
+        <p class="card-desc">Situation-based phrases for daily life — greetings, food, transport, shopping, and more.</p>
+      </div>
+      <svg class="card-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+  </div>
+
+  <footer>Built with Claude · updated as the course grows</footer>
+
+</body>
+</html>
