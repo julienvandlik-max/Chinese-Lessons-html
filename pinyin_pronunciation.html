@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>拼音 · Pinyin Pronunciation Reference</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20211d;
+    --paper:#f3f1ea;
+    --paper-raised:#faf9f4;
+    --line:#d8d4c6;
+    --jade:#3f6659;
+    --jade-dim:#e4ece9;
+    --seal:#a8342a;
+    --seal-dim:#f2e1de;
+    --canal:#4a6473;
+    --canal-dim:#e6ebed;
+    --muted:#7a7666;
+    --tier1:#3f6659;
+    --tier2:#b2822e;
+    --tier3:#a8342a;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100vh;
+  }
+  .cn{font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;}
+  .app{max-width:560px;margin:0 auto;min-height:100vh;background:var(--paper);position:relative;padding-bottom:40px;}
+
+  header{padding:18px 16px 12px;border-bottom:1px solid var(--line);background:var(--paper);position:sticky;top:0;z-index:5;}
+  .brand{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:4px;}
+  .brand h1{font-family:'Baloo 2',sans-serif;font-size:22px;font-weight:700;margin:0;letter-spacing:0.2px;}
+  .brand .cn{font-size:14px;color:var(--muted);font-weight:400;margin-left:8px;}
+  .subtitle{font-size:12.5px;color:var(--muted);margin:2px 0 0;line-height:1.5;}
+
+  /* tab nav */
+  .tabs{display:flex;gap:6px;margin-top:12px;background:var(--jade-dim);padding:4px;border-radius:12px;}
+  .tab-btn{flex:1;border:none;background:transparent;padding:9px 4px;border-radius:9px;font-size:13px;font-weight:600;
+    color:var(--jade);cursor:pointer;font-family:inherit;}
+  .tab-btn.active{background:var(--jade);color:#fff;}
+
+  main{padding:14px 16px 0;}
+  section.tabpanel{display:none;}
+  section.tabpanel.active{display:block;}
+
+  /* intro / info card */
+  .info-card{background:var(--canal-dim);border-left:3px solid var(--canal);border-radius:10px;
+    padding:12px 14px;margin-bottom:16px;font-size:13px;line-height:1.55;color:var(--ink);}
+  .info-card b{color:var(--canal);}
+  .info-card p{margin:0 0 8px;}
+  .info-card p:last-child{margin-bottom:0;}
+  .info-card.warn{background:var(--seal-dim);border-left-color:var(--seal);}
+  .info-card.warn b{color:var(--seal);}
+
+  /* group header */
+  .group-title{font-family:'Baloo 2',sans-serif;font-size:15px;font-weight:700;color:var(--ink);
+    margin:22px 0 4px;display:flex;align-items:baseline;gap:8px;}
+  .group-title:first-of-type{margin-top:4px;}
+  .group-sub{font-size:12px;color:var(--muted);font-weight:400;}
+  .group-desc{font-size:12.5px;color:var(--muted);margin:0 0 10px;line-height:1.5;}
+
+  /* sound card grid (initials + finals) */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+  .snd-card{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:12px;position:relative;}
+  .snd-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+  .snd-pinyin{font-size:22px;font-weight:700;color:var(--jade);font-style:italic;}
+  .play-btn{flex-shrink:0;width:32px;height:32px;border-radius:8px;background:var(--seal);color:#f3ece9;
+    border:none;font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+    box-shadow:0 1px 0 rgba(0,0,0,0.15) inset;}
+  .play-btn:active{transform:scale(0.92);}
+  .play-btn.playing{background:var(--jade);}
+  .snd-tip{font-size:12px;color:var(--ink);line-height:1.45;}
+  .snd-demo{font-size:11px;color:var(--muted);margin-top:5px;}
+  .snd-demo .cn{font-size:12px;color:var(--ink);}
+
+  /* aspiration pairs box */
+  .pair-box{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:14px;margin:18px 0;}
+  .pair-box h3{font-family:'Baloo 2',sans-serif;font-size:14px;margin:0 0 8px;color:var(--seal);}
+  .pair-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px dashed var(--line);}
+  .pair-row:first-of-type{border-top:none;}
+  .pair-item{flex:1;text-align:center;}
+  .pair-item .py{font-size:20px;font-weight:700;color:var(--jade);}
+  .pair-item .lbl{font-size:10.5px;color:var(--muted);display:block;margin-top:2px;}
+  .pair-vs{font-size:11px;color:var(--muted);font-weight:600;}
+
+  /* syllable chart */
+  .search-wrap{position:sticky;top:118px;background:var(--paper);z-index:4;padding-bottom:8px;}
+  .search-box{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);
+    background:var(--paper-raised);font-size:14px;font-family:inherit;color:var(--ink);}
+  .search-box:focus{outline:2px solid var(--jade);outline-offset:1px;}
+  .jump-row{display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
+  .jump-row::-webkit-scrollbar{display:none;}
+  .jump-pill{flex-shrink:0;border:1px solid var(--line);background:var(--paper-raised);color:var(--jade);
+    font-weight:700;font-size:13px;padding:5px 11px;border-radius:999px;cursor:pointer;font-family:inherit;}
+  .jump-pill:active{background:var(--jade-dim);}
+
+  .init-group{margin-top:20px;scroll-margin-top:180px;}
+  .init-group-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .init-tag{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:16px;color:#fff;background:var(--jade);
+    border-radius:8px;padding:3px 10px;min-width:34px;text-align:center;}
+  .init-tag.zero{background:var(--muted);}
+  .init-count{font-size:11.5px;color:var(--muted);}
+  .syl-wrap{display:flex;flex-wrap:wrap;gap:7px;}
+  .syl-chip{background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;
+    padding:6px 9px;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;}
+  .syl-chip .init-part{color:var(--seal);}
+  .syl-chip .final-part{color:var(--jade);}
+  .syl-chip:active{background:var(--jade-dim);}
+  .syl-chip.hidden{display:none;}
+  .init-group.hidden{display:none;}
+  .no-match{font-size:13px;color:var(--muted);text-align:center;padding:20px 0;}
+
+  footer{padding:20px 16px 10px;text-align:center;font-size:11.5px;color:var(--muted);}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand">
+      <h1>Pinyin Pronunciation<span class="cn">拼音发音</span></h1>
+    </div>
+    <p class="subtitle">Every initial, every final, and the full syllable chart — tap 🔊 on anything to hear it. Toneless base sounds; tones live in your other drills.</p>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="initials">Initials 声母</button>
+      <button class="tab-btn" data-tab="finals">Finals 韵母</button>
+      <button class="tab-btn" data-tab="chart">Syllable Chart 拼音表</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============ INITIALS TAB ============ -->
+    <section class="tabpanel active" id="tab-initials">
+      <div class="info-card">
+        <p><b>Initials are the consonant sounds</b> that start a syllable — 21 of them, plus syllables that start with no consonant at all (covered under Finals).</p>
+        <p>The distinction English speakers struggle with isn't voiced vs. voiceless — it's <b>unaspirated vs. aspirated</b>: whether a puff of air follows the consonant. Hold your hand in front of your mouth and compare <span class="cn">爸 bà</span> (no puff) with <span class="cn">怕 pà</span> (strong puff) to feel it.</p>
+      </div>
+      <div id="initials-groups"></div>
+
+      <div class="pair-box">
+        <h3>The 6 aspiration pairs</h3>
+        <div id="pair-rows"></div>
+      </div>
+    </section>
+
+    <!-- ============ FINALS TAB ============ -->
+    <section class="tabpanel" id="tab-finals">
+      <div class="info-card">
+        <p><b>Finals are everything after the initial</b> — the vowel (or vowel + nasal ending) that carries the tone. Some finals stand alone as a whole syllable (spelled with a leading y/w — shown here as the demo).</p>
+      </div>
+      <div class="info-card warn">
+        <p><b>Watch for the buzzed "i".</b> After <span class="cn">zh ch sh r z c s</span>, the letter "i" isn't "ee" — it's a buzzed, vowel-less continuation of the consonant (like the "rr" in <span class="cn">十 shí</span>). Apple's TTS often mispronounces this as "ee" — trust your own ear on real recordings over the audio button for these.</p>
+      </div>
+      <div id="finals-groups"></div>
+    </section>
+
+    <!-- ============ SYLLABLE CHART TAB ============ -->
+    <section class="tabpanel" id="tab-chart">
+      <div class="info-card">
+        <p>Every valid initial + final combination in Mandarin — not every initial pairs with every final. <span style="color:var(--seal);font-weight:600;">Red</span> = initial, <span style="color:var(--jade);font-weight:600;">green</span> = final. Tap any syllable to hear it.</p>
+      </div>
+      <div class="search-wrap">
+        <input type="text" class="search-box" id="syl-search" placeholder="Search a syllable, e.g. &quot;zhu&quot; or &quot;ian&quot;…">
+        <div class="jump-row" id="jump-row"></div>
+      </div>
+      <div id="chart-groups"></div>
+      <p class="no-match" id="no-match" style="display:none;">No syllables match.</p>
+    </section>
+
+  </main>
+  <footer>Tap 🔊 for TTS audio (device voice — imperfect on retroflex and buzzed sounds by design of the underlying engine, not a bug in this page).</footer>
+</div>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+
+const INITIAL_GROUPS = [
+  { title:"Lips", cn:"唇音", desc:"Made by closing or narrowing the lips.",
+    items:[
+      {p:'b', tip:'Like the "p" in "spy" — no puff of air.', demo:'ba'},
+      {p:'p', tip:'Like the "p" in "pie" — strong puff of air.', demo:'pa'},
+      {p:'m', tip:'Same as English "m".', demo:'ma'},
+      {p:'f', tip:'Same as English "f".', demo:'fa'},
+    ]},
+  { title:"Tongue-tip to gum ridge", cn:"舌尖音", desc:"Tongue tip taps just behind the upper front teeth.",
+    items:[
+      {p:'d', tip:'Like "t" in "sty" — no puff of air.', demo:'da'},
+      {p:'t', tip:'Like "t" in "tie" — strong puff of air.', demo:'ta'},
+      {p:'n', tip:'Same as English "n".', demo:'na'},
+      {p:'l', tip:'Same as English "l".', demo:'la'},
+    ]},
+  { title:"Back of tongue", cn:"舌根音", desc:"Back of the tongue against the soft palate, like English k/g.",
+    items:[
+      {p:'g', tip:'Like "k" in "sky" — no puff of air.', demo:'ga'},
+      {p:'k', tip:'Like "k" in "kite" — strong puff of air.', demo:'ka'},
+      {p:'h', tip:'Raspy, further back than English "h" — like Scottish "loch".', demo:'ha'},
+    ]},
+  { title:"Tongue flat & forward", cn:"舌面音", desc:"Only ever followed by i or ü. Tongue is flat, smiling, close to the roof of the mouth.",
+    items:[
+      {p:'j', tip:'Light "j", like "gee" said gently — no puff of air.', demo:'ji'},
+      {p:'q', tip:'Light "ch" with the tongue flat — strong puff of air.', demo:'qi'},
+      {p:'x', tip:'Soft "sh", tongue flat and relaxed, almost like a hiss.', demo:'xi'},
+    ]},
+  { title:"Tongue curled back", cn:"卷舌音 (retroflex)", desc:"Curl the tongue tip up and back, away from the teeth — the sound English speakers find hardest.",
+    items:[
+      {p:'zh', tip:'"j" with the tongue curled back — no puff of air.', demo:'zhi'},
+      {p:'ch', tip:'"ch" with the tongue curled back — strong puff of air.', demo:'chi'},
+      {p:'sh', tip:'"sh" with the tongue curled back further than English.', demo:'shi'},
+      {p:'r', tip:'Between an English "r" and the "s" in "measure", tongue curled back.', demo:'ri'},
+    ]},
+  { title:"Tongue-tip to teeth", cn:"舌尖前音 (dental)", desc:"Tongue tip right behind the front teeth — flatter than retroflex.",
+    items:[
+      {p:'z', tip:'Like "ds" in "kids" — no puff of air.', demo:'zi'},
+      {p:'c', tip:'Like "ts" in "cats" — strong puff of air.', demo:'ci'},
+      {p:'s', tip:'Same as English "s".', demo:'si'},
+    ]},
+];
+
+const ASPIRATION_PAIRS = [['b','p'],['d','t'],['g','k'],['j','q'],['zh','ch'],['z','c']];
+
+const FINAL_GROUPS = [
+  { title:"Simple finals", cn:"单韵母", count:6,
+    items:[
+      {f:'a', tip:'"ah" — like "father".', demo:'a'},
+      {f:'o', tip:'"aw/oh" — lips rounded, like "or".', demo:'o'},
+      {f:'e', tip:'"uh" — like "her", lips relaxed, not rounded.', demo:'e'},
+      {f:'i', tip:'"ee" — like "see". (Buzzed after zh/ch/sh/r/z/c/s — see warning above.)', demo:'yi'},
+      {f:'u', tip:'"oo" — like "too".', demo:'wu'},
+      {f:'ü', tip:'Tightly rounded "ee" — say "ee" while puckering your lips like whistling. No English equivalent.', demo:'yu'},
+    ]},
+  { title:"Diphthongs", cn:"复韵母", count:4,
+    items:[
+      {f:'ai', tip:'"eye".', demo:'ai'},
+      {f:'ei', tip:'"ay" — like "eight".', demo:'ei'},
+      {f:'ao', tip:'"ow" — like "how".', demo:'ao'},
+      {f:'ou', tip:'"oh" — like "so".', demo:'ou'},
+    ]},
+  { title:"Nasal finals", cn:"鼻韵母", count:5,
+    items:[
+      {f:'an', tip:'"ahn" — close to "on" (British), or "un" in "fun".', demo:'an'},
+      {f:'en', tip:'"un" — like "urn/turn" without the r.', demo:'en'},
+      {f:'ang', tip:'"ahng" — open, like "song" said broadly, e.g. "ping-pong".', demo:'ang'},
+      {f:'eng', tip:'"ung" — no close English match; further back in the throat than "en".', demo:'eng'},
+      {f:'ong', tip:'"oong" — only ever combined with an initial, e.g. hóng, lóng.', demo:'hong', note:'shown combined, e.g. hóng'},
+    ]},
+  { title:'"i"-medial finals', cn:"i 介音", count:9,
+    items:[
+      {f:'ia', tip:'"yah".', demo:'ya'},
+      {f:'ie', tip:'"yeh" — like "yes".', demo:'ye'},
+      {f:'iao', tip:'"yow" — like "meow".', demo:'yao'},
+      {f:'iu (iou)', tip:'"yo" — glides quickly to "oh", like "yo-yo".', demo:'you'},
+      {f:'ian', tip:'"yen".', demo:'yan'},
+      {f:'in', tip:'"een" — like "seen".', demo:'yin'},
+      {f:'iang', tip:'"yahng".', demo:'yang'},
+      {f:'ing', tip:'"ing" — like "sing".', demo:'ying'},
+      {f:'iong', tip:'"yong" — like "young".', demo:'yong'},
+    ]},
+  { title:'"u"-medial finals', cn:"u 介音", count:8,
+    items:[
+      {f:'ua', tip:'"wah".', demo:'wa'},
+      {f:'uo', tip:'"waw/wor" — like "war" without the r.', demo:'wo'},
+      {f:'uai', tip:'"why".', demo:'wai'},
+      {f:'ui (uei)', tip:'"way".', demo:'wei'},
+      {f:'uan', tip:'"wahn".', demo:'wan'},
+      {f:'un (uen)', tip:'"won" — like "one".', demo:'wen'},
+      {f:'uang', tip:'"wahng".', demo:'wang'},
+      {f:'ueng', tip:'"wung" — only appears standalone as "weng".', demo:'weng'},
+    ]},
+  { title:'"ü"-medial finals', cn:"ü 介音", count:3,
+    items:[
+      {f:'üe', tip:'"yweh" — ü blending into "eh".', demo:'yue'},
+      {f:'üan', tip:'"ywen" — ü blending into "en" (note: pronounced "-üen", not "-wahn").', demo:'yuan'},
+      {f:'ün', tip:'"yoon" — ü blending into "n".', demo:'yun'},
+    ]},
+  { title:"Special", cn:"特殊", count:1,
+    items:[
+      {f:'er', tip:'"are" — like American "er…", tongue curls back mid-vowel.', demo:'er'},
+    ]},
+];
+
+// Full valid syllable chart, grouped by initial (base/toneless spellings).
+const SYLLABLES = {
+  '': ['a','o','e','ai','ei','ao','ou','an','en','ang','eng','er','yi','ya','ye','yao','you','yan','yin','yang','ying','yong','wu','wa','wo','wai','wei','wan','wen','wang','weng','yu','yue','yuan','yun'],
+  'b': ['ba','bo','bai','bei','bao','ban','ben','bang','beng','bi','bie','biao','bian','bin','bing','bu'],
+  'p': ['pa','po','pai','pei','pao','pou','pan','pen','pang','peng','pi','pie','piao','pian','pin','ping','pu'],
+  'm': ['ma','mo','me','mai','mei','mao','mou','man','men','mang','meng','mi','mie','miao','miu','mian','min','ming','mu'],
+  'f': ['fa','fo','fei','fou','fan','fen','fang','feng','fu'],
+  'd': ['da','de','dai','dei','dao','dou','dan','dang','deng','dong','di','die','diao','diu','dian','ding','du','duo','dui','duan','dun'],
+  't': ['ta','te','tai','tao','tou','tan','tang','teng','tong','ti','tie','tiao','tian','ting','tu','tuo','tui','tuan','tun'],
+  'n': ['na','ne','nai','nei','nao','nou','nan','nen','nang','neng','nong','ni','nie','niao','niu','nian','nin','niang','ning','nu','nuo','nuan','nü','nüe'],
+  'l': ['la','le','lai','lei','lao','lou','lan','lang','leng','long','li','lia','lie','liao','liu','lian','lin','liang','ling','lu','luo','luan','lun','lü','lüe'],
+  'g': ['ga','ge','gai','gei','gao','gou','gan','gen','gang','geng','gong','gu','gua','guo','guai','gui','guan','gun','guang'],
+  'k': ['ka','ke','kai','kao','kou','kan','ken','kang','keng','kong','ku','kua','kuo','kuai','kui','kuan','kun','kuang'],
+  'h': ['ha','he','hai','hei','hao','hou','han','hen','hang','heng','hong','hu','hua','huo','huai','hui','huan','hun','huang'],
+  'j': ['ji','jia','jie','jiao','jiu','jian','jin','jiang','jing','jiong','ju','jue','juan','jun'],
+  'q': ['qi','qia','qie','qiao','qiu','qian','qin','qiang','qing','qiong','qu','que','quan','qun'],
+  'x': ['xi','xia','xie','xiao','xiu','xian','xin','xiang','xing','xiong','xu','xue','xuan','xun'],
+  'zh': ['zha','zhe','zhi','zhai','zhao','zhou','zhan','zhen','zhang','zheng','zhong','zhu','zhua','zhuo','zhuai','zhui','zhuan','zhun','zhuang'],
+  'ch': ['cha','che','chi','chai','chao','chou','chan','chen','chang','cheng','chong','chu','chua','chuo','chuai','chui','chuan','chun','chuang'],
+  'sh': ['sha','she','shi','shai','shei','shao','shou','shan','shen','shang','sheng','shu','shua','shuo','shuai','shui','shuan','shun','shuang'],
+  'r': ['re','ri','rao','rou','ran','ren','rang','reng','rong','ru','rua','ruo','rui','ruan','run'],
+  'z': ['za','ze','zi','zai','zei','zao','zou','zan','zen','zang','zeng','zong','zu','zuo','zui','zuan','zun'],
+  'c': ['ca','ce','ci','cai','cao','cou','can','cen','cang','ceng','cong','cu','cuo','cui','cuan','cun'],
+  's': ['sa','se','si','sai','sao','sou','san','sen','sang','seng','song','su','suo','sui','suan','sun'],
+};
+
+const INITIAL_ORDER = ['','b','p','m','f','d','t','n','l','g','k','h','j','q','x','zh','ch','sh','r','z','c','s'];
+
+/* ============================================================
+   TTS
+   ============================================================ */
+let currentUtterance = null;
+function playTTS(text, btn){
+  try{
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN';
+    u.rate = 0.8;
+    if(btn){
+      u.onstart = () => btn.classList.add('playing');
+      u.onend = () => btn.classList.remove('playing');
+      u.onerror = () => btn.classList.remove('playing');
+    }
+    currentUtterance = u;
+    window.speechSynthesis.speak(u);
+  }catch(e){ console.error('TTS failed', e); }
+}
+
+/* ============================================================
+   RENDER: INITIALS
+   ============================================================ */
+function renderInitials(){
+  const wrap = document.getElementById('initials-groups');
+  wrap.innerHTML = INITIAL_GROUPS.map(g => `
+    <div class="group-title">${g.title} <span class="group-sub cn">${g.cn}</span></div>
+    <p class="group-desc">${g.desc}</p>
+    <div class="grid">
+      ${g.items.map(it => `
+        <div class="snd-card">
+          <div class="snd-top">
+            <span class="snd-pinyin">${it.p}</span>
+            <button class="play-btn" data-say="${it.demo}">🔊</button>
+          </div>
+          <div class="snd-tip">${it.tip}</div>
+          <div class="snd-demo">demo: <span class="cn">${it.demo}</span></div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  document.getElementById('pair-rows').innerHTML = ASPIRATION_PAIRS.map(([un, asp]) => `
+    <div class="pair-row">
+      <div class="pair-item"><span class="py">${un}</span><span class="lbl">unaspirated</span></div>
+      <div class="pair-vs">vs</div>
+      <div class="pair-item"><span class="py">${asp}</span><span class="lbl">aspirated</span></div>
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   RENDER: FINALS
+   ============================================================ */
+function renderFinals(){
+  const wrap = document.getElementById('finals-groups');
+  wrap.innerHTML = FINAL_GROUPS.map(g => `
+    <div class="group-title">${g.title} <span class="group-sub cn">${g.cn} · ${g.count}</span></div>
+    <div class="grid">
+      ${g.items.map(it => `
+        <div class="snd-card">
+          <div class="snd-top">
+            <span class="snd-pinyin">${it.f}</span>
+            <button class="play-btn" data-say="${it.demo}">🔊</button>
+          </div>
+          <div class="snd-tip">${it.tip}</div>
+          <div class="snd-demo">demo: <span class="cn">${it.demo}</span>${it.note ? ' — ' + it.note : ''}</div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+/* ============================================================
+   RENDER: SYLLABLE CHART
+   ============================================================ */
+function splitSyllable(initial, syl){
+  if(!initial) return `<span class="final-part">${syl}</span>`;
+  return `<span class="init-part">${syl.slice(0, initial.length)}</span><span class="final-part">${syl.slice(initial.length)}</span>`;
+}
+
+function renderChart(){
+  const jumpRow = document.getElementById('jump-row');
+  const chartWrap = document.getElementById('chart-groups');
+
+  jumpRow.innerHTML = INITIAL_ORDER.map(k =>
+    `<button class="jump-pill" data-jump="${k}">${k === '' ? '∅' : k}</button>`
+  ).join('');
+
+  chartWrap.innerHTML = INITIAL_ORDER.map(k => {
+    const syls = SYLLABLES[k];
+    return `
+      <div class="init-group" id="grp-${k === '' ? 'zero' : k}" data-initial="${k}">
+        <div class="init-group-head">
+          <span class="init-tag ${k === '' ? 'zero' : ''}">${k === '' ? '∅' : k}</span>
+          <span class="init-count">${k === '' ? 'no initial' : k + '-'} · ${syls.length} syllables</span>
+        </div>
+        <div class="syl-wrap">
+          ${syls.map(s => `<span class="syl-chip" data-syl="${s}" data-initial="${k}">${splitSyllable(k, s)}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  jumpRow.addEventListener('click', e => {
+    const btn = e.target.closest('.jump-pill');
+    if(!btn) return;
+    const k = btn.dataset.jump;
+    const el = document.getElementById('grp-' + (k === '' ? 'zero' : k));
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  chartWrap.addEventListener('click', e => {
+    const chip = e.target.closest('.syl-chip');
+    if(!chip) return;
+    playTTS(chip.dataset.syl, chip);
+    chip.classList.add('playing');
+    setTimeout(() => chip.classList.remove('playing'), 500);
+  });
+
+  const searchBox = document.getElementById('syl-search');
+  const noMatch = document.getElementById('no-match');
+  searchBox.addEventListener('input', () => {
+    const q = searchBox.value.trim().toLowerCase();
+    let anyVisible = false;
+    document.querySelectorAll('.init-group').forEach(grp => {
+      let groupHasMatch = false;
+      grp.querySelectorAll('.syl-chip').forEach(chip => {
+        const match = !q || chip.dataset.syl.toLowerCase().includes(q);
+        chip.classList.toggle('hidden', !match);
+        if(match) groupHasMatch = true;
+      });
+      grp.classList.toggle('hidden', !groupHasMatch);
+      if(groupHasMatch) anyVisible = true;
+    });
+    noMatch.style.display = anyVisible ? 'none' : 'block';
+  });
+}
+
+/* ============================================================
+   PLAY BUTTON DELEGATION (initials + finals tabs)
+   ============================================================ */
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.play-btn');
+  if(!btn) return;
+  playTTS(btn.dataset.say, btn);
+});
+
+/* ============================================================
+   TABS
+   ============================================================ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tabpanel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    window.scrollTo({top:0, behavior:'instant'});
+  });
+});
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderInitials();
+renderFinals();
+renderChart();
+</script>
+</body>
+</html>
