@@ -42,7 +42,7 @@
 
   /* tab nav */
   .tabs{display:flex;gap:6px;margin-top:12px;background:var(--jade-dim);padding:4px;border-radius:12px;}
-  .tab-btn{flex:1;border:none;background:transparent;padding:9px 4px;border-radius:9px;font-size:13px;font-weight:600;
+  .tab-btn{flex:1;border:none;background:transparent;padding:9px 2px;border-radius:9px;font-size:11.5px;font-weight:600;
     color:var(--jade);cursor:pointer;font-family:inherit;}
   .tab-btn.active{background:var(--jade);color:#fff;}
 
@@ -107,14 +107,85 @@
     border-radius:8px;padding:3px 10px;min-width:34px;text-align:center;}
   .init-tag.zero{background:var(--muted);}
   .init-count{font-size:11.5px;color:var(--muted);}
-  .syl-wrap{display:flex;flex-wrap:wrap;gap:7px;}
+  .group-toggle{margin-left:auto;flex-shrink:0;border:1px solid var(--jade);background:var(--paper);color:var(--jade);
+    font-weight:600;font-size:11px;padding:4px 9px;border-radius:999px;cursor:pointer;font-family:inherit;}
+  .group-toggle.on{background:var(--jade);color:#fff;}
+  .syl-wrap{display:flex;flex-wrap:wrap;gap:7px;align-items:flex-start;}
+  .syl-item{display:flex;flex-direction:column;}
+  .syl-item.expanded{flex:1 1 100%;}
+  .syl-item.hidden{display:none;}
+  .syl-chip-row{display:flex;align-items:center;gap:3px;}
   .syl-chip{background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;
-    padding:6px 9px;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;}
+    padding:6px 9px;font-size:14.5px;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;
+    font-family:inherit;}
   .syl-chip .init-part{color:var(--seal);}
   .syl-chip .final-part{color:var(--jade);}
   .syl-chip:active{background:var(--jade-dim);}
-  .syl-chip.hidden{display:none;}
-  .init-group.hidden{display:none;}
+  .syl-chip.playing{background:var(--jade-dim);}
+  .info-toggle{flex-shrink:0;width:22px;height:22px;border-radius:6px;border:1px solid var(--line);
+    background:var(--paper-raised);color:var(--muted);font-size:11px;display:flex;align-items:center;
+    justify-content:center;cursor:pointer;padding:0;}
+  .info-toggle.active{background:var(--jade);color:#fff;border-color:var(--jade);}
+  .syl-guide{display:none;margin-top:6px;background:var(--paper-raised);border:1px solid var(--line);
+    border-left:3px solid var(--jade);border-radius:8px;padding:8px 10px;font-size:12px;line-height:1.55;
+    color:var(--ink);max-width:420px;}
+  .syl-item.expanded .syl-guide{display:block;}
+  .syl-guide .g-row{margin-bottom:3px;}
+  .syl-guide .g-row:last-child{margin-bottom:0;}
+  .syl-guide i{color:var(--muted);font-style:normal;font-size:11px;}
+  .syl-guide .g-together{padding-top:5px;margin-top:2px;border-top:1px dashed var(--line);}
+  .syl-guide .g-warn{color:var(--tier2);font-size:11.5px;padding-top:5px;margin-top:2px;border-top:1px dashed var(--line);}
+  .syl-guide .g-warn b{color:var(--tier2);}
+  .practice-link-btn{width:100%;margin-top:9px;background:var(--jade-dim);border:1px solid var(--jade);color:var(--jade);
+    font-weight:700;font-size:12.5px;padding:8px;border-radius:8px;cursor:pointer;font-family:inherit;}
+  .practice-link-btn:active{background:var(--jade);color:#fff;}
+
+  /* ---- Tone Trainer ---- */
+  .trainer-suggestions{margin-top:6px;display:flex;flex-direction:column;gap:4px;}
+  .trainer-sugg-item{text-align:left;background:var(--paper-raised);border:1px solid var(--line);border-radius:8px;
+    padding:8px 12px;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;font-family:inherit;}
+  .trainer-sugg-item .init-part{color:var(--seal);}
+  .trainer-sugg-item .final-part{color:var(--jade);}
+  .trainer-sugg-item:active{background:var(--jade-dim);}
+  .trainer-empty{font-size:13px;color:var(--muted);text-align:center;padding:18px 0;}
+
+  .now-practicing{margin:18px 0 6px;}
+  .now-practicing .np-label{font-size:11.5px;color:var(--muted);margin:0 0 2px;}
+  .now-practicing .np-syl{font-family:'Baloo 2',sans-serif;font-size:26px;font-weight:700;margin:0;}
+  .now-practicing .np-syl .init-part{color:var(--seal);}
+  .now-practicing .np-syl .final-part{color:var(--jade);}
+  .now-practicing .np-syl .np-sub{font-size:13px;color:var(--muted);font-weight:400;margin-left:6px;}
+
+  .trainer-section-label{font-family:'Baloo 2',sans-serif;font-size:14px;font-weight:700;margin:16px 0 8px;}
+  .tone-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+  .tone-card{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:10px;text-align:center;}
+  .tone-card svg{display:block;margin:0 auto 4px;}
+  .tone-card .tc-syl{font-size:19px;font-weight:700;color:var(--ink);}
+  .tone-card .tc-lbl{font-size:10.5px;color:var(--muted);margin:2px 0 6px;}
+  .tone-card .play-btn{width:100%;height:28px;border-radius:7px;}
+
+  .quiz-box{background:var(--paper-raised);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:6px;}
+  .quiz-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .quiz-mode-toggle{display:flex;gap:4px;background:var(--jade-dim);padding:3px;border-radius:8px;}
+  .quiz-mode-btn{border:none;background:transparent;font-size:11px;font-weight:600;color:var(--jade);
+    padding:5px 8px;border-radius:6px;cursor:pointer;font-family:inherit;}
+  .quiz-mode-btn.active{background:var(--jade);color:#fff;}
+  .quiz-score{font-size:12px;color:var(--muted);}
+  .quiz-play-btn{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--seal);
+    color:#f3ece9;border:none;border-radius:9px;padding:11px;font-size:13.5px;font-weight:700;cursor:pointer;
+    font-family:inherit;margin-bottom:10px;}
+  .quiz-play-btn:active{background:var(--jade);}
+  .quiz-answers{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+  .quiz-answer-btn{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:10px;
+    font-size:13px;font-weight:700;color:var(--ink);cursor:pointer;font-family:inherit;}
+  .quiz-answer-btn:active{background:var(--jade-dim);}
+  .quiz-answer-btn.correct{background:var(--jade);color:#fff;border-color:var(--jade);}
+  .quiz-answer-btn.wrong{background:var(--seal);color:#fff;border-color:var(--seal);}
+  .quiz-feedback{font-size:12.5px;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);}
+  .quiz-feedback.correct{color:var(--jade);}
+  .quiz-feedback.wrong{color:var(--seal);}
+  .syl-chip.has-warn{border-color:var(--tier2);}
+  .warn-dot{color:var(--tier2);font-size:10px;margin-left:3px;}
   .no-match{font-size:13px;color:var(--muted);text-align:center;padding:20px 0;}
 
   footer{padding:20px 16px 10px;text-align:center;font-size:11.5px;color:var(--muted);}
@@ -131,6 +202,7 @@
       <button class="tab-btn active" data-tab="initials">Initials 声母</button>
       <button class="tab-btn" data-tab="finals">Finals 韵母</button>
       <button class="tab-btn" data-tab="chart">Syllable Chart 拼音表</button>
+      <button class="tab-btn" data-tab="trainer">Tone Trainer 声调</button>
     </div>
   </header>
 
@@ -164,7 +236,8 @@
     <!-- ============ SYLLABLE CHART TAB ============ -->
     <section class="tabpanel" id="tab-chart">
       <div class="info-card">
-        <p>Every valid initial + final combination in Mandarin — not every initial pairs with every final. <span style="color:var(--seal);font-weight:600;">Red</span> = initial, <span style="color:var(--jade);font-weight:600;">green</span> = final. Tap any syllable to hear it.</p>
+        <p>Every valid initial + final combination in Mandarin — not every initial pairs with every final. <span style="color:var(--seal);font-weight:600;">Red</span> = initial, <span style="color:var(--jade);font-weight:600;">green</span> = final. Tap a syllable to hear it, tap ⓘ to reveal its pronunciation guide, or tap "Show guides" to reveal a whole group at once.</p>
+        <p>A <span style="color:var(--tier2);font-weight:600;">⚠</span> on a chip means the device audio for that syllable is known to be unreliable (buzzed sounds, ü, or retroflex) — the guide explains why and what to do instead.</p>
       </div>
       <div class="search-wrap">
         <input type="text" class="search-box" id="syl-search" placeholder="Search a syllable, e.g. &quot;zhu&quot; or &quot;ian&quot;…">
@@ -172,6 +245,25 @@
       </div>
       <div id="chart-groups"></div>
       <p class="no-match" id="no-match" style="display:none;">No syllables match.</p>
+    </section>
+
+    <!-- ============ TONE TRAINER TAB ============ -->
+    <section class="tabpanel" id="tab-trainer">
+      <div class="info-card">
+        <p>Pick a syllable, then drill and quiz its 4 tones. Tone-mark placement is computed with the real pinyin rule (a &gt; o &gt; e &gt; last of i/u), so it's correct even where the mark position looks surprising.</p>
+        <p>Audio here reads toned pinyin text, not real recordings — reliable for tone contour, less reliable for buzzed/retroflex/ü sounds already flagged elsewhere. Trust the contour graphic over your ear where they disagree.</p>
+      </div>
+
+      <div class="search-wrap" style="position:static;">
+        <input type="text" class="search-box" id="trainer-search" placeholder="Search a syllable to practice, e.g. &quot;you&quot;, &quot;zhu&quot;…" autocomplete="off">
+        <div id="trainer-suggestions" class="trainer-suggestions"></div>
+      </div>
+
+      <div id="trainer-current"></div>
+
+      <div id="trainer-learn"></div>
+
+      <div id="trainer-quiz"></div>
     </section>
 
   </main>
@@ -315,6 +407,114 @@ const SYLLABLES = {
 
 const INITIAL_ORDER = ['','b','p','m','f','d','t','n','l','g','k','h','j','q','x','zh','ch','sh','r','z','c','s'];
 
+// Lookup maps for the per-syllable guide (built from the data above, not re-entered).
+const INITIAL_TIP_BY_KEY = {};
+INITIAL_GROUPS.forEach(g => g.items.forEach(it => { INITIAL_TIP_BY_KEY[it.p] = it.tip; }));
+
+const FINAL_TIP_BY_SPELLING = {};
+FINAL_GROUPS.forEach(g => g.items.forEach(it => { FINAL_TIP_BY_SPELLING[it.f.split(' (')[0]] = it.tip; }));
+
+// Zero-initial syllables use y/w spelling that doesn't literally contain the final —
+// map each one back to its underlying final for the guide lookup.
+const ZERO_FINAL_MAP = {
+  a:'a', o:'o', e:'e', ai:'ai', ei:'ei', ao:'ao', ou:'ou', an:'an', en:'en', ang:'ang', eng:'eng', er:'er',
+  yi:'i', ya:'ia', ye:'ie', yao:'iao', you:'iu', yan:'ian', yin:'in', yang:'iang', ying:'ing', yong:'iong',
+  wu:'u', wa:'ua', wo:'uo', wai:'uai', wei:'ui', wan:'uan', wen:'un', wang:'uang', weng:'ueng',
+  yu:'ü', yue:'üe', yuan:'üan', yun:'ün',
+};
+
+// Rough combined "sound it out" approximations, used to build the whole-syllable line.
+const INITIAL_SOUND = {
+  '':'', b:'b', p:'p', m:'m', f:'f', d:'d', t:'t', n:'n', l:'l', g:'g', k:'k', h:'h',
+  j:'j', q:'ch', x:'sh', zh:'j', ch:'ch', sh:'sh', r:'r', z:'dz', c:'ts', s:'s',
+};
+const FINAL_SOUND = {
+  a:'ah', o:'aw', e:'uh', i:'ee', u:'oo', 'ü':'yu',
+  ai:'eye', ei:'ay', ao:'ow', ou:'oh',
+  an:'ahn', en:'un', ang:'ahng', eng:'ung', ong:'oong',
+  ia:'yah', ie:'yeh', iao:'yow', iu:'yo', ian:'yen', in:'een', iang:'yahng', ing:'ing', iong:'yong',
+  ua:'wah', uo:'waw', uai:'why', ui:'way', uan:'wahn', un:'wun', uang:'wahng', ueng:'wung',
+  'üe':'yweh', 'üan':'ywen', 'ün':'yoon',
+  er:'are',
+};
+// After zh/ch/sh/r/z/c/s, "i" isn't a vowel at all — it's a buzzed continuation
+// of the consonant. No English spelling captures it well, so these get their own text
+// instead of a concatenated initial+final guess.
+const BUZZED_I_COMBINED = {
+  z: 'dzz — buzz the "z", no vowel added',
+  c: 'tss — buzz the "c" (with a puff of air), no vowel added',
+  s: 'sss — just hold the "s", no vowel added',
+  zh: 'jrr — buzz the "zh" with your tongue still curled back, no vowel added',
+  ch: 'chrr — buzz the "ch" (with a puff of air) tongue still curled back, no vowel added',
+  sh: 'shrr — buzz the "sh" with your tongue still curled back, no vowel added',
+  r: 'rrr — just hold the "r", no vowel added',
+};
+
+function combinedSound(initial, finalPart, finalKey){
+  if(finalKey === 'i' && BUZZED_I_COMBINED[initial]){
+    return BUZZED_I_COMBINED[initial];
+  }
+  const initSound = INITIAL_SOUND[initial] !== undefined ? INITIAL_SOUND[initial] : initial;
+  const finalSound = FINAL_SOUND[finalKey] || finalPart;
+  return initSound + finalSound;
+}
+
+// Where the device's TTS voice is known to be an unreliable model of the real sound —
+// used to flag chips and add a note inside the guide panel.
+function getAudioWarning(initial, finalKey){
+  const retroflex = ['zh','ch','sh','r'].includes(initial);
+  if(finalKey === 'i' && BUZZED_I_COMBINED[initial]){
+    return retroflex
+      ? 'Audio will likely say "ee" — it can\'t produce the buzzed, tongue-curled sound. Use the written guide, not your ear, for this one.'
+      : 'Audio will likely say "ee" — it can\'t produce the buzzed sound. Use the written guide, not your ear, for this one.';
+  }
+  if(['ü','üe','üan','ün'].includes(finalKey)){
+    return 'Audio often flattens ü toward "oo" or "yu" — round your lips tighter than what you hear.';
+  }
+  if(retroflex){
+    return 'Retroflex sounds (tongue curled back) are often under-curled in device audio — treat it as a rough guide, not a model.';
+  }
+  return null;
+}
+
+function resolveFinalKey(initial, syl){
+  let finalPart, finalKey, note = '';
+  if(initial === ''){
+    finalPart = syl;
+    finalKey = ZERO_FINAL_MAP[syl] || syl;
+  } else {
+    finalPart = syl.slice(initial.length);
+    finalKey = finalPart;
+    if(['j','q','x'].includes(initial)){
+      if(finalPart === 'u'){ finalKey = 'ü'; note = 'Spelled "u" but pronounced ü after j/q/x.'; }
+      else if(finalPart === 'ue'){ finalKey = 'üe'; note = 'Spelled "ue" but pronounced üe after j/q/x.'; }
+      else if(finalPart === 'uan'){ finalKey = 'üan'; note = 'Spelled "uan" but pronounced üan (ü+an) after j/q/x.'; }
+      else if(finalPart === 'un'){ finalKey = 'ün'; note = 'Spelled "un" but pronounced ün after j/q/x.'; }
+    }
+  }
+  return {finalPart, finalKey, note};
+}
+
+function buildGuideHTML(initial, syl){
+  const {finalPart, finalKey, note} = resolveFinalKey(initial, syl);
+  const finalTip = FINAL_TIP_BY_SPELLING[finalKey] || '';
+  const together = combinedSound(initial, finalPart, finalKey);
+  const warning = getAudioWarning(initial, finalKey);
+  let html = '';
+  if(initial){
+    html += `<div class="g-row"><b style="color:var(--seal)">${initial}</b> — ${INITIAL_TIP_BY_KEY[initial] || ''}</div>`;
+  } else {
+    html += `<div class="g-row"><b style="color:var(--muted)">no initial</b> — starts directly with the vowel sound.</div>`;
+  }
+  html += `<div class="g-row"><b style="color:var(--jade)">${finalPart}</b> — ${finalTip}${note ? ' <i>(' + note + ')</i>' : ''}</div>`;
+  html += `<div class="g-row g-together"><b>Together:</b> ${together}</div>`;
+  if(warning){
+    html += `<div class="g-row g-warn">⚠ <b>Audio note:</b> ${warning}</div>`;
+  }
+  html += `<button class="practice-link-btn" data-practice-initial="${initial}" data-practice-syl="${syl}">🎯 Practice this in Tone Trainer</button>`;
+  return html;
+}
+
 /* ============================================================
    TTS
    ============================================================ */
@@ -411,9 +611,22 @@ function renderChart(){
         <div class="init-group-head">
           <span class="init-tag ${k === '' ? 'zero' : ''}">${k === '' ? '∅' : k}</span>
           <span class="init-count">${k === '' ? 'no initial' : k + '-'} · ${syls.length} syllables</span>
+          <button class="group-toggle" data-group="${k}" data-on="0">Show guides</button>
         </div>
         <div class="syl-wrap">
-          ${syls.map(s => `<span class="syl-chip" data-syl="${s}" data-initial="${k}">${splitSyllable(k, s)}</span>`).join('')}
+          ${syls.map(s => {
+            const {finalKey} = resolveFinalKey(k, s);
+            const hasWarn = !!getAudioWarning(k, finalKey);
+            return `
+            <div class="syl-item" data-syl="${s}" data-initial="${k}">
+              <div class="syl-chip-row">
+                <button class="syl-chip${hasWarn ? ' has-warn' : ''}" data-syl="${s}">${splitSyllable(k, s)}${hasWarn ? '<span class="warn-dot">⚠</span>' : ''}</button>
+                <button class="info-toggle" title="Show pronunciation guide">ⓘ</button>
+              </div>
+              <div class="syl-guide">${buildGuideHTML(k, s)}</div>
+            </div>
+          `;
+          }).join('')}
         </div>
       </div>
     `;
@@ -428,11 +641,35 @@ function renderChart(){
   });
 
   chartWrap.addEventListener('click', e => {
+    // Group-level "show/hide all guides" toggle
+    const groupBtn = e.target.closest('.group-toggle');
+    if(groupBtn){
+      const grp = groupBtn.closest('.init-group');
+      const turnOn = groupBtn.dataset.on === '0';
+      grp.querySelectorAll('.syl-item').forEach(item => {
+        item.classList.toggle('expanded', turnOn);
+        item.querySelector('.info-toggle').classList.toggle('active', turnOn);
+      });
+      groupBtn.dataset.on = turnOn ? '1' : '0';
+      groupBtn.classList.toggle('on', turnOn);
+      groupBtn.textContent = turnOn ? 'Hide guides' : 'Show guides';
+      return;
+    }
+    // Individual guide toggle
+    const infoBtn = e.target.closest('.info-toggle');
+    if(infoBtn){
+      const item = infoBtn.closest('.syl-item');
+      const expanded = item.classList.toggle('expanded');
+      infoBtn.classList.toggle('active', expanded);
+      return;
+    }
+    // Play audio
     const chip = e.target.closest('.syl-chip');
-    if(!chip) return;
-    playTTS(chip.dataset.syl, chip);
-    chip.classList.add('playing');
-    setTimeout(() => chip.classList.remove('playing'), 500);
+    if(chip){
+      playTTS(chip.dataset.syl, chip);
+      chip.classList.add('playing');
+      setTimeout(() => chip.classList.remove('playing'), 500);
+    }
   });
 
   const searchBox = document.getElementById('syl-search');
@@ -442,9 +679,9 @@ function renderChart(){
     let anyVisible = false;
     document.querySelectorAll('.init-group').forEach(grp => {
       let groupHasMatch = false;
-      grp.querySelectorAll('.syl-chip').forEach(chip => {
-        const match = !q || chip.dataset.syl.toLowerCase().includes(q);
-        chip.classList.toggle('hidden', !match);
+      grp.querySelectorAll('.syl-item').forEach(item => {
+        const match = !q || item.dataset.syl.toLowerCase().includes(q);
+        item.classList.toggle('hidden', !match);
         if(match) groupHasMatch = true;
       });
       grp.classList.toggle('hidden', !groupHasMatch);
@@ -453,6 +690,195 @@ function renderChart(){
     noMatch.style.display = anyVisible ? 'none' : 'block';
   });
 }
+
+/* ============================================================
+   TONE TRAINER
+   ============================================================ */
+const TONE_MARKS = {
+  a: ['ā','á','ǎ','à'], e: ['ē','é','ě','è'], i: ['ī','í','ǐ','ì'],
+  o: ['ō','ó','ǒ','ò'], u: ['ū','ú','ǔ','ù'], 'ü': ['ǖ','ǘ','ǚ','ǜ'],
+};
+// Standard pinyin tone-mark placement rule: a > o > e > last-written of i/u (ü counts as u).
+// Applied to the literal spelled string, which is why the same final can take the
+// mark on a different letter depending on whether it's spelled with an initial or not.
+function placeTone(base, toneNum){
+  if(!toneNum || toneNum === 5) return base;
+  let target;
+  if(base.includes('a')) target = 'a';
+  else if(base.includes('o')) target = 'o';
+  else if(base.includes('e')) target = 'e';
+  else {
+    const iIdx = base.lastIndexOf('i');
+    const uIdx = Math.max(base.lastIndexOf('u'), base.lastIndexOf('ü'));
+    if(iIdx !== -1 && uIdx !== -1) target = iIdx > uIdx ? 'i' : (base[uIdx] === 'ü' ? 'ü' : 'u');
+    else if(iIdx !== -1) target = 'i';
+    else if(base.includes('ü')) target = 'ü';
+    else target = 'u';
+  }
+  const idx = base.lastIndexOf(target);
+  return base.slice(0, idx) + TONE_MARKS[target][toneNum - 1] + base.slice(idx + 1);
+}
+
+const TONE_META = [
+  {n:1, label:'flat high', pts:'6,6 54,6'},
+  {n:2, label:'rising', pts:'6,18 54,6'},
+  {n:3, label:'dip, rise', pts:'6,10 24,18 54,4'},
+  {n:4, label:'falling', pts:'6,4 54,20'},
+];
+
+function contourSVG(pts){
+  return `<svg width="60" height="24" viewBox="0 0 60 24"><polyline points="${pts}" fill="none" stroke="var(--jade)" stroke-width="2.5"/></svg>`;
+}
+
+// Flatten SYLLABLES into a single searchable list.
+const ALL_SYLLABLES = [];
+INITIAL_ORDER.forEach(k => SYLLABLES[k].forEach(s => ALL_SYLLABLES.push({initial:k, base:s})));
+
+let trainerCurrent = null;      // {initial, base}
+let quizMode = 'focus';         // 'focus' | 'random'
+let quizAnswerTone = null;      // correct tone number for the current quiz round
+let quizScore = {correct:0, total:0};
+
+function setTrainerSyllable(initial, base){
+  trainerCurrent = {initial, base};
+  quizAnswerTone = null;
+  renderTrainerCurrent();
+  renderLearn();
+  renderQuizBox();
+  document.getElementById('trainer-search').value = '';
+  document.getElementById('trainer-suggestions').innerHTML = '';
+}
+
+function renderTrainerCurrent(){
+  const wrap = document.getElementById('trainer-current');
+  if(!trainerCurrent){
+    wrap.innerHTML = `<p class="trainer-empty">Search a syllable above to start practicing.</p>`;
+    return;
+  }
+  const {initial, base} = trainerCurrent;
+  wrap.innerHTML = `
+    <div class="now-practicing">
+      <p class="np-label">Now practicing</p>
+      <p class="np-syl">${splitSyllable(initial, base)}<span class="np-sub">${initial ? initial + ' + ' + base.slice(initial.length) : 'no initial'}</span></p>
+    </div>
+  `;
+}
+
+function renderLearn(){
+  const wrap = document.getElementById('trainer-learn');
+  if(!trainerCurrent){ wrap.innerHTML = ''; return; }
+  const {base} = trainerCurrent;
+  wrap.innerHTML = `
+    <div class="trainer-section-label">Learn</div>
+    <div class="tone-grid">
+      ${TONE_META.map(t => {
+        const toned = placeTone(base, t.n);
+        return `
+          <div class="tone-card">
+            ${contourSVG(t.pts)}
+            <div class="tc-syl">${toned}</div>
+            <div class="tc-lbl">tone ${t.n} · ${t.label}</div>
+            <button class="play-btn" data-say="${toned}">🔊</button>
+          </div>
+        `;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderQuizBox(){
+  const wrap = document.getElementById('trainer-quiz');
+  if(!trainerCurrent){ wrap.innerHTML = ''; return; }
+  wrap.innerHTML = `
+    <div class="trainer-section-label">Quiz</div>
+    <div class="quiz-box">
+      <div class="quiz-top">
+        <div class="quiz-mode-toggle">
+          <button class="quiz-mode-btn ${quizMode === 'focus' ? 'active' : ''}" data-mode="focus">This syllable</button>
+          <button class="quiz-mode-btn ${quizMode === 'random' ? 'active' : ''}" data-mode="random">Random across all</button>
+        </div>
+      </div>
+      <div class="quiz-score" style="margin-bottom:10px;">${quizScore.correct} / ${quizScore.total} correct</div>
+      <button class="quiz-play-btn" id="quiz-play-btn">🔊 Play a random tone</button>
+      <div class="quiz-answers">
+        ${TONE_META.map(t => `<button class="quiz-answer-btn" data-tone="${t.n}">Tone ${t.n}</button>`).join('')}
+      </div>
+      <div id="quiz-feedback"></div>
+    </div>
+  `;
+}
+
+function startQuizRound(){
+  let {initial, base} = trainerCurrent;
+  if(quizMode === 'random'){
+    const pick = ALL_SYLLABLES[Math.floor(Math.random() * ALL_SYLLABLES.length)];
+    initial = pick.initial; base = pick.base;
+    trainerCurrent = {initial, base};
+    renderTrainerCurrent();
+    renderLearn();
+  }
+  quizAnswerTone = 1 + Math.floor(Math.random() * 4);
+  const toned = placeTone(base, quizAnswerTone);
+  playTTS(toned);
+  document.getElementById('quiz-feedback').innerHTML = '';
+  document.querySelectorAll('.quiz-answer-btn').forEach(b => b.classList.remove('correct','wrong'));
+}
+
+document.getElementById('trainer-search').addEventListener('input', e => {
+  const q = e.target.value.trim().toLowerCase();
+  const sugg = document.getElementById('trainer-suggestions');
+  if(!q){ sugg.innerHTML = ''; return; }
+  const matches = ALL_SYLLABLES.filter(s => s.base.toLowerCase().includes(q)).slice(0, 8);
+  sugg.innerHTML = matches.length
+    ? matches.map(s => `<button class="trainer-sugg-item" data-initial="${s.initial}" data-base="${s.base}">${splitSyllable(s.initial, s.base)}</button>`).join('')
+    : `<p class="trainer-empty">No syllables match.</p>`;
+});
+
+document.getElementById('trainer-suggestions').addEventListener('click', e => {
+  const btn = e.target.closest('.trainer-sugg-item');
+  if(!btn) return;
+  setTrainerSyllable(btn.dataset.initial, btn.dataset.base);
+});
+
+document.getElementById('trainer-quiz').addEventListener('click', e => {
+  const modeBtn = e.target.closest('.quiz-mode-btn');
+  if(modeBtn){
+    quizMode = modeBtn.dataset.mode;
+    renderQuizBox();
+    return;
+  }
+  const playBtn = e.target.closest('#quiz-play-btn');
+  if(playBtn){
+    startQuizRound();
+    return;
+  }
+  const ansBtn = e.target.closest('.quiz-answer-btn');
+  if(ansBtn){
+    if(quizAnswerTone === null) return;
+    const chosen = parseInt(ansBtn.dataset.tone, 10);
+    const isCorrect = chosen === quizAnswerTone;
+    quizScore.total++;
+    if(isCorrect) quizScore.correct++;
+    document.querySelector('.quiz-score').textContent = `${quizScore.correct} / ${quizScore.total} correct`;
+    document.querySelectorAll('.quiz-answer-btn').forEach(b => {
+      if(parseInt(b.dataset.tone, 10) === quizAnswerTone) b.classList.add('correct');
+      else if(b === ansBtn) b.classList.add('wrong');
+    });
+    const {base} = trainerCurrent;
+    document.getElementById('quiz-feedback').innerHTML =
+      `<div class="quiz-feedback ${isCorrect ? 'correct' : 'wrong'}">${isCorrect ? 'Correct — ' : 'Not quite — '}that was tone ${quizAnswerTone} (${placeTone(base, quizAnswerTone)}).</div>`;
+    quizAnswerTone = null;
+    return;
+  }
+});
+
+// Jump from a syllable chart guide panel straight into the trainer.
+document.getElementById('chart-groups').addEventListener('click', e => {
+  const btn = e.target.closest('.practice-link-btn');
+  if(!btn) return;
+  setTrainerSyllable(btn.dataset.practiceInitial, btn.dataset.practiceSyl);
+  document.querySelector('.tab-btn[data-tab="trainer"]').click();
+});
 
 /* ============================================================
    PLAY BUTTON DELEGATION (initials + finals tabs)
@@ -482,6 +908,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 renderInitials();
 renderFinals();
 renderChart();
+renderTrainerCurrent();
+renderLearn();
+renderQuizBox();
 </script>
 </body>
 </html>
