@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>墨战 Ink Siege</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Noto+Sans+SC:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --jade:#2F6D4F; --jade-dark:#1B4633; --jade-light:#5FA57D;
+    --seal:#B23A2E; --seal-dark:#7A2A21; --seal-light:#E07264;
+    --ink:#17181B; --canal:#4A7A96; --gold:#D4A64B; --gold-light:#F0D9A0;
+    --paper:#F1ECDD; --paper-dim:#E4DCC6; --stone:#9C8F72; --stone-dark:#6B6047;
+    --good:#3E8E5C; --bad:#B23A2E; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--ink);}
+  body{
+    font-family:'Baloo 2','Noto Sans SC',sans-serif;
+    color:var(--paper);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+  }
+  #app{
+    width:100%;
+    max-width:480px;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(47,109,79,0.35), transparent 55%),
+      radial-gradient(circle at 85% 100%, rgba(178,58,46,0.25), transparent 55%),
+      var(--ink);
+    display:flex;
+    flex-direction:column;
+    padding:18px 16px 28px;
+    position:relative;
+    overflow-x:hidden;
+  }
+  .zh{font-family:'Noto Sans SC','Baloo 2',sans-serif;}
+  h1,h2,h3{margin:0;font-weight:800;}
+  p{margin:0;}
+
+  /* ---------- Home ---------- */
+  .home-title{text-align:center; margin-top:6px;}
+  .home-title .zh{
+    font-size:48px; letter-spacing:4px; color:var(--seal);
+    text-shadow:0 0 22px rgba(178,58,46,0.55);
+  }
+  .home-title .sub{font-size:14px; color:var(--gold); letter-spacing:1px; margin-top:2px;}
+  .home-tagline{text-align:center; color:#C9C2AC; font-size:13px; margin:12px 0 20px; line-height:1.5;}
+
+  .section-label{font-size:11.5px; color:var(--gold); font-weight:700; letter-spacing:.5px; margin:4px 0 8px;}
+
+  .deck-card{
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; padding:14px 16px; margin-bottom:10px;
+    border-radius:var(--radius); border:2px solid var(--jade);
+    background:linear-gradient(180deg, rgba(47,109,79,0.3), rgba(47,109,79,0.1));
+    cursor:pointer; font-family:inherit; color:var(--paper); text-align:left;
+  }
+  .deck-card.empty{border-color:#5A5647; background:rgba(255,255,255,0.03); cursor:default;}
+  .deck-card .dc-name{font-weight:700; font-size:15px;}
+  .deck-card .dc-meta{font-size:11.5px; color:#B9B198; margin-top:2px;}
+  .deck-card .dc-go{font-size:20px; color:var(--gold);}
+  .deck-card.empty .dc-go{display:none;}
+
+  .topic-row{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 14px; margin-bottom:8px;
+    border-radius:12px; border:1.5px solid rgba(255,255,255,0.12);
+    background:rgba(255,255,255,0.03); cursor:pointer;
+  }
+  .topic-row.on{border-color:var(--jade); background:rgba(47,109,79,0.15);}
+  .topic-check{
+    flex-shrink:0; width:22px; height:22px; border-radius:6px;
+    border:2px solid rgba(255,255,255,0.25);
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:800; color:var(--jade-light);
+  }
+  .topic-row.on .topic-check{border-color:var(--jade-light); background:rgba(95,165,125,0.2);}
+  .topic-info{flex:1; min-width:0;}
+  .topic-name{font-size:13.5px; font-weight:700; color:var(--paper);}
+  .topic-count{font-size:11.5px; color:#9E9880; margin-top:1px;}
+
+  .menu-btn{
+    display:block; width:100%; padding:14px 16px; margin-bottom:10px;
+    border-radius:var(--radius); border:2px solid rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.04); color:var(--paper);
+    font-family:inherit; font-weight:700; font-size:14.5px; text-align:left; cursor:pointer;
+  }
+  .menu-btn:active{transform:scale(0.98);}
+  .menu-btn .desc{display:block; font-weight:500; font-size:12px; color:#B9B198; margin-top:2px;}
+  .back-btn{background:none; border:none; color:#C9C2AC; font-family:inherit; font-size:13px; cursor:pointer; padding:6px 0;}
+  .topbar{display:flex; align-items:center; gap:8px; margin-bottom:6px;}
+  .progress-pill{
+    margin-left:auto; font-size:12px; color:var(--gold);
+    background:rgba(212,166,75,0.12); border:1px solid rgba(212,166,75,0.35);
+    padding:4px 10px; border-radius:20px;
+  }
+
+  /* ---------- 2.5D Battle Stage ---------- */
+  #stage{
+    position:relative;
+    background:linear-gradient(180deg, #0F2620 0%, #1C3E36 38%, #3A5C4C 62%, #7A6B3E 88%, #A98849 100%);
+    border:1px solid rgba(212,166,75,0.25);
+    border-radius:18px;
+    padding:18px 12px 24px;
+    margin-bottom:14px;
+    overflow:hidden;
+    height:280px;
+  }
+  #stage.shake{animation:sceneShake .3s ease;}
+  @keyframes sceneShake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-5px);} 50%{transform:translateX(5px);} 75%{transform:translateX(-3px);}
+  }
+  #stage.flash-good{box-shadow:0 0 0 3px rgba(62,142,92,0.55) inset;}
+  #stage.flash-bad{box-shadow:0 0 0 3px rgba(178,58,46,0.55) inset;}
+
+  .cloud-motif{position:absolute; opacity:.14; fill:var(--gold-light); pointer-events:none;}
+  .mountain{position:absolute; bottom:70px; left:0; width:100%; pointer-events:none;}
+  .lantern{position:absolute; top:-6px; width:22px; height:28px; transform-origin:top center; animation:swing 3.4s ease-in-out infinite;}
+  .lantern.right{animation-delay:.6s;}
+  @keyframes swing{0%,100%{transform:rotate(-6deg);} 50%{transform:rotate(6deg);}}
+
+  .stage-floor{
+    position:absolute; left:-15%; right:-15%; bottom:-34px; height:100px;
+    background:
+      repeating-linear-gradient(90deg, rgba(23,24,27,0.18) 0px, rgba(23,24,27,0.18) 2px, transparent 2px, transparent 36px),
+      linear-gradient(180deg, var(--stone) 0%, var(--stone-dark) 100%);
+    border-radius:50%; transform:rotateX(60deg); transform-origin:bottom;
+    border-top:3px solid rgba(212,166,75,0.3);
+  }
+
+  .streak-badge{
+    position:absolute; top:10px; right:12px; font-size:11.5px;
+    background:rgba(212,166,75,0.15); border:1px solid var(--gold); color:var(--gold);
+    padding:3px 9px; border-radius:20px; font-weight:700; opacity:0; transition:opacity .2s ease; z-index:8;
+  }
+  .streak-badge.show{opacity:1;}
+
+  .fighter-shadow{position:absolute; bottom:50px; width:52px; height:14px; background:radial-gradient(ellipse, rgba(0,0,0,0.55), transparent 75%); border-radius:50%;}
+  #playerShadow{left:44px;}
+  #enemyShadow{right:44px;}
+
+  .fighter{position:absolute; bottom:58px; width:104px; animation:bob 2.6s ease-in-out infinite;}
+  #playerFighter{left:16px;}
+  #enemyFighter{right:16px; transform:scaleX(-1);}
+  @keyframes bob{0%,100%{transform:translateY(0);} 50%{transform:translateY(-4px);}}
+  #enemyFighter.float-anim{animation:enemyFloat 2.8s ease-in-out infinite;}
+  @keyframes enemyFloat{0%,100%{transform:scaleX(-1) translateY(0);} 50%{transform:scaleX(-1) translateY(-6px);}}
+
+  .p-arm-cast{transform-box:fill-box; transform-origin:15% 20%; transition:transform .3s ease;}
+  .e-arm-cast{transform-box:fill-box; transform-origin:85% 20%; transition:transform .3s ease;}
+  .p-orb{transform-box:fill-box; transform-origin:50% 50%; opacity:0; transition:opacity .2s ease, transform .2s ease;}
+  .e-orb{transform-box:fill-box; transform-origin:50% 50%; opacity:0; transition:opacity .2s ease, transform .2s ease;}
+
+  #playerFighter.charge .p-arm-cast{transform:rotate(-30deg) translate(-3px,-4px);}
+  #playerFighter.charge .p-orb{opacity:1; transform:scale(0.6);}
+  #playerFighter.release .p-arm-cast{transform:rotate(20deg) translate(6px,2px);}
+  #playerFighter.release .p-orb{opacity:0; transform:scale(1.3);}
+  #playerFighter.flinch{animation:flinchShake .3s ease;}
+
+  #enemyFighter.charge .e-arm-cast{transform:rotate(30deg) translate(-3px,-4px);}
+  #enemyFighter.charge .e-orb{opacity:1; transform:scale(0.6);}
+  #enemyFighter.release .e-arm-cast{transform:rotate(-20deg) translate(6px,2px);}
+  #enemyFighter.release .e-orb{opacity:0; transform:scale(1.3);}
+  #enemyFighter.flinch{animation:flinchShakeMirror .3s ease;}
+
+  @keyframes flinchShake{0%,100%{transform:translateX(0);} 30%{transform:translateX(-7px) rotate(-3deg);} 60%{transform:translateX(4px) rotate(2deg);}}
+  @keyframes flinchShakeMirror{0%,100%{transform:scaleX(-1) translateX(0);} 30%{transform:scaleX(-1) translateX(-7px) rotate(3deg);} 60%{transform:scaleX(-1) translateX(4px) rotate(-2deg);}}
+
+  .projectile{position:absolute; top:130px; width:14px; height:14px; border-radius:50%; z-index:5; pointer-events:none;}
+  .projectile.jade{background:radial-gradient(circle, #DFF7E8 0%, #4FAE78 55%, #1B4633 100%); box-shadow:0 0 15px 5px rgba(79,174,120,0.8);}
+  .projectile.seal{background:radial-gradient(circle, #FCE0DB 0%, #D4574A 55%, #7A2A21 100%); box-shadow:0 0 15px 5px rgba(212,87,74,0.8);}
+  .projectile.to-enemy{left:20%; animation:flyR 440ms cubic-bezier(.3,.6,.7,1) forwards;}
+  .projectile.to-player{left:80%; animation:flyL 440ms cubic-bezier(.3,.6,.7,1) forwards;}
+  @keyframes flyR{
+    0%{left:20%; top:130px; transform:scale(.5) rotate(0); opacity:0;}
+    10%{opacity:1;}
+    45%{left:50%; top:94px; transform:scale(1.15) rotate(200deg);}
+    100%{left:72%; top:128px; transform:scale(.9) rotate(400deg); opacity:1;}
+  }
+  @keyframes flyL{
+    0%{left:80%; top:130px; transform:scale(.5) rotate(0); opacity:0;}
+    10%{opacity:1;}
+    45%{left:50%; top:94px; transform:scale(1.15) rotate(-200deg);}
+    100%{left:28%; top:128px; transform:scale(.9) rotate(-400deg); opacity:1;}
+  }
+  .impact-burst{position:absolute; top:130px; width:44px; height:44px; border-radius:50%; transform:translate(-50%,-50%); animation:burst 380ms ease-out forwards; z-index:6; pointer-events:none;}
+  .impact-burst.good{background:radial-gradient(circle, rgba(223,247,232,.95), rgba(79,174,120,.5) 45%, transparent 75%);}
+  .impact-burst.bad{background:radial-gradient(circle, rgba(252,224,219,.95), rgba(212,87,74,.5) 45%, transparent 75%);}
+  @keyframes burst{0%{opacity:1; transform:translate(-50%,-50%) scale(.2);} 100%{opacity:0; transform:translate(-50%,-50%) scale(1.9);}}
+
+  .hp-block{position:absolute; z-index:3; width:104px;}
+  #playerHpBlock{bottom:220px; left:16px;}
+  #enemyHpBlock{bottom:220px; right:16px; text-align:right;}
+  .hp-track{width:100%; height:10px; background:rgba(0,0,0,0.4); border-radius:8px; overflow:hidden; border:1px solid rgba(255,255,255,0.08);}
+  .hp-fill{height:100%; border-radius:8px; transition:width .35s ease;}
+  .hp-fill.player{background:linear-gradient(90deg, #3E8E5C, #6FC98A);}
+  .hp-fill.enemy{background:linear-gradient(90deg, #8A2C22, #D4574A);}
+  .hp-label{font-size:11px; color:#C9C2AC; font-weight:700; margin-top:3px;}
+
+  .fx-layer{position:absolute; bottom:4px; left:0; right:0; text-align:center; height:20px; font-size:12.5px; font-weight:700; z-index:8;}
+  .fx-layer.good{color:#7CD99A;}
+  .fx-layer.bad{color:#E77C6E;}
+
+  /* ---------- Question card ---------- */
+  .qcard{background:var(--paper); color:var(--ink); border-radius:18px; padding:18px 16px 16px; text-align:center; box-shadow:0 10px 28px rgba(0,0,0,0.35);}
+  .qcard .type-tag{display:inline-block; font-size:11px; font-weight:700; letter-spacing:.5px; padding:3px 10px; border-radius:20px; margin-bottom:8px;}
+  .type-tag.vocab{background:rgba(47,109,79,0.15); color:var(--jade-dark);}
+  .type-tag.grammar{background:rgba(178,58,46,0.15); color:var(--seal-dark);}
+  .qcard .prompt-main{font-size:36px; font-weight:700; line-height:1.2;}
+  .qcard .prompt-sub{font-size:14px; color:#6B6656; margin-top:4px;}
+  .qcard .example{font-size:13px; color:#57523F; margin-top:8px; line-height:1.4; padding:0 4px;}
+  .options{display:grid; grid-template-columns:1fr 1fr; gap:9px; margin-top:14px;}
+  .opt-btn{padding:12px 8px; border-radius:12px; border:2px solid #D8D0B8; background:#FBF9F1; color:var(--ink); font-family:inherit; font-size:13.5px; font-weight:600; cursor:pointer; line-height:1.25;}
+  .opt-btn:active{transform:scale(0.97);}
+  .opt-btn.correct{background:#DCF0E2; border-color:var(--good); color:var(--jade-dark);}
+  .opt-btn.wrong{background:#F6DCD9; border-color:var(--bad); color:var(--seal-dark);}
+  .opt-btn:disabled{cursor:default;}
+  .continue-btn{margin-top:12px; width:100%; padding:12px; border-radius:12px; border:none; background:var(--ink); color:var(--paper); font-family:inherit; font-weight:700; font-size:14px; cursor:pointer;}
+
+  /* ---------- Result / rest ---------- */
+  .center-screen{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; gap:12px;}
+  .center-screen .big-icon{font-size:60px;}
+  .center-screen h2{font-size:22px; color:var(--gold);}
+  .center-screen .msg{color:#C9C2AC; font-size:13.5px; max-width:320px; line-height:1.5;}
+  .result-stats{background:rgba(255,255,255,0.05); border-radius:14px; padding:16px; width:100%; max-width:320px; margin-top:8px;}
+  .result-row{display:flex; justify-content:space-between; font-size:13px; padding:5px 0; color:#C9C2AC;}
+  .result-row b{color:var(--paper);}
+  .weak-list{text-align:left; font-size:12.5px; margin-top:6px; max-height:130px; overflow-y:auto;}
+  .weak-item{display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.06);}
+
+  /* ---------- Deck / Roster manager ---------- */
+  .tab-row{display:flex; gap:6px; margin-bottom:14px;}
+  .tab-btn{flex:1; padding:9px 6px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background:rgba(255,255,255,0.04); color:#C9C2AC; font-family:inherit; font-size:12px; font-weight:700; cursor:pointer;}
+  .tab-btn.active{border-color:var(--gold); background:rgba(212,166,75,0.15); color:var(--gold);}
+  .manager-section{margin-bottom:16px;}
+  .manager-section label{font-size:12px; color:var(--gold); font-weight:700; display:block; margin-bottom:6px;}
+  textarea{width:100%; min-height:130px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); border-radius:10px; color:var(--paper); font-family:monospace; font-size:12px; padding:10px; resize:vertical;}
+  .hint{font-size:11px; color:#8B8570; margin-top:6px; line-height:1.4;}
+  .btn-row{display:flex; gap:8px; margin-top:10px;}
+  .small-btn{flex:1; padding:10px; border-radius:10px; border:1px solid var(--jade); background:rgba(47,109,79,0.15); color:var(--paper); font-family:inherit; font-weight:700; font-size:12.5px; cursor:pointer;}
+  .small-btn.warn{border-color:var(--seal); background:rgba(178,58,46,0.15);}
+  .toast{position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:var(--gold); color:var(--ink); padding:8px 16px; border-radius:20px; font-size:13px; font-weight:700; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:50;}
+  .toast.show{opacity:1;}
+
+  .roster-card{display:flex; align-items:center; gap:10px; background:rgba(255,255,255,0.05); border-radius:12px; padding:10px; margin-bottom:8px;}
+  .roster-card .rc-icon{font-size:24px; width:32px; text-align:center;}
+  .roster-card .rc-icon img{width:32px;height:32px;object-fit:cover;border-radius:8px;}
+  .roster-card .rc-fields{display:flex; flex-direction:column; gap:5px; flex:1; min-width:0;}
+  .roster-card input{flex:1; background:rgba(0,0,0,0.25); border:1px solid rgba(255,255,255,0.12); border-radius:8px; color:var(--paper); font-family:inherit; font-size:12px; padding:7px 8px; min-width:0;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+
+const SAMPLE_DECK = [
+  {id:"v1",type:"vocab",hanzi:"你好",pinyin:"nǐ hǎo",meaning:"hello",section:"HSK1 Vocabulary"},
+  {id:"v2",type:"vocab",hanzi:"谢谢",pinyin:"xièxie",meaning:"thank you",section:"HSK1 Vocabulary"},
+  {id:"v3",type:"vocab",hanzi:"再见",pinyin:"zàijiàn",meaning:"goodbye",section:"HSK1 Vocabulary"},
+  {id:"v4",type:"vocab",hanzi:"名字",pinyin:"míngzi",meaning:"name",section:"HSK1 Vocabulary"},
+  {id:"v5",type:"vocab",hanzi:"学生",pinyin:"xuésheng",meaning:"student",section:"HSK1 Vocabulary"},
+  {id:"v6",type:"vocab",hanzi:"老师",pinyin:"lǎoshī",meaning:"teacher",section:"HSK1 Vocabulary"},
+  {id:"v7",type:"vocab",hanzi:"朋友",pinyin:"péngyou",meaning:"friend",section:"HSK1 Vocabulary"},
+  {id:"v8",type:"vocab",hanzi:"家",pinyin:"jiā",meaning:"home / family",section:"HSK1 Vocabulary"},
+  {id:"v9",type:"vocab",hanzi:"中国",pinyin:"Zhōngguó",meaning:"China",section:"HSK1 Vocabulary"},
+  {id:"v10",type:"vocab",hanzi:"北京",pinyin:"Běijīng",meaning:"Beijing",section:"HSK1 Vocabulary"},
+  {id:"v11",type:"vocab",hanzi:"苏州",pinyin:"Sūzhōu",meaning:"Suzhou",section:"HSK1 Vocabulary"},
+  {id:"v12",type:"vocab",hanzi:"吃",pinyin:"chī",meaning:"to eat",section:"HSK1 Vocabulary"},
+  {id:"v13",type:"vocab",hanzi:"喝",pinyin:"hē",meaning:"to drink",section:"HSK1 Vocabulary"},
+  {id:"v14",type:"vocab",hanzi:"水",pinyin:"shuǐ",meaning:"water",section:"HSK1 Vocabulary"},
+  {id:"v15",type:"vocab",hanzi:"米饭",pinyin:"mǐfàn",meaning:"cooked rice",section:"HSK1 Vocabulary"},
+  {id:"v16",type:"vocab",hanzi:"学习",pinyin:"xuéxí",meaning:"to study",section:"HSK1 Vocabulary"},
+  {id:"v17",type:"vocab",hanzi:"工作",pinyin:"gōngzuò",meaning:"work / job",section:"HSK1 Vocabulary"},
+  {id:"v18",type:"vocab",hanzi:"电话",pinyin:"diànhuà",meaning:"telephone",section:"HSK1 Vocabulary"},
+  {id:"v19",type:"vocab",hanzi:"时间",pinyin:"shíjiān",meaning:"time",section:"HSK1 Vocabulary"},
+  {id:"v20",type:"vocab",hanzi:"今天",pinyin:"jīntiān",meaning:"today",section:"HSK1 Vocabulary"},
+  {id:"v21",type:"vocab",hanzi:"明天",pinyin:"míngtiān",meaning:"tomorrow",section:"HSK1 Vocabulary"},
+  {id:"v22",type:"vocab",hanzi:"昨天",pinyin:"zuótiān",meaning:"yesterday",section:"HSK1 Vocabulary"},
+  {id:"v23",type:"vocab",hanzi:"天气",pinyin:"tiānqì",meaning:"weather",section:"HSK1 Vocabulary"},
+  {id:"v24",type:"vocab",hanzi:"冷",pinyin:"lěng",meaning:"cold",section:"HSK1 Vocabulary"},
+  {id:"v25",type:"vocab",hanzi:"热",pinyin:"rè",meaning:"hot",section:"HSK1 Vocabulary"},
+  {id:"v26",type:"vocab",hanzi:"高兴",pinyin:"gāoxìng",meaning:"happy",section:"HSK1 Vocabulary"},
+  {id:"v27",type:"vocab",hanzi:"喜欢",pinyin:"xǐhuan",meaning:"to like",section:"HSK1 Vocabulary"},
+  {id:"v28",type:"vocab",hanzi:"大",pinyin:"dà",meaning:"big",section:"HSK1 Vocabulary"},
+  {id:"v29",type:"vocab",hanzi:"小",pinyin:"xiǎo",meaning:"small",section:"HSK1 Vocabulary"},
+  {id:"v30",type:"vocab",hanzi:"多",pinyin:"duō",meaning:"many / much",section:"HSK1 Vocabulary"},
+  {id:"g1",type:"grammar",hanzi:"是",pinyin:"shì",meaning:"\"to be\" — links identity, name, nationality (often dropped for price/name)",example:"我是学生。 I am a student.",section:"Grammar Points"},
+  {id:"g2",type:"grammar",hanzi:"很",pinyin:"hěn",meaning:"\"very\" — default linking word before adjectives, even without real emphasis",example:"我很高兴。 I am (very) happy.",section:"Grammar Points"},
+  {id:"g3",type:"grammar",hanzi:"不",pinyin:"bù",meaning:"negation for present / habitual actions",example:"我不喜欢。 I don't like it.",section:"Grammar Points"},
+  {id:"g4",type:"grammar",hanzi:"能",pinyin:"néng",meaning:"ability due to circumstance or permission",example:"我今天能去。 I can go today (circumstances allow).",section:"Grammar Points"},
+  {id:"g5",type:"grammar",hanzi:"会",pinyin:"huì",meaning:"ability from a learned skill",example:"我会说中文。 I can speak Chinese (I learned it).",section:"Grammar Points"},
+  {id:"g6",type:"grammar",hanzi:"可以",pinyin:"kěyǐ",meaning:"permission or possibility",example:"我可以吃吗？ May I eat?",section:"Grammar Points"},
+  {id:"g7",type:"grammar",hanzi:"多少",pinyin:"duōshao",meaning:"\"how many/much\" — used for uncountable or expected-large numbers",example:"多少钱？ How much money?",section:"Grammar Points"},
+  {id:"g8",type:"grammar",hanzi:"几",pinyin:"jǐ",meaning:"\"how many\" — used for small, expected numbers (usually under 10)",example:"几个人？ How many people?",section:"Grammar Points"},
+  {id:"g9",type:"grammar",hanzi:"好吧",pinyin:"hǎo ba",meaning:"reluctant or passive agreement particle — \"fine, I guess\"",example:"好吧，我去。 Fine, I'll go.",section:"Grammar Points"},
+  {id:"g10",type:"grammar",hanzi:"topic-comment",pinyin:"(structure)",meaning:"topic stated first, comment follows — differs from English subject-verb-object order",example:"这个，我喜欢。 This, I like.",section:"Grammar Points"}
+];
+
+const DECK_KEYS = ["sample","phrasebook","lessons"];
+const DECK_META = {
+  sample:     {label:"Sample Deck", desc:"HSK1 starter vocab + your grammar points"},
+  phrasebook: {label:"Phrasebook",  desc:"Imported from suzhou_phrasebook.html — edit or re-paste below"},
+  lessons:    {label:"Chinese Lessons", desc:"Imported from chinese_lessons.html — edit or re-paste below"}
+};
+
+const DEFAULT_ENEMIES = [
+  {name:"Ink-Drop Sprite", kind:"wraith",   hue:0,   hp:22, img:"", icon:"💧"},
+  {name:"Paper Wraith",    kind:"wraith",   hue:-25, hp:26, img:"", icon:"📜"},
+  {name:"Lantern Ghoul",   kind:"wraith",   hue:45,  hp:30, img:"", icon:"🏮"},
+  {name:"Seal Guardian",   kind:"guardian", hue:0,   hp:34, img:"", icon:"🀄"},
+  {name:"Dragon Whelp",    kind:"guardian", hue:-30, hp:38, img:"", icon:"🐉"}
+];
+const DEFAULT_BOSS = {name:"Ink Dragon Emperor", kind:"dragon", hue:0, hp:70, img:"", icon:"🐲"};
+
+const PASS_THRESHOLD = 0.70;
+const PLAYER_MAX_HP = 100;
+
+/* ============ STORAGE HELPERS ============ */
+let saveTimer = null;
+let saveChain = Promise.resolve();
+function debouncedSave(key, value){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>{
+    saveChain = saveChain.then(()=>window.storage.set(key, JSON.stringify(value)).catch(()=>{}));
+  }, 400);
+}
+async function loadJSON(key, fallback){
+  try{
+    const r = await window.storage.get(key);
+    if(r && r.value) return JSON.parse(r.value);
+  }catch(e){}
+  return fallback;
+}
+
+/* ============ STATE ============ */
+const PHRASEBOOK_DECK = [
+  {id:"p1",type:"vocab",hanzi:"你",pinyin:"nǐ",meaning:"you",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p2",type:"vocab",hanzi:"好",pinyin:"hǎo",meaning:"good",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p3",type:"vocab",hanzi:"我",pinyin:"wǒ",meaning:"I / me",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p4",type:"vocab",hanzi:"叫",pinyin:"jiào",meaning:"am called",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p5",type:"vocab",hanzi:"什么",pinyin:"shénme",meaning:"what",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p6",type:"vocab",hanzi:"名字",pinyin:"míngzi",meaning:"name",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p7",type:"vocab",hanzi:"很",pinyin:"hěn",meaning:"very (a required connector before adjectives, even without emphasis)",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p8",type:"vocab",hanzi:"高兴",pinyin:"gāoxìng",meaning:"happy",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p9",type:"vocab",hanzi:"认识",pinyin:"rènshi",meaning:"to meet",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p10",type:"vocab",hanzi:"是",pinyin:"shì",meaning:"to be (am/are/is)",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p11",type:"vocab",hanzi:"法国人",pinyin:"Fǎguórén",meaning:"French person",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p12",type:"vocab",hanzi:"美国人",pinyin:"Měiguórén",meaning:"American",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p13",type:"vocab",hanzi:"英国人",pinyin:"Yīngguórén",meaning:"British",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p14",type:"vocab",hanzi:"加拿大人",pinyin:"Jiānádàrén",meaning:"Canadian",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p15",type:"vocab",hanzi:"再",pinyin:"zài",meaning:"again / again/more",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p16",type:"vocab",hanzi:"见",pinyin:"jiàn",meaning:"see",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p17",type:"vocab",hanzi:"早上",pinyin:"zǎoshang",meaning:"morning",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p18",type:"vocab",hanzi:"吗",pinyin:"ma",meaning:"?",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p19",type:"vocab",hanzi:"一会儿",pinyin:"yíhuìr",meaning:"in a moment",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p20",type:"vocab",hanzi:"谢谢",pinyin:"xièxie",meaning:"thanks",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p21",type:"vocab",hanzi:"不客气",pinyin:"bú kèqi",meaning:"you're welcome",section:"Greetings & Introductions (问候与自我介绍)"},
+  {id:"p22",type:"vocab",hanzi:"哪",pinyin:"nǎ",meaning:"which",section:"Small Talk / Social (聊天)"},
+  {id:"p23",type:"vocab",hanzi:"国",pinyin:"guó",meaning:"country",section:"Small Talk / Social (聊天)"},
+  {id:"p24",type:"vocab",hanzi:"人",pinyin:"rén",meaning:"person / people / anyone",section:"Small Talk / Social (聊天)"},
+  {id:"p25",type:"vocab",hanzi:"会",pinyin:"huì",meaning:"can / will / can (skill)",section:"Small Talk / Social (聊天)"},
+  {id:"p26",type:"vocab",hanzi:"说",pinyin:"shuō",meaning:"speak",section:"Small Talk / Social (聊天)"},
+  {id:"p27",type:"vocab",hanzi:"中文",pinyin:"Zhōngwén",meaning:"Chinese",section:"Small Talk / Social (聊天)"},
+  {id:"p28",type:"vocab",hanzi:"在",pinyin:"zài",meaning:"-ing / at / is at",section:"Small Talk / Social (聊天)"},
+  {id:"p29",type:"vocab",hanzi:"学",pinyin:"xué",meaning:"learn",section:"Small Talk / Social (聊天)"},
+  {id:"p30",type:"vocab",hanzi:"觉得",pinyin:"juéde",meaning:"feel/think",section:"Small Talk / Social (聊天)"},
+  {id:"p31",type:"vocab",hanzi:"怎么样",pinyin:"zěnmeyàng",meaning:"how about it",section:"Small Talk / Social (聊天)"},
+  {id:"p32",type:"vocab",hanzi:"天气",pinyin:"tiānqì",meaning:"weather",section:"Small Talk / Social (聊天)"},
+  {id:"p33",type:"vocab",hanzi:"热",pinyin:"rè",meaning:"hot",section:"Small Talk / Social (聊天)"},
+  {id:"p34",type:"vocab",hanzi:"冷",pinyin:"lěng",meaning:"cold",section:"Small Talk / Social (聊天)"},
+  {id:"p35",type:"vocab",hanzi:"不好",pinyin:"bù hǎo",meaning:"not good",section:"Small Talk / Social (聊天)"},
+  {id:"p36",type:"vocab",hanzi:"住",pinyin:"zhù",meaning:"live",section:"Small Talk / Social (聊天)"},
+  {id:"p37",type:"vocab",hanzi:"哪里",pinyin:"nǎlǐ",meaning:"where",section:"Small Talk / Social (聊天)"},
+  {id:"p38",type:"vocab",hanzi:"苏州",pinyin:"Sūzhōu",meaning:"Suzhou",section:"Small Talk / Social (聊天)"},
+  {id:"p39",type:"vocab",hanzi:"吃",pinyin:"chī",meaning:"eat",section:"Small Talk / Social (聊天)"},
+  {id:"p40",type:"vocab",hanzi:"了",pinyin:"le",meaning:"(completed) / (change) / (extreme)",section:"Small Talk / Social (聊天)"},
+  {id:"p41",type:"vocab",hanzi:"做",pinyin:"zuò",meaning:"do",section:"Small Talk / Social (聊天)"},
+  {id:"p42",type:"vocab",hanzi:"工作",pinyin:"gōngzuò",meaning:"work",section:"Small Talk / Social (聊天)"},
+  {id:"p43",type:"vocab",hanzi:"去",pinyin:"qù",meaning:"go",section:"Small Talk / Social (聊天)"},
+  {id:"p44",type:"vocab",hanzi:"哪儿",pinyin:"nǎr",meaning:"where",section:"Small Talk / Social (聊天)"},
+  {id:"p45",type:"vocab",hanzi:"超市",pinyin:"chāoshì",meaning:"supermarket",section:"Small Talk / Social (聊天)"},
+  {id:"p46",type:"vocab",hanzi:"公司",pinyin:"gōngsī",meaning:"company / workplace",section:"Small Talk / Social (聊天)"},
+  {id:"p47",type:"vocab",hanzi:"学校",pinyin:"xuéxiào",meaning:"school",section:"Small Talk / Social (聊天)"},
+  {id:"p48",type:"vocab",hanzi:"朋友家",pinyin:"péngyou jiā",meaning:"a friend's place",section:"Small Talk / Social (聊天)"},
+  {id:"p49",type:"vocab",hanzi:"刚才",pinyin:"gāngcái",meaning:"just now",section:"Small Talk / Social (聊天)"},
+  {id:"p50",type:"vocab",hanzi:"过",pinyin:"guo",meaning:"(ever) — completed-experience marker",section:"Small Talk / Social (聊天)"},
+  {id:"p51",type:"vocab",hanzi:"上海",pinyin:"Shànghǎi",meaning:"Shanghai",section:"Small Talk / Social (聊天)"},
+  {id:"p52",type:"vocab",hanzi:"北京",pinyin:"Běijīng",meaning:"Beijing",section:"Small Talk / Social (聊天)"},
+  {id:"p53",type:"vocab",hanzi:"杭州",pinyin:"Hángzhōu",meaning:"Hangzhou",section:"Small Talk / Social (聊天)"},
+  {id:"p54",type:"vocab",hanzi:"喜欢",pinyin:"xǐhuan",meaning:"like",section:"Small Talk / Social (聊天)"},
+  {id:"p55",type:"vocab",hanzi:"中国菜",pinyin:"Zhōngguó cài",meaning:"Chinese food",section:"Small Talk / Social (聊天)"},
+  {id:"p56",type:"vocab",hanzi:"不",pinyin:"bù",meaning:"not",section:"Small Talk / Social (聊天)"},
+  {id:"p57",type:"vocab",hanzi:"辣",pinyin:"là",meaning:"spicy",section:"Small Talk / Social (聊天)"},
+  {id:"p58",type:"vocab",hanzi:"的",pinyin:"de",meaning:"(thing that is) / (the kind that is)",section:"Small Talk / Social (聊天)"},
+  {id:"p59",type:"vocab",hanzi:"要",pinyin:"yào",meaning:"want / will take",section:"Food & Restaurants (餐厅)"},
+  {id:"p60",type:"vocab",hanzi:"这个",pinyin:"zhège",meaning:"this one",section:"Food & Restaurants (餐厅)"},
+  {id:"p61",type:"vocab",hanzi:"那个",pinyin:"nàge",meaning:"that one",section:"Food & Restaurants (餐厅)"},
+  {id:"p62",type:"vocab",hanzi:"这两个",pinyin:"zhè liǎng gè",meaning:"these two",section:"Food & Restaurants (餐厅)"},
+  {id:"p63",type:"vocab",hanzi:"多一点",pinyin:"duō yìdiǎn",meaning:"a bit more",section:"Food & Restaurants (餐厅)"},
+  {id:"p64",type:"vocab",hanzi:"多少",pinyin:"duōshǎo",meaning:"how much",section:"Food & Restaurants (餐厅)"},
+  {id:"p65",type:"vocab",hanzi:"钱",pinyin:"qián",meaning:"money",section:"Food & Restaurants (餐厅)"},
+  {id:"p66",type:"vocab",hanzi:"不要",pinyin:"búyào",meaning:"don't want",section:"Food & Restaurants (餐厅)"},
+  {id:"p67",type:"vocab",hanzi:"买单",pinyin:"mǎidān",meaning:"pay the bill",section:"Food & Restaurants (餐厅)"},
+  {id:"p68",type:"vocab",hanzi:"好吃",pinyin:"hǎochī",meaning:"tasty",section:"Food & Restaurants (餐厅)"},
+  {id:"p69",type:"vocab",hanzi:"请",pinyin:"qǐng",meaning:"please",section:"Food & Restaurants (餐厅)"},
+  {id:"p70",type:"vocab",hanzi:"给",pinyin:"gěi",meaning:"give",section:"Food & Restaurants (餐厅)"},
+  {id:"p71",type:"vocab",hanzi:"菜单",pinyin:"càidān",meaning:"menu",section:"Food & Restaurants (餐厅)"},
+  {id:"p72",type:"vocab",hanzi:"两",pinyin:"liǎng",meaning:"two (used instead of 二 before a measure word)",section:"Food & Restaurants (餐厅)"},
+  {id:"p73",type:"vocab",hanzi:"个",pinyin:"ge",meaning:"(measure)",section:"Food & Restaurants (餐厅)"},
+  {id:"p74",type:"vocab",hanzi:"来",pinyin:"lái",meaning:"bring / come",section:"Food & Restaurants (餐厅)"},
+  {id:"p75",type:"vocab",hanzi:"一",pinyin:"yī",meaning:"one / a",section:"Food & Restaurants (餐厅)"},
+  {id:"p76",type:"vocab",hanzi:"碗",pinyin:"wǎn",meaning:"bowl",section:"Food & Restaurants (餐厅)"},
+  {id:"p77",type:"vocab",hanzi:"米饭",pinyin:"mǐfàn",meaning:"rice",section:"Food & Restaurants (餐厅)"},
+  {id:"p78",type:"vocab",hanzi:"杯",pinyin:"bēi",meaning:"cup / glass",section:"Food & Restaurants (餐厅)"},
+  {id:"p79",type:"vocab",hanzi:"水",pinyin:"shuǐ",meaning:"water",section:"Food & Restaurants (餐厅)"},
+  {id:"p80",type:"vocab",hanzi:"师傅",pinyin:"shīfu",meaning:"driver",section:"Transport (交通)"},
+  {id:"p81",type:"vocab",hanzi:"这里",pinyin:"zhèlǐ",meaning:"here",section:"Transport (交通)"},
+  {id:"p82",type:"vocab",hanzi:"机场",pinyin:"jīchǎng",meaning:"airport",section:"Transport (交通)"},
+  {id:"p83",type:"vocab",hanzi:"火车站",pinyin:"huǒchē zhàn",meaning:"train station",section:"Transport (交通)"},
+  {id:"p84",type:"vocab",hanzi:"市中心",pinyin:"shì zhōngxīn",meaning:"city center",section:"Transport (交通)"},
+  {id:"p85",type:"vocab",hanzi:"到",pinyin:"dào",meaning:"arrive",section:"Transport (交通)"},
+  {id:"p86",type:"vocab",hanzi:"可以",pinyin:"kěyǐ",meaning:"can / may",section:"Transport (交通)"},
+  {id:"p87",type:"vocab",hanzi:"停",pinyin:"tíng",meaning:"stop",section:"Transport (交通)"},
+  {id:"p88",type:"vocab",hanzi:"地铁站",pinyin:"dìtiě zhàn",meaning:"subway station",section:"Transport (交通)"},
+  {id:"p89",type:"vocab",hanzi:"多少钱",pinyin:"duōshǎo qián",meaning:"how much money",section:"Transport (交通)"},
+  {id:"p90",type:"vocab",hanzi:"打表",pinyin:"dǎ biǎo",meaning:"turn on the meter",section:"Transport (交通)"},
+  {id:"p91",type:"vocab",hanzi:"多久",pinyin:"duōjiǔ",meaning:"how long",section:"Transport (交通)"},
+  {id:"p92",type:"vocab",hanzi:"地址",pinyin:"dìzhǐ",meaning:"address",section:"Transport (交通)"},
+  {id:"p93",type:"vocab",hanzi:"太",pinyin:"tài",meaning:"too",section:"Numbers & Money (数字与价钱)"},
+  {id:"p94",type:"vocab",hanzi:"贵",pinyin:"guì",meaning:"expensive",section:"Numbers & Money (数字与价钱)"},
+  {id:"p95",type:"vocab",hanzi:"便宜",pinyin:"piányi",meaning:"cheap",section:"Numbers & Money (数字与价钱)"},
+  {id:"p96",type:"vocab",hanzi:"一点",pinyin:"yìdiǎn",meaning:"a little",section:"Numbers & Money (数字与价钱)"},
+  {id:"p97",type:"vocab",hanzi:"一共",pinyin:"yígòng",meaning:"in total",section:"Numbers & Money (数字与价钱)"},
+  {id:"p98",type:"vocab",hanzi:"一斤",pinyin:"yì jīn",meaning:"per jin",section:"Numbers & Money (数字与价钱)"},
+  {id:"p99",type:"vocab",hanzi:"现金",pinyin:"xiànjīn",meaning:"cash",section:"Numbers & Money (数字与价钱)"},
+  {id:"p100",type:"vocab",hanzi:"用",pinyin:"yòng",meaning:"use",section:"Numbers & Money (数字与价钱)"},
+  {id:"p101",type:"vocab",hanzi:"微信",pinyin:"Wēixìn",meaning:"WeChat",section:"Numbers & Money (数字与价钱)"},
+  {id:"p102",type:"vocab",hanzi:"支付",pinyin:"zhīfù",meaning:"pay",section:"Numbers & Money (数字与价钱)"},
+  {id:"p103",type:"vocab",hanzi:"有",pinyin:"yǒu",meaning:"have",section:"Numbers & Money (数字与价钱)"},
+  {id:"p104",type:"vocab",hanzi:"零钱",pinyin:"língqián",meaning:"change",section:"Numbers & Money (数字与价钱)"},
+  {id:"p105",type:"vocab",hanzi:"扫",pinyin:"sǎo",meaning:"scan",section:"Numbers & Money (数字与价钱)"},
+  {id:"p106",type:"vocab",hanzi:"二维码",pinyin:"èrwéimǎ",meaning:"QR code",section:"Numbers & Money (数字与价钱)"},
+  {id:"p107",type:"vocab",hanzi:"零",pinyin:"líng",meaning:"zero",section:"Numbers & Counting (数字与量词)"},
+  {id:"p108",type:"vocab",hanzi:"二",pinyin:"èr",meaning:"two",section:"Numbers & Counting (数字与量词)"},
+  {id:"p109",type:"vocab",hanzi:"三",pinyin:"sān",meaning:"three",section:"Numbers & Counting (数字与量词)"},
+  {id:"p110",type:"vocab",hanzi:"四",pinyin:"sì",meaning:"four",section:"Numbers & Counting (数字与量词)"},
+  {id:"p111",type:"vocab",hanzi:"五",pinyin:"wǔ",meaning:"five",section:"Numbers & Counting (数字与量词)"},
+  {id:"p112",type:"vocab",hanzi:"六",pinyin:"liù",meaning:"six",section:"Numbers & Counting (数字与量词)"},
+  {id:"p113",type:"vocab",hanzi:"七",pinyin:"qī",meaning:"seven",section:"Numbers & Counting (数字与量词)"},
+  {id:"p114",type:"vocab",hanzi:"八",pinyin:"bā",meaning:"eight",section:"Numbers & Counting (数字与量词)"},
+  {id:"p115",type:"vocab",hanzi:"九",pinyin:"jiǔ",meaning:"nine",section:"Numbers & Counting (数字与量词)"},
+  {id:"p116",type:"vocab",hanzi:"十",pinyin:"shí",meaning:"ten",section:"Numbers & Counting (数字与量词)"},
+  {id:"p117",type:"vocab",hanzi:"百",pinyin:"bǎi",meaning:"hundred",section:"Numbers & Counting (数字与量词)"},
+  {id:"p118",type:"vocab",hanzi:"二十一",pinyin:"èrshíyī",meaning:"twenty-one — literally \"two-ten-one\" (tens digit + 十 + ones digit)",section:"Numbers & Counting (数字与量词)"},
+  {id:"p119",type:"vocab",hanzi:"几",pinyin:"jǐ",meaning:"how many",section:"Numbers & Counting (数字与量词)"},
+  {id:"p120",type:"vocab",hanzi:"瓶",pinyin:"píng",meaning:"bottle",section:"Numbers & Counting (数字与量词)"},
+  {id:"p121",type:"vocab",hanzi:"你的",pinyin:"nǐ de",meaning:"your",section:"Numbers & Counting (数字与量词)"},
+  {id:"p122",type:"vocab",hanzi:"电话号码",pinyin:"diànhuà hàomǎ",meaning:"phone number",section:"Numbers & Counting (数字与量词)"},
+  {id:"p123",type:"vocab",hanzi:"我的",pinyin:"wǒ de",meaning:"my",section:"Numbers & Counting (数字与量词)"},
+  {id:"p124",type:"vocab",hanzi:"号码",pinyin:"hàomǎ",meaning:"number",section:"Numbers & Counting (数字与量词)"},
+  {id:"p125",type:"vocab",hanzi:"房间",pinyin:"fángjiān",meaning:"room",section:"Numbers & Counting (数字与量词)"},
+  {id:"p126",type:"vocab",hanzi:"幺",pinyin:"yāo",meaning:"the spoken substitute for 1 (一) in phone numbers and codes",section:"Numbers & Counting (数字与量词)"},
+  {id:"p127",type:"vocab",hanzi:"第一",pinyin:"dì yī",meaning:"first",section:"Numbers & Counting (数字与量词)"},
+  {id:"p128",type:"vocab",hanzi:"第二",pinyin:"dì èr",meaning:"second",section:"Numbers & Counting (数字与量词)"},
+  {id:"p129",type:"vocab",hanzi:"第三",pinyin:"dì sān",meaning:"third",section:"Numbers & Counting (数字与量词)"},
+  {id:"p130",type:"vocab",hanzi:"第四",pinyin:"dì sì",meaning:"fourth",section:"Numbers & Counting (数字与量词)"},
+  {id:"p131",type:"vocab",hanzi:"第五",pinyin:"dì wǔ",meaning:"fifth",section:"Numbers & Counting (数字与量词)"},
+  {id:"p132",type:"vocab",hanzi:"第十",pinyin:"dì shí",meaning:"tenth",section:"Numbers & Counting (数字与量词)"},
+  {id:"p133",type:"vocab",hanzi:"楼",pinyin:"lóu",meaning:"floor",section:"Numbers & Counting (数字与量词)"},
+  {id:"p134",type:"vocab",hanzi:"第",pinyin:"dì",meaning:"ordinal marker — 第 + number = \"the Nth\"",section:"Numbers & Counting (数字与量词)"},
+  {id:"p135",type:"vocab",hanzi:"请问",pinyin:"qǐngwèn",meaning:"excuse me",section:"Directions & Locations (方向与位置)"},
+  {id:"p136",type:"vocab",hanzi:"洗手间",pinyin:"xǐshǒujiān",meaning:"bathroom",section:"Directions & Locations (方向与位置)"},
+  {id:"p137",type:"vocab",hanzi:"一直",pinyin:"yìzhí",meaning:"straight",section:"Directions & Locations (方向与位置)"},
+  {id:"p138",type:"vocab",hanzi:"走",pinyin:"zǒu",meaning:"go / walk",section:"Directions & Locations (方向与位置)"},
+  {id:"p139",type:"vocab",hanzi:"往",pinyin:"wǎng",meaning:"toward",section:"Directions & Locations (方向与位置)"},
+  {id:"p140",type:"vocab",hanzi:"左",pinyin:"zuǒ",meaning:"left",section:"Directions & Locations (方向与位置)"},
+  {id:"p141",type:"vocab",hanzi:"右",pinyin:"yòu",meaning:"right",section:"Directions & Locations (方向与位置)"},
+  {id:"p142",type:"vocab",hanzi:"转",pinyin:"zhuǎn",meaning:"turn",section:"Directions & Locations (方向与位置)"},
+  {id:"p143",type:"vocab",hanzi:"离",pinyin:"lí",meaning:"from",section:"Directions & Locations (方向与位置)"},
+  {id:"p144",type:"vocab",hanzi:"远",pinyin:"yuǎn",meaning:"far",section:"Directions & Locations (方向与位置)"},
+  {id:"p145",type:"vocab",hanzi:"附近",pinyin:"fùjìn",meaning:"nearby",section:"Directions & Locations (方向与位置)"},
+  {id:"p146",type:"vocab",hanzi:"那边",pinyin:"nàbiān",meaning:"over there",section:"Directions & Locations (方向与位置)"},
+  {id:"p147",type:"vocab",hanzi:"迷路",pinyin:"mílù",meaning:"lost the way",section:"Directions & Locations (方向与位置)"},
+  {id:"p148",type:"vocab",hanzi:"对不起",pinyin:"duìbuqǐ",meaning:"sorry",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p149",type:"vocab",hanzi:"没关系",pinyin:"méi guānxi",meaning:"never mind",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p150",type:"vocab",hanzi:"一遍",pinyin:"yí biàn",meaning:"one time",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p151",type:"vocab",hanzi:"听",pinyin:"tīng",meaning:"listen",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p152",type:"vocab",hanzi:"懂",pinyin:"dǒng",meaning:"understand",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p153",type:"vocab",hanzi:"能",pinyin:"néng",meaning:"can",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p154",type:"vocab",hanzi:"慢",pinyin:"màn",meaning:"slow",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p155",type:"vocab",hanzi:"意思",pinyin:"yìsi",meaning:"meaning",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p156",type:"vocab",hanzi:"弄错",pinyin:"nòngcuò",meaning:"made a mistake",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p157",type:"vocab",hanzi:"写",pinyin:"xiě",meaning:"write",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p158",type:"vocab",hanzi:"一下",pinyin:"yíxià",meaning:"briefly",section:"Apologies & Clarification (道歉与澄清)"},
+  {id:"p159",type:"vocab",hanzi:"帮",pinyin:"bāng",meaning:"help",section:"Requests & Permission (请求与许可)"},
+  {id:"p160",type:"vocab",hanzi:"看",pinyin:"kàn",meaning:"look",section:"Requests & Permission (请求与许可)"},
+  {id:"p161",type:"vocab",hanzi:"等",pinyin:"děng",meaning:"wait",section:"Requests & Permission (请求与许可)"},
+  {id:"p162",type:"vocab",hanzi:"手机",pinyin:"shǒujī",meaning:"phone",section:"Requests & Permission (请求与许可)"},
+  {id:"p163",type:"vocab",hanzi:"过来",pinyin:"guòlái",meaning:"come over",section:"Requests & Permission (请求与许可)"},
+  {id:"p164",type:"vocab",hanzi:"推荐",pinyin:"tuījiàn",meaning:"recommend",section:"Requests & Permission (请求与许可)"},
+  {id:"p165",type:"vocab",hanzi:"现在",pinyin:"xiànzài",meaning:"now",section:"Time & Scheduling (时间与安排)"},
+  {id:"p166",type:"vocab",hanzi:"点",pinyin:"diǎn",meaning:"o'clock / a bit",section:"Time & Scheduling (时间与安排)"},
+  {id:"p167",type:"vocab",hanzi:"下午",pinyin:"xiàwǔ",meaning:"PM",section:"Time & Scheduling (时间与安排)"},
+  {id:"p168",type:"vocab",hanzi:"二十",pinyin:"èrshí",meaning:"twenty",section:"Time & Scheduling (时间与安排)"},
+  {id:"p169",type:"vocab",hanzi:"分",pinyin:"fēn",meaning:"minutes",section:"Time & Scheduling (时间与安排)"},
+  {id:"p170",type:"vocab",hanzi:"今天",pinyin:"jīntiān",meaning:"today",section:"Time & Scheduling (时间与安排)"},
+  {id:"p171",type:"vocab",hanzi:"号",pinyin:"hào",meaning:"date",section:"Time & Scheduling (时间与安排)"},
+  {id:"p172",type:"vocab",hanzi:"星期二",pinyin:"xīngqī'èr",meaning:"Tuesday",section:"Time & Scheduling (时间与安排)"},
+  {id:"p173",type:"vocab",hanzi:"星期一",pinyin:"xīngqīyī",meaning:"Monday",section:"Time & Scheduling (时间与安排)"},
+  {id:"p174",type:"vocab",hanzi:"星期三",pinyin:"xīngqīsān",meaning:"Wednesday",section:"Time & Scheduling (时间与安排)"},
+  {id:"p175",type:"vocab",hanzi:"星期四",pinyin:"xīngqīsì",meaning:"Thursday",section:"Time & Scheduling (时间与安排)"},
+  {id:"p176",type:"vocab",hanzi:"星期五",pinyin:"xīngqīwǔ",meaning:"Friday",section:"Time & Scheduling (时间与安排)"},
+  {id:"p177",type:"vocab",hanzi:"星期六",pinyin:"xīngqīliù",meaning:"Saturday",section:"Time & Scheduling (时间与安排)"},
+  {id:"p178",type:"vocab",hanzi:"星期天",pinyin:"xīngqītiān",meaning:"Sunday",section:"Time & Scheduling (时间与安排)"},
+  {id:"p179",type:"vocab",hanzi:"星期",pinyin:"xīngqī",meaning:"week",section:"Time & Scheduling (时间与安排)"},
+  {id:"p180",type:"vocab",hanzi:"想",pinyin:"xiǎng",meaning:"would like / would like to",section:"Time & Scheduling (时间与安排)"},
+  {id:"p181",type:"vocab",hanzi:"预约",pinyin:"yùyuē",meaning:"book/schedule",section:"Time & Scheduling (时间与安排)"},
+  {id:"p182",type:"vocab",hanzi:"有空",pinyin:"yǒukòng",meaning:"free/available",section:"Time & Scheduling (时间与安排)"},
+  {id:"p183",type:"vocab",hanzi:"我们",pinyin:"wǒmen",meaning:"we",section:"Time & Scheduling (时间与安排)"},
+  {id:"p184",type:"vocab",hanzi:"明天",pinyin:"míngtiān",meaning:"tomorrow",section:"Time & Scheduling (时间与安排)"},
+  {id:"p185",type:"vocab",hanzi:"见面",pinyin:"jiànmiàn",meaning:"meet",section:"Time & Scheduling (时间与安排)"},
+  {id:"p186",type:"vocab",hanzi:"吧",pinyin:"ba",meaning:"(suggestion)",section:"Time & Scheduling (时间与安排)"},
+  {id:"p187",type:"vocab",hanzi:"晚",pinyin:"wǎn",meaning:"late",section:"Time & Scheduling (时间与安排)"},
+  {id:"p188",type:"vocab",hanzi:"筷子",pinyin:"kuàizi",meaning:"chopsticks",section:"Sentence Patterns (句型练习)"},
+  {id:"p189",type:"vocab",hanzi:"坐",pinyin:"zuò",meaning:"sit",section:"Sentence Patterns (句型练习)"},
+  {id:"p190",type:"vocab",hanzi:"抽烟",pinyin:"chōuyān",meaning:"smoke",section:"Sentence Patterns (句型练习)"},
+  {id:"p191",type:"vocab",hanzi:"休息",pinyin:"xiūxi",meaning:"rest",section:"Sentence Patterns (句型练习)"},
+  {id:"p192",type:"vocab",hanzi:"买",pinyin:"mǎi",meaning:"buy",section:"Sentence Patterns (句型练习)"},
+  {id:"p193",type:"vocab",hanzi:"喝",pinyin:"hē",meaning:"drink",section:"Sentence Patterns (句型练习)"},
+  {id:"p194",type:"vocab",hanzi:"问",pinyin:"wèn",meaning:"ask",section:"Sentence Patterns (句型练习)"},
+  {id:"p195",type:"vocab",hanzi:"一个",pinyin:"yí ge",meaning:"a",section:"Sentence Patterns (句型练习)"},
+  {id:"p196",type:"vocab",hanzi:"问题",pinyin:"wèntí",meaning:"question",section:"Sentence Patterns (句型练习)"},
+  {id:"p197",type:"vocab",hanzi:"过",pinyin:"guò",meaning:"to pass / to pass by",section:"Sentence Patterns (句型练习)"},
+  {id:"p198",type:"vocab",hanzi:"拍照",pinyin:"pāizhào",meaning:"take photos",section:"Sentence Patterns (句型练习)"},
+  {id:"p199",type:"vocab",hanzi:"这",pinyin:"zhè",meaning:"this",section:"Sentence Patterns (句型练习)"},
+  {id:"p200",type:"vocab",hanzi:"本",pinyin:"běn",meaning:"(measure, books)",section:"Sentence Patterns (句型练习)"},
+  {id:"p201",type:"vocab",hanzi:"书",pinyin:"shū",meaning:"book",section:"Sentence Patterns (句型练习)"},
+  {id:"p202",type:"vocab",hanzi:"咖啡",pinyin:"kāfēi",meaning:"coffee",section:"Sentence Patterns (句型练习)"},
+  {id:"p203",type:"vocab",hanzi:"只",pinyin:"zhǐ",meaning:"only",section:"Sentence Patterns (句型练习)"},
+  {id:"p204",type:"vocab",hanzi:"需要",pinyin:"xūyào",meaning:"need to",section:"Sentence Patterns (句型练习)"},
+  {id:"p205",type:"vocab",hanzi:"支",pinyin:"zhī",meaning:"(measure, pens)",section:"Sentence Patterns (句型练习)"},
+  {id:"p206",type:"vocab",hanzi:"笔",pinyin:"bǐ",meaning:"pen",section:"Sentence Patterns (句型练习)"},
+  {id:"p207",type:"vocab",hanzi:"帮助",pinyin:"bāngzhù",meaning:"help",section:"Sentence Patterns (句型练习)"},
+  {id:"p208",type:"vocab",hanzi:"别的",pinyin:"biéde",meaning:"anything else",section:"Sentence Patterns (句型练习)"},
+  {id:"p209",type:"vocab",hanzi:"得",pinyin:"děi",meaning:"have to",section:"Sentence Patterns (句型练习)"},
+  {id:"p210",type:"vocab",hanzi:"必须",pinyin:"bìxū",meaning:"must",section:"Sentence Patterns (句型练习)"},
+  {id:"p211",type:"vocab",hanzi:"带",pinyin:"dài",meaning:"bring",section:"Sentence Patterns (句型练习)"},
+  {id:"p212",type:"vocab",hanzi:"护照",pinyin:"hùzhào",meaning:"passport",section:"Sentence Patterns (句型练习)"},
+  {id:"p213",type:"vocab",hanzi:"雨伞",pinyin:"yǔsǎn",meaning:"umbrella",section:"Sentence Patterns (句型练习)"},
+  {id:"p214",type:"vocab",hanzi:"身上",pinyin:"shēnshang",meaning:"on me",section:"Sentence Patterns (句型练习)"},
+  {id:"p215",type:"vocab",hanzi:"没有",pinyin:"méiyǒu",meaning:"don't have",section:"Sentence Patterns (句型练习)"},
+  {id:"p216",type:"vocab",hanzi:"别",pinyin:"bié",meaning:"don't",section:"Sentence Patterns (句型练习)"},
+  {id:"p217",type:"vocab",hanzi:"担心",pinyin:"dānxīn",meaning:"worry",section:"Sentence Patterns (句型练习)"},
+  {id:"p218",type:"vocab",hanzi:"告诉",pinyin:"gàosu",meaning:"tell",section:"Sentence Patterns (句型练习)"},
+  {id:"p219",type:"vocab",hanzi:"别人",pinyin:"biérén",meaning:"anyone else",section:"Sentence Patterns (句型练习)"},
+  {id:"p220",type:"vocab",hanzi:"摸",pinyin:"mō",meaning:"touch",section:"Sentence Patterns (句型练习)"},
+  {id:"p221",type:"vocab",hanzi:"颜色",pinyin:"yánsè",meaning:"color",section:"Sentence Patterns (句型练习)"},
+  {id:"p222",type:"vocab",hanzi:"人多",pinyin:"rén duō",meaning:"crowded (many people)",section:"Sentence Patterns (句型练习)"},
+  {id:"p223",type:"vocab",hanzi:"地方",pinyin:"dìfang",meaning:"place",section:"Sentence Patterns (句型练习)"},
+  {id:"p224",type:"vocab",hanzi:"更",pinyin:"gèng",meaning:"more",section:"Sentence Patterns (句型练习)"},
+  {id:"p225",type:"vocab",hanzi:"哪个",pinyin:"nǎge",meaning:"which one",section:"Sentence Patterns (句型练习)"},
+  {id:"p226",type:"vocab",hanzi:"不喜欢",pinyin:"bù xǐhuan",meaning:"don't like",section:"Sentence Patterns (句型练习)"},
+  {id:"p227",type:"vocab",hanzi:"这些",pinyin:"zhèxiē",meaning:"these",section:"Sentence Patterns (句型练习)"},
+  {id:"p228",type:"vocab",hanzi:"朋友",pinyin:"péngyou",meaning:"friends",section:"Sentence Patterns (句型练习)"},
+  {id:"p229",type:"vocab",hanzi:"那些",pinyin:"nàxiē",meaning:"those",section:"Sentence Patterns (句型练习)"},
+  {id:"p230",type:"vocab",hanzi:"新鲜",pinyin:"xīnxiān",meaning:"fresh",section:"Sentence Patterns (句型练习)"},
+  {id:"p231",type:"vocab",hanzi:"热水",pinyin:"rèshuǐ",meaning:"hot water",section:"Sentence Patterns (句型练习)"},
+  {id:"p232",type:"vocab",hanzi:"呢",pinyin:"ne",meaning:"what about",section:"Sentence Patterns (句型练习)"},
+  {id:"p233",type:"vocab",hanzi:"医生",pinyin:"yīshēng",meaning:"doctor",section:"Sentence Patterns (句型练习)"},
+  {id:"p234",type:"vocab",hanzi:"对",pinyin:"duì",meaning:"right",section:"Sentence Patterns (句型练习)"},
+  {id:"p235",type:"vocab",hanzi:"那",pinyin:"nà",meaning:"that",section:"Sentence Patterns (句型练习)"},
+  {id:"p236",type:"vocab",hanzi:"谁",pinyin:"shéi",meaning:"who",section:"Sentence Patterns (句型练习)"},
+  {id:"p237",type:"vocab",hanzi:"对吗",pinyin:"duì ma",meaning:"\"...right?\" — a tag question",section:"Sentence Patterns (句型练习)"},
+  {id:"p238",type:"vocab",hanzi:"块",pinyin:"kuài",meaning:"yuan",section:"Price Haggling (讲价)"},
+  {id:"p239",type:"vocab",hanzi:"十五",pinyin:"shíwǔ",meaning:"fifteen",section:"Price Haggling (讲价)"},
+  {id:"p240",type:"vocab",hanzi:"最后",pinyin:"zuìhòu",meaning:"final",section:"Price Haggling (讲价)"},
+  {id:"p241",type:"vocab",hanzi:"一次",pinyin:"yí cì",meaning:"one time",section:"Price Haggling (讲价)"},
+  {id:"p242",type:"vocab",hanzi:"如果",pinyin:"rúguǒ",meaning:"if",section:"Price Haggling (讲价)"},
+  {id:"p243",type:"vocab",hanzi:"成交",pinyin:"chéngjiāo",meaning:"deal/agreed",section:"Price Haggling (讲价)"},
+  {id:"p244",type:"vocab",hanzi:"不用",pinyin:"búyòng",meaning:"no need",section:"Price Haggling (讲价)"},
+  {id:"p245",type:"vocab",hanzi:"最低价",pinyin:"zuìdījià",meaning:"lowest price",section:"Price Haggling (讲价)"}
+];
+const LESSONS_DECK = [
+  {id:"l1",type:"vocab",hanzi:"你好",pinyin:"nǐ hǎo",meaning:"hello",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l2",type:"vocab",hanzi:"叫",pinyin:"jiào",meaning:"to be called",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l3",type:"vocab",hanzi:"什么",pinyin:"shénme",meaning:"what",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l4",type:"vocab",hanzi:"名字",pinyin:"míngzi",meaning:"name",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l5",type:"vocab",hanzi:"呢",pinyin:"ne",meaning:"question particle — \"and...?\"",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l6",type:"vocab",hanzi:"很高兴认识你",pinyin:"hěn gāoxìng rènshi nǐ",meaning:"nice to meet you",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l7",type:"vocab",hanzi:"我",pinyin:"wǒ",meaning:"I, me",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l8",type:"vocab",hanzi:"你",pinyin:"nǐ",meaning:"you",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l9",type:"vocab",hanzi:"您",pinyin:"nín",meaning:"you (polite, honorific form of 你)",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l10",type:"vocab",hanzi:"很",pinyin:"hěn",meaning:"very (a required connector before adjectives, even without emphasis)",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l11",type:"vocab",hanzi:"高兴",pinyin:"gāoxìng",meaning:"happy, pleased",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l12",type:"vocab",hanzi:"认识",pinyin:"rènshi",meaning:"to know, to recognize, to meet",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l13",type:"vocab",hanzi:"请",pinyin:"qǐng",meaning:"please; to request, to invite",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l14",type:"vocab",hanzi:"问",pinyin:"wèn",meaning:"to ask (a question)",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l15",type:"vocab",hanzi:"请问",pinyin:"qǐngwèn",meaning:"excuse me, may I ask... / excuse me, may I ask",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l16",type:"vocab",hanzi:"贵",pinyin:"guì",meaning:"honorable; expensive",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l17",type:"vocab",hanzi:"姓",pinyin:"xìng",meaning:"(one's) family name is...; family name",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l18",type:"vocab",hanzi:"你贵姓？",pinyin:"nǐ guì xìng?",meaning:"what is your (honorable) family name?",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l19",type:"vocab",hanzi:"小姐",pinyin:"xiǎojiě",meaning:"Miss, young lady",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l20",type:"vocab",hanzi:"先生",pinyin:"xiānsheng",meaning:"Mr., sir",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l21",type:"vocab",hanzi:"大家好",pinyin:"dàjiā hǎo",meaning:"hello everyone (greeting a group)",section:"Lesson 1: Meeting Someone (认识新朋友)"},
+  {id:"l22",type:"vocab",hanzi:"好",pinyin:"hǎo",meaning:"good, well",section:"Lesson 2: How Are You? (你好吗)"},
+  {id:"l23",type:"vocab",hanzi:"吗",pinyin:"ma",meaning:"yes/no question particle",section:"Lesson 2: How Are You? (你好吗)"},
+  {id:"l24",type:"vocab",hanzi:"谢谢",pinyin:"xièxie",meaning:"thank you",section:"Lesson 2: How Are You? (你好吗)"},
+  {id:"l25",type:"vocab",hanzi:"也",pinyin:"yě",meaning:"also, too",section:"Lesson 2: How Are You? (你好吗)"},
+  {id:"l26",type:"vocab",hanzi:"忙",pinyin:"máng",meaning:"busy",section:"Lesson 2: How Are You? (你好吗)"},
+  {id:"l27",type:"vocab",hanzi:"哪里人",pinyin:"nǎlǐ rén",meaning:"where (someone) is from",section:"Lesson 3: Where Are You From (你是哪里人)"},
+  {id:"l28",type:"vocab",hanzi:"英国人",pinyin:"Yīngguó rén",meaning:"British person",section:"Lesson 3: Where Are You From (你是哪里人)"},
+  {id:"l29",type:"vocab",hanzi:"中国人",pinyin:"Zhōngguó rén",meaning:"Chinese person",section:"Lesson 3: Where Are You From (你是哪里人)"},
+  {id:"l30",type:"vocab",hanzi:"学生",pinyin:"xuésheng",meaning:"student",section:"Lesson 3: Where Are You From (你是哪里人)"},
+  {id:"l31",type:"vocab",hanzi:"老师",pinyin:"lǎoshī",meaning:"teacher",section:"Lesson 3: Where Are You From (你是哪里人)"},
+  {id:"l32",type:"vocab",hanzi:"是",pinyin:"shì",meaning:"to be (am/are/is)",section:"Lesson 3: Where Are You From (你是哪里人)"},
+  {id:"l33",type:"vocab",hanzi:"不",pinyin:"bù",meaning:"not, no",section:"Lesson 3: Where Are You From (你是哪里人)"},
+  {id:"l34",type:"vocab",hanzi:"这个",pinyin:"zhège",meaning:"this one",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l35",type:"vocab",hanzi:"那个",pinyin:"nàge",meaning:"that one",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l36",type:"vocab",hanzi:"多少钱",pinyin:"duōshao qián",meaning:"how much money",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l37",type:"vocab",hanzi:"块",pinyin:"kuài",meaning:"kuai/yuan (money unit)",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l38",type:"vocab",hanzi:"要",pinyin:"yào",meaning:"to want / want to / will",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l39",type:"vocab",hanzi:"个",pinyin:"gè",meaning:"general measure word (the universal fallback)",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l40",type:"vocab",hanzi:"八",pinyin:"bā",meaning:"eight",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l41",type:"vocab",hanzi:"十五",pinyin:"shíwǔ",meaning:"fifteen",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l42",type:"vocab",hanzi:"不是",pinyin:"bú shì",meaning:"no; is not (fixed negative reply)",section:"Lesson 4: This One, That One (这个，那个)"},
+  {id:"l43",type:"vocab",hanzi:"谁",pinyin:"shéi",meaning:"who",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l44",type:"vocab",hanzi:"哪里",pinyin:"nǎlǐ",meaning:"where",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l45",type:"vocab",hanzi:"哪个",pinyin:"nǎge",meaning:"which one",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l46",type:"vocab",hanzi:"书店",pinyin:"shūdiàn",meaning:"bookstore",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l47",type:"vocab",hanzi:"在",pinyin:"zài",meaning:"to be located at / to be at / in the middle of",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l48",type:"vocab",hanzi:"那里",pinyin:"nàlǐ",meaning:"over there",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l49",type:"vocab",hanzi:"这",pinyin:"zhè",meaning:"this",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l50",type:"vocab",hanzi:"的",pinyin:"de",meaning:"possessive/descriptive particle — like English 's or \"of\"",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l51",type:"vocab",hanzi:"书",pinyin:"shū",meaning:"book",section:"Lesson 5: Who, What, Where, Which (谁，什么，哪里，哪个)"},
+  {id:"l52",type:"vocab",hanzi:"想",pinyin:"xiǎng",meaning:"want to / would like",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l53",type:"vocab",hanzi:"会",pinyin:"huì",meaning:"can / know how to",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l54",type:"vocab",hanzi:"喝",pinyin:"hē",meaning:"to drink",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l55",type:"vocab",hanzi:"学",pinyin:"xué",meaning:"to learn",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l56",type:"vocab",hanzi:"一点",pinyin:"yìdiǎn",meaning:"a little",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l57",type:"vocab",hanzi:"茶",pinyin:"chá",meaning:"tea",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l58",type:"vocab",hanzi:"说",pinyin:"shuō",meaning:"to speak, to say",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l59",type:"vocab",hanzi:"中文",pinyin:"Zhōngwén",meaning:"Chinese (language)",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l60",type:"vocab",hanzi:"我们",pinyin:"wǒmen",meaning:"we",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l61",type:"vocab",hanzi:"一起",pinyin:"yìqǐ",meaning:"together",section:"Lesson 6: Wanting and Being Able To (想，要，会)"},
+  {id:"l62",type:"vocab",hanzi:"家",pinyin:"jiā",meaning:"home",section:"Lesson 7: Where Things Are (在哪里，在做什么)"},
+  {id:"l63",type:"vocab",hanzi:"工作",pinyin:"gōngzuò",meaning:"to work / work",section:"Lesson 7: Where Things Are (在哪里，在做什么)"},
+  {id:"l64",type:"vocab",hanzi:"做",pinyin:"zuò",meaning:"to do",section:"Lesson 7: Where Things Are (在哪里，在做什么)"},
+  {id:"l65",type:"vocab",hanzi:"看书",pinyin:"kàn shū",meaning:"to read",section:"Lesson 7: Where Things Are (在哪里，在做什么)"},
+  {id:"l66",type:"vocab",hanzi:"喂",pinyin:"wèi",meaning:"hello (only when answering the phone)",section:"Lesson 7: Where Things Are (在哪里，在做什么)"},
+  {id:"l67",type:"vocab",hanzi:"今天",pinyin:"jīntiān",meaning:"today",section:"Lesson 8: Talking About Time (说时间)"},
+  {id:"l68",type:"vocab",hanzi:"明天",pinyin:"míngtiān",meaning:"tomorrow",section:"Lesson 8: Talking About Time (说时间)"},
+  {id:"l69",type:"vocab",hanzi:"现在",pinyin:"xiànzài",meaning:"now",section:"Lesson 8: Talking About Time (说时间)"},
+  {id:"l70",type:"vocab",hanzi:"但是",pinyin:"dànshì",meaning:"but",section:"Lesson 8: Talking About Time (说时间)"},
+  {id:"l71",type:"vocab",hanzi:"休息",pinyin:"xiūxi",meaning:"to rest",section:"Lesson 8: Talking About Time (说时间)"},
+  {id:"l72",type:"vocab",hanzi:"有",pinyin:"yǒu",meaning:"to have",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l73",type:"vocab",hanzi:"没有",pinyin:"méiyǒu",meaning:"to not have",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l74",type:"vocab",hanzi:"几",pinyin:"jǐ",meaning:"how many",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l75",type:"vocab",hanzi:"一共",pinyin:"yígòng",meaning:"in total, altogether",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l76",type:"vocab",hanzi:"苹果",pinyin:"píngguǒ",meaning:"apple",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l77",type:"vocab",hanzi:"牛奶",pinyin:"niúnǎi",meaning:"milk",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l78",type:"vocab",hanzi:"一",pinyin:"yī",meaning:"one",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l79",type:"vocab",hanzi:"三",pinyin:"sān",meaning:"three",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l80",type:"vocab",hanzi:"五",pinyin:"wǔ",meaning:"five",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l81",type:"vocab",hanzi:"你们",pinyin:"nǐmen",meaning:"you (plural)",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"},
+  {id:"l82",type:"vocab",hanzi:"好吧",pinyin:"hǎo ba",meaning:"OK, alright (mild concession)",section:"Lesson 9: Have, Don't Have, and Prices (有没有，多少钱)"}
+];
+
+let decks = { sample: SAMPLE_DECK.slice(), phrasebook: PHRASEBOOK_DECK.slice(), lessons: LESSONS_DECK.slice() };
+let statsByDeck = { sample:{}, phrasebook:{}, lessons:{} };
+let enemies = DEFAULT_ENEMIES.map(e=>Object.assign({},e));
+let boss = Object.assign({}, DEFAULT_BOSS);
+
+let screen = "home";
+let activeDeckKey = "sample";
+let managerDeckKey = "sample";
+let battle = null;
+
+let pendingDeckKey = null;
+let selectedSections = {};
+
+function currentDeck(){ return decks[activeDeckKey] || []; }
+function currentStats(){ return statsByDeck[activeDeckKey]; }
+
+function newTermStatsFor(deckKey){
+  const s = {};
+  (decks[deckKey]||[]).forEach(t=>{ s[t.id] = {seen:0, correct:0}; });
+  return s;
+}
+function ensureStatsFor(deckKey){
+  if(!statsByDeck[deckKey]) statsByDeck[deckKey] = {};
+  (decks[deckKey]||[]).forEach(t=>{
+    if(!statsByDeck[deckKey][t.id]) statsByDeck[deckKey][t.id] = {seen:0, correct:0};
+  });
+}
+
+function deckSections(deckKey){
+  const seen = [], seenSet = new Set();
+  (decks[deckKey]||[]).forEach(t=>{
+    const sec = t.section || "General";
+    if(!seenSet.has(sec)){ seenSet.add(sec); seen.push(sec); }
+  });
+  return seen;
+}
+
+function accuracyFor(terms){
+  const stats = currentStats();
+  let seen=0, correct=0;
+  terms.forEach(t=>{ const s = stats[t.id]; if(s){ seen+=s.seen; correct+=s.correct; } });
+  return seen ? correct/seen : 0;
+}
+function allSeenFor(terms){
+  const stats = currentStats();
+  return terms.every(t => stats[t.id] && stats[t.id].seen > 0);
+}
+function weakFor(terms, n){
+  const stats = currentStats();
+  return terms
+    .map(t=>({t, s: stats[t.id] || {seen:0,correct:0}}))
+    .filter(x=>x.s.seen>0)
+    .sort((a,b)=> (a.s.correct/Math.max(a.s.seen,1)) - (b.s.correct/Math.max(b.s.seen,1)))
+    .slice(0,n)
+    .map(x=>x.t);
+}
+function overallAccuracy(){ return accuracyFor(battle.scope); }
+function allSeenAtLeastOnce(){ return allSeenFor(battle.scope); }
+function weakTerms(n){ return weakFor(battle.scope, n); }
+
+/* ===== Topic selection ===== */
+function openTopicSelect(deckKey){
+  pendingDeckKey = deckKey;
+  const secs = deckSections(deckKey);
+  selectedSections = {};
+  secs.forEach(s=> selectedSections[s] = true);
+  screen = "topicSelect";
+  render();
+}
+function toggleSection(name){
+  selectedSections[name] = !selectedSections[name];
+  render();
+}
+function setAllSections(val){
+  deckSections(pendingDeckKey).forEach(s=> selectedSections[s] = val);
+  render();
+}
+function selectedSectionCount(){
+  const chosen = Object.keys(selectedSections).filter(s=>selectedSections[s]);
+  return (decks[pendingDeckKey]||[]).filter(t=> chosen.includes(t.section||"General")).length;
+}
+function confirmTopicSelect(){
+  const chosen = Object.keys(selectedSections).filter(s=>selectedSections[s]);
+  const count = (decks[pendingDeckKey]||[]).filter(t=> chosen.includes(t.section||"General")).length;
+  if(count < 4){ showToast("Select at least 4 terms' worth of topics."); return; }
+  startNewRun(pendingDeckKey, chosen);
+}
+
+function startNewRun(deckKey, sections){
+  activeDeckKey = deckKey;
+  ensureStatsFor(deckKey);
+  const full = decks[deckKey] || [];
+  const scope = (!sections || sections.length===0) ? full.slice()
+    : full.filter(t => sections.includes(t.section||"General"));
+  battle = {
+    scope: scope,
+    sections: sections || null,
+    queue: shuffle(scope.map(t=>t.id)),
+    enemyIdx: 0,
+    enemyHP: enemies[0].hp,
+    enemyMaxHP: enemies[0].hp,
+    playerHP: PLAYER_MAX_HP,
+    streak: 0,
+    animating:false,
+    phase: "wave",
+    bossHP: boss.hp,
+    bossMaxHP: boss.hp,
+    current: null,
+    answered: null,
+    fx: "", fxClass: "", flash:""
+  };
+  nextQuestion();
+  screen = "battle";
+  render();
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function refillQueueIfNeeded(){
+  if(battle.queue.length>0) return;
+  if(allSeenAtLeastOnce() && overallAccuracy() >= PASS_THRESHOLD && battle.phase==="wave"){
+    battle.phase = "boss";
+    battle.queue = shuffle(weakTerms(Math.min(10, battle.scope.length)).map(t=>t.id));
+    if(battle.queue.length===0) battle.queue = shuffle(battle.scope.map(t=>t.id)).slice(0,8);
+    return;
+  }
+  const stats = currentStats();
+  const sorted = battle.scope
+    .map(t=>({t, s: stats[t.id] || {seen:0,correct:0}}))
+    .sort((a,b)=>{
+      const accA = a.s.seen ? a.s.correct/a.s.seen : 0;
+      const accB = b.s.seen ? b.s.correct/b.s.seen : 0;
+      return accA - accB;
+    })
+    .map(x=>x.t.id);
+  battle.queue = shuffle(sorted);
+}
+
+function nextQuestion(){
+  refillQueueIfNeeded();
+  const id = battle.queue.shift();
+  const term = battle.scope.find(t=>t.id===id) || currentDeck().find(t=>t.id===id);
+  battle.current = makeQuestion(term);
+  battle.answered = null;
+}
+
+function makeQuestion(term){
+  let pool = battle.scope.filter(t=>t.type===term.type && t.id!==term.id);
+  if(pool.length < 3){
+    const scopeIds = new Set(battle.scope.map(t=>t.id));
+    const extra = currentDeck().filter(t=>t.type===term.type && t.id!==term.id && !scopeIds.has(t.id));
+    pool = pool.concat(extra);
+  }
+  const distractors = shuffle(pool).slice(0,3).map(t=>t.meaning);
+  const options = shuffle([term.meaning, ...distractors]);
+  return { term, options, correctIndex: options.indexOf(term.meaning) };
+}
+
+/* ============ BATTLE ANIMATION FLOW ============ */
+function answer(idx){
+  if(battle.answered || battle.animating) return;
+  const q = battle.current;
+  const correct = idx === q.correctIndex;
+  battle.answered = {choiceIdx: idx, correct};
+  battle.animating = true;
+  battle.fx = ""; battle.flash = "";
+  render();
+  setTimeout(()=>fireProjectile(correct), 200);
+}
+
+function fireProjectile(correct){
+  const stageEl = document.getElementById("stage");
+  if(!stageEl){ resolveImpact(correct); return; }
+  const shooter = document.getElementById(correct ? "playerFighter" : "enemyFighter");
+  if(shooter) shooter.classList.add("charge");
+
+  setTimeout(()=>{
+    if(shooter){ shooter.classList.remove("charge"); shooter.classList.add("release"); }
+    const proj = document.createElement("div");
+    proj.className = "projectile " + (correct ? "to-enemy jade" : "to-player seal");
+    stageEl.appendChild(proj);
+    setTimeout(()=>{ if(shooter) shooter.classList.remove("release"); }, 260);
+
+    setTimeout(()=>{
+      proj.remove();
+      resolveImpact(correct);
+    }, 440);
+  }, 480);
+}
+
+function spawnImpactBurst(correct){
+  const stageEl = document.getElementById("stage");
+  if(!stageEl) return;
+  const burst = document.createElement("div");
+  burst.className = "impact-burst " + (correct ? "good" : "bad");
+  burst.style.left = correct ? "72%" : "28%";
+  stageEl.appendChild(burst);
+  setTimeout(()=>burst.remove(), 400);
+  const target = document.getElementById(correct ? "enemyFighter" : "playerFighter");
+  if(target){ target.classList.add("flinch"); setTimeout(()=>target.classList.remove("flinch"), 320); }
+}
+
+function resolveImpact(correct){
+  const q = battle.current;
+  const stat = currentStats()[q.term.id];
+  stat.seen++;
+  if(correct) stat.correct++;
+  spawnImpactBurst(correct);
+
+  if(correct){
+    battle.streak++;
+    const dmg = 8 + Math.min(battle.streak-1,5)*2;
+    if(battle.phase==="boss") battle.bossHP = Math.max(0, battle.bossHP - dmg);
+    else battle.enemyHP = Math.max(0, battle.enemyHP - dmg);
+    battle.fx = "+" + dmg + " hit!"; battle.fxClass = "good"; battle.flash = "flash-good";
+  } else {
+    battle.streak = 0;
+    const dmg = 10;
+    battle.playerHP = Math.max(0, battle.playerHP - dmg);
+    battle.fx = "-" + dmg + " ouch!"; battle.fxClass = "bad"; battle.flash = "flash-bad";
+    const stageEl = document.getElementById("stage");
+    if(stageEl){ stageEl.classList.add("shake"); setTimeout(()=>stageEl.classList.remove("shake"), 320); }
+  }
+  battle.animating = false;
+  debouncedSave("hanzi_siege_stats", statsByDeck);
+  render();
+}
+
+function proceedAfterAnswer(){
+  if(battle.phase==="boss"){
+    if(battle.bossHP<=0){ screen="result"; render(); return; }
+  } else {
+    if(battle.enemyHP<=0){
+      battle.enemyIdx++;
+      if(battle.enemyIdx >= enemies.length){
+        battle.enemyIdx = enemies.length-1;
+      } else {
+        battle.enemyHP = enemies[battle.enemyIdx].hp;
+        battle.enemyMaxHP = enemies[battle.enemyIdx].hp;
+      }
+    }
+  }
+  if(battle.playerHP<=0){ screen="rest"; render(); return; }
+  battle.fx=""; battle.flash="";
+  nextQuestion();
+  render();
+}
+
+function restAndContinue(){
+  battle.playerHP = PLAYER_MAX_HP;
+  screen = "battle";
+  nextQuestion();
+  render();
+}
+
+/* ============ CHARACTER ART ============ */
+function playerSVG(){
+  return `<svg viewBox="0 0 140 190" width="100%">
+    <path d="M62 128 L58 172 Q57 180 66 180 L78 180 Q84 180 82 172 L78 130 Z" fill="#1B4633" stroke="#17181B" stroke-width="3"/>
+    <path d="M78 132 L96 165 Q100 172 92 176 L80 180 Q73 181 74 173 L72 132 Z" fill="#2F6D4F" stroke="#17181B" stroke-width="3"/>
+    <path d="M58 172 L84 172 L86 182 Q86 186 80 186 L62 186 Q56 186 57 181 Z" fill="#17181B"/>
+    <path d="M78 176 L98 176 L100 184 Q100 188 94 188 L80 188 Q75 188 76 182 Z" fill="#17181B"/>
+    <path d="M55 78 Q40 90 42 108 Q43 116 52 114 Q50 98 60 84 Z" fill="#2F6D4F" stroke="#17181B" stroke-width="3"/>
+    <path d="M45 60 Q40 100 50 135 Q70 145 90 135 Q98 100 92 60 Q70 48 45 60 Z" fill="#2F6D4F" stroke="#17181B" stroke-width="3.5"/>
+    <path d="M48 78 L90 66 L94 76 L52 90 Z" fill="#D4A64B" stroke="#17181B" stroke-width="2"/>
+    <path d="M55 58 Q70 66 85 58 L80 66 Q70 72 60 66 Z" fill="#B23A2E"/>
+    <circle cx="68" cy="38" r="26" fill="#F0D9A0" stroke="#17181B" stroke-width="3.5"/>
+    <path d="M42 34 Q40 8 68 8 Q96 8 94 34 Q90 16 68 16 Q46 16 42 34 Z" fill="#17181B"/>
+    <path d="M62 8 Q68 -6 76 6 Q80 12 72 14 Q64 14 62 8 Z" fill="#17181B"/>
+    <rect x="66" y="2" width="10" height="6" rx="2" fill="#B23A2E"/>
+    <circle cx="60" cy="40" r="2.6" fill="#17181B"/>
+    <circle cx="76" cy="40" r="2.6" fill="#17181B"/>
+    <path d="M58 50 Q68 55 78 50" fill="none" stroke="#17181B" stroke-width="2" stroke-linecap="round"/>
+    <path d="M54 32 Q60 28 66 31" fill="none" stroke="#17181B" stroke-width="2" stroke-linecap="round"/>
+    <g class="p-arm-cast">
+      <path d="M90 66 Q112 70 122 92 Q126 100 118 104 Q108 106 104 96 Q98 82 84 78 Z" fill="#2F6D4F" stroke="#17181B" stroke-width="3"/>
+      <circle cx="120" cy="98" r="9" fill="#F0D9A0" stroke="#17181B" stroke-width="2.5"/>
+      <circle class="p-orb" cx="128" cy="98" r="10" fill="#5FA57D"/>
+      <circle class="p-orb" cx="128" cy="98" r="16" fill="none" stroke="#5FA57D" stroke-width="2" opacity="0.5"/>
+    </g>
+  </svg>`;
+}
+
+function wraithSVG(){
+  return `<svg viewBox="0 0 140 190" width="100%">
+    <path d="M40 70 Q35 120 45 150 L55 142 L62 155 L70 140 L78 155 L86 142 L95 150 Q105 120 100 70 Q70 52 40 70 Z" fill="#DCD3B8" stroke="#17181B" stroke-width="3.5"/>
+    <path d="M55 95 Q60 100 55 108" fill="none" stroke="#7A2A21" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M80 100 L88 108 M88 100 L80 108" stroke="#7A2A21" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M60 118 Q70 124 80 118" fill="none" stroke="#7A2A21" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M92 82 Q108 92 106 110 Q105 118 97 114 Q98 98 88 90 Z" fill="#DCD3B8" stroke="#17181B" stroke-width="3"/>
+    <circle cx="70" cy="42" r="27" fill="#EDE6CF" stroke="#17181B" stroke-width="3.5"/>
+    <path d="M43 40 Q40 30 46 22 Q44 32 50 34 Z" fill="#DCD3B8" stroke="#17181B" stroke-width="2"/>
+    <path d="M97 40 Q100 30 94 22 Q96 32 90 34 Z" fill="#DCD3B8" stroke="#17181B" stroke-width="2"/>
+    <ellipse cx="60" cy="42" rx="5" ry="6" fill="#17181B"/>
+    <ellipse cx="80" cy="42" rx="5" ry="6" fill="#17181B"/>
+    <circle cx="60" cy="42" r="2" fill="#E07264"/>
+    <circle cx="80" cy="42" r="2" fill="#E07264"/>
+    <path d="M60 56 Q70 52 80 56" fill="none" stroke="#17181B" stroke-width="2" stroke-linecap="round"/>
+    <g class="e-arm-cast">
+      <path d="M48 82 Q26 88 18 108 Q15 116 23 120 Q32 122 36 112 Q42 98 56 92 Z" fill="#DCD3B8" stroke="#17181B" stroke-width="3"/>
+      <ellipse cx="20" cy="114" rx="8" ry="9" fill="#EDE6CF" stroke="#17181B" stroke-width="2.5"/>
+      <circle class="e-orb" cx="12" cy="114" r="10" fill="#D4574A"/>
+      <circle class="e-orb" cx="12" cy="114" r="16" fill="none" stroke="#D4574A" stroke-width="2" opacity="0.5"/>
+    </g>
+  </svg>`;
+}
+
+function guardianSVG(){
+  return `<svg viewBox="0 0 140 190" width="100%">
+    <path d="M56 128 L54 172 Q53 180 62 180 L74 180 Q80 180 79 172 L76 130 Z" fill="#6B6047" stroke="#17181B" stroke-width="3"/>
+    <path d="M76 128 L84 172 Q86 180 78 180 L92 180 Q98 180 96 172 L88 130 Z" fill="#9C8F72" stroke="#17181B" stroke-width="3"/>
+    <path d="M52 172 L80 172 L82 182 Q82 186 76 186 L58 186 Q52 186 53 181 Z" fill="#17181B"/>
+    <path d="M78 172 L98 172 L100 182 Q100 186 94 186 L80 186 Q75 186 76 181 Z" fill="#17181B"/>
+    <path d="M55 76 Q40 88 42 106 Q43 114 52 112 Q50 96 60 82 Z" fill="#9C8F72" stroke="#17181B" stroke-width="3"/>
+    <path d="M44 58 Q38 100 48 134 Q70 146 92 134 Q100 100 94 58 Q70 44 44 58 Z" fill="#9C8F72" stroke="#17181B" stroke-width="3.5"/>
+    <circle cx="68" cy="96" r="15" fill="#7A2A21" stroke="#17181B" stroke-width="2.5"/>
+    <path d="M60 96 L76 96 M68 88 L68 104" stroke="#F0D9A0" stroke-width="2.5"/>
+    <path d="M42 60 Q70 46 96 60 L92 70 Q70 58 46 70 Z" fill="#6B6047" stroke="#17181B" stroke-width="3"/>
+    <circle cx="68" cy="36" r="25" fill="#8A8064" stroke="#17181B" stroke-width="3.5"/>
+    <path d="M44 32 Q68 14 92 32 Q90 22 68 20 Q46 22 44 32 Z" fill="#6B6047" stroke="#17181B" stroke-width="3"/>
+    <ellipse cx="58" cy="38" rx="4" ry="5" fill="#17181B"/>
+    <ellipse cx="78" cy="38" rx="4" ry="5" fill="#17181B"/>
+    <circle cx="58" cy="38" r="1.6" fill="#E07264"/>
+    <circle cx="78" cy="38" r="1.6" fill="#E07264"/>
+    <path d="M58 50 L78 50" stroke="#17181B" stroke-width="2.5" stroke-linecap="round"/>
+    <g class="e-arm-cast">
+      <path d="M46 80 Q24 84 16 104 Q13 112 21 116 Q30 118 34 108 Q40 94 54 88 Z" fill="#9C8F72" stroke="#17181B" stroke-width="3"/>
+      <circle cx="20" cy="110" r="9" fill="#8A8064" stroke="#17181B" stroke-width="2.5"/>
+      <circle class="e-orb" cx="10" cy="110" r="10" fill="#D4574A"/>
+      <circle class="e-orb" cx="10" cy="110" r="16" fill="none" stroke="#D4574A" stroke-width="2" opacity="0.5"/>
+    </g>
+  </svg>`;
+}
+
+function dragonSVG(){
+  return `<svg viewBox="0 0 140 190" width="100%">
+    <path d="M40 150 Q30 120 46 100 Q40 80 58 66 Q52 96 68 108 Q90 112 92 138 Q92 155 76 158 Q56 160 40 150 Z" fill="#2F6D4F" stroke="#17181B" stroke-width="3.5"/>
+    <path d="M52 108 Q60 104 66 110 M64 122 Q72 118 78 124 M56 134 Q64 130 70 136" stroke="#1B4633" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    <path d="M78 92 L88 78 L86 94 Z M84 100 L96 90 L92 104 Z" fill="#B23A2E" stroke="#17181B" stroke-width="2"/>
+    <path d="M70 128 L64 168 Q63 176 70 176 L80 176 Q86 176 84 168 L82 130 Z" fill="#1B4633" stroke="#17181B" stroke-width="3"/>
+    <path d="M62 172 L86 172 L88 180 Q88 184 82 184 L64 184 Q58 184 59 179 Z" fill="#17181B"/>
+    <circle cx="62" cy="50" r="24" fill="#5FA57D" stroke="#17181B" stroke-width="3.5"/>
+    <path d="M44 40 Q40 22 50 16 Q46 30 54 36 Z" fill="#2F6D4F" stroke="#17181B" stroke-width="2.5"/>
+    <path d="M78 38 Q84 20 74 14 Q78 28 70 34 Z" fill="#2F6D4F" stroke="#17181B" stroke-width="2.5"/>
+    <path d="M38 54 Q26 52 22 62 Q30 60 38 62 Z" fill="#5FA57D" stroke="#17181B" stroke-width="2.5"/>
+    <ellipse cx="54" cy="50" rx="4.5" ry="5.5" fill="#17181B"/>
+    <ellipse cx="70" cy="50" rx="4.5" ry="5.5" fill="#17181B"/>
+    <circle cx="54" cy="50" r="1.8" fill="#F0D9A0"/>
+    <circle cx="70" cy="50" r="1.8" fill="#F0D9A0"/>
+    <path d="M50 64 Q62 70 74 62 Q68 68 62 68 Q56 68 50 64 Z" fill="#17181B"/>
+    <g class="e-arm-cast">
+      <path d="M40 92 Q18 96 10 116 Q7 124 15 128 Q24 130 28 120 Q34 106 48 100 Z" fill="#5FA57D" stroke="#17181B" stroke-width="3"/>
+      <path d="M8 122 L4 130 M12 126 L10 134 M18 128 L18 136" stroke="#17181B" stroke-width="2" stroke-linecap="round"/>
+      <circle class="e-orb" cx="8" cy="118" r="11" fill="#B23A2E"/>
+      <circle class="e-orb" cx="8" cy="118" r="17" fill="none" stroke="#B23A2E" stroke-width="2" opacity="0.5"/>
+    </g>
+  </svg>`;
+}
+
+function characterMarkup(cfg, kindFn){
+  if(cfg.img && cfg.img.trim()){
+    return `<img src="${escapeAttr(cfg.img)}" alt="${escapeAttr(cfg.name)}" style="width:100%; border-radius:12px;" onerror="this.style.display='none'">`;
+  }
+  return `<div style="filter:hue-rotate(${cfg.hue||0}deg)">${kindFn()}</div>`;
+}
+function enemyMarkup(cfg){
+  if(cfg.img && cfg.img.trim()){
+    return `<img src="${escapeAttr(cfg.img)}" alt="${escapeAttr(cfg.name)}" style="width:100%; border-radius:12px;" onerror="this.style.display='none'">`;
+  }
+  const fn = cfg.kind==="dragon" ? dragonSVG : (cfg.kind==="guardian" ? guardianSVG : wraithSVG);
+  return `<div style="filter:hue-rotate(${cfg.hue||0}deg)">${fn()}</div>`;
+}
+
+function escapeAttr(s){ return (s||"").replace(/"/g,"&quot;"); }
+function escapeHTML(s){ return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+/* ============ RENDER ============ */
+const app = document.getElementById("app");
+function render(){
+  if(screen==="home") return renderHome();
+  if(screen==="topicSelect") return renderTopicSelect();
+  if(screen==="battle") return renderBattle();
+  if(screen==="deckManager") return renderDeckManager();
+  if(screen==="roster") return renderRoster();
+  if(screen==="result") return renderResult();
+  if(screen==="rest") return renderRest();
+}
+
+function currentEnemyView(){
+  if(battle.phase==="boss") return {cfg:boss, hp:battle.bossHP, max:battle.bossMaxHP};
+  return {cfg:enemies[battle.enemyIdx], hp:battle.enemyHP, max:battle.enemyMaxHP};
+}
+
+function deckCard(key){
+  const meta = DECK_META[key];
+  const count = (decks[key]||[]).length;
+  const empty = count < 4;
+  const secCount = deckSections(key).length;
+  const stats = statsByDeck[key] || {};
+  let acc = "";
+  const seenCount = Object.values(stats).filter(s=>s && s.seen>0).length;
+  if(seenCount>0){
+    let seen=0, correct=0;
+    Object.values(stats).forEach(s=>{ seen+=s.seen; correct+=s.correct; });
+    acc = " · " + Math.round((correct/seen)*100) + "% acc";
+  }
+  return `
+    <div class="deck-card ${empty?'empty':''}" onclick="${empty?'':'openTopicSelect(\''+key+'\')'}">
+      <div>
+        <div class="dc-name">${meta.label}</div>
+        <div class="dc-meta">${empty ? "Empty — import terms in Manage Decks" : count + " terms · " + secCount + " topics" + acc}</div>
+      </div>
+      <div class="dc-go">⚔️</div>
+    </div>`;
+}
+
+function renderHome(){
+  app.innerHTML = `
+    <div class="home-title">
+      <div class="zh">墨战</div>
+      <div class="sub">INK SIEGE — a Mandarin quiz battler</div>
+    </div>
+    <p class="home-tagline">Answer right, you strike. Answer wrong, you take the hit. Clear every term at ${Math.round(PASS_THRESHOLD*100)}%+ accuracy to summon the final boss.</p>
+    <div class="section-label">CHOOSE YOUR DECK</div>
+    ${DECK_KEYS.map(deckCard).join("")}
+    <button class="menu-btn" onclick="managerDeckKey=activeDeckKey; screen='deckManager'; render();">📖 Manage Decks
+      <span class="desc">Import terms for Phrasebook, Lessons, or edit the sample set</span>
+    </button>
+    <button class="menu-btn" onclick="screen='roster'; render();">🎭 Enemy Roster
+      <span class="desc">Rename enemies or drop in image links (e.g. friends)</span>
+    </button>
+  `;
+}
+
+function renderTopicSelect(){
+  const secs = deckSections(pendingDeckKey);
+  const deck = decks[pendingDeckKey] || [];
+  const count = selectedSectionCount();
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back-btn" onclick="screen='home'; render();">← Menu</button>
+    </div>
+    <h3 style="margin-bottom:4px;">${DECK_META[pendingDeckKey].label}</h3>
+    <p class="hint" style="margin-bottom:14px;">Pick which topics or lessons to battle through — leave everything on for the full deck, or narrow it down to what you've actually covered.</p>
+    <div class="btn-row" style="margin-bottom:12px;">
+      <button class="small-btn" onclick="setAllSections(true)">Select all</button>
+      <button class="small-btn warn" onclick="setAllSections(false)">Select none</button>
+    </div>
+    ${secs.map(s=>{
+      const n = deck.filter(t=>(t.section||"General")===s).length;
+      const on = !!selectedSections[s];
+      return `
+        <div class="topic-row ${on?'on':''}" onclick="toggleSection('${escapeAttr(s).replace(/'/g,"\\'")}')">
+          <div class="topic-check">${on?'✓':''}</div>
+          <div class="topic-info">
+            <div class="topic-name">${escapeHTML(s)}</div>
+            <div class="topic-count">${n} terms</div>
+          </div>
+        </div>`;
+    }).join("")}
+    <button class="continue-btn" style="margin-top:16px; ${count<4?'opacity:.5;':''}" ${count<4?'disabled':''} onclick="confirmTopicSelect()">⚔️ Start battle — ${count} terms</button>
+  `;
+}
+
+function renderBattle(){
+  const ev = currentEnemyView();
+  const q = battle.current;
+  const answered = battle.answered;
+  const stats = currentStats();
+  const seenCount = battle.scope.filter(t=> stats[t.id] && stats[t.id].seen>0).length;
+  const isFloating = ev.cfg.kind !== "guardian";
+
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back-btn" onclick="if(confirm('Retreat to menu? Progress in this battle will be lost.')){screen='home'; render();}">← Menu</button>
+      <div class="progress-pill">${battle.phase==='boss' ? 'FINAL BOSS' : (seenCount+'/'+battle.scope.length+' terms · '+Math.round(overallAccuracy()*100)+'% acc')}</div>
+    </div>
+
+    <div id="stage" class="${battle.flash}">
+      <svg class="cloud-motif" style="top:8px; left:-14px; width:110px;" viewBox="0 0 100 40"><path d="M5 30 Q10 15 25 20 Q30 5 45 15 Q60 2 65 18 Q85 12 80 30 Z"/></svg>
+      <svg class="cloud-motif" style="top:18px; right:-14px; width:96px;" viewBox="0 0 100 40"><path d="M5 30 Q10 15 25 20 Q30 5 45 15 Q60 2 65 18 Q85 12 80 30 Z"/></svg>
+      <svg class="mountain" viewBox="0 0 480 90" preserveAspectRatio="none" style="opacity:.5;">
+        <path d="M0 90 L60 35 L110 62 L170 18 L230 58 L300 26 L360 60 L420 40 L480 70 L480 90 Z" fill="#2A4A3E"/>
+      </svg>
+      <svg class="mountain" viewBox="0 0 480 70" preserveAspectRatio="none" style="bottom:60px; opacity:.7;">
+        <path d="M0 70 L80 22 L150 48 L220 12 L290 44 L370 20 L480 52 L480 70 Z" fill="#1D362D"/>
+      </svg>
+      <svg class="lantern" style="left:14px;" viewBox="0 0 26 34">
+        <line x1="13" y1="0" x2="13" y2="6" stroke="#4a3a1e" stroke-width="1.5"/>
+        <rect x="8" y="5" width="10" height="4" rx="1" fill="#D4A64B"/>
+        <ellipse cx="13" cy="19" rx="9" ry="12" fill="#B23A2E" stroke="#17181B" stroke-width="2"/>
+        <rect x="8" y="27" width="10" height="4" rx="1" fill="#D4A64B"/>
+      </svg>
+      <svg class="lantern right" style="right:14px;" viewBox="0 0 26 34">
+        <line x1="13" y1="0" x2="13" y2="6" stroke="#4a3a1e" stroke-width="1.5"/>
+        <rect x="8" y="5" width="10" height="4" rx="1" fill="#D4A64B"/>
+        <ellipse cx="13" cy="19" rx="9" ry="12" fill="#B23A2E" stroke="#17181B" stroke-width="2"/>
+        <rect x="8" y="27" width="10" height="4" rx="1" fill="#D4A64B"/>
+      </svg>
+
+      <div class="stage-floor"></div>
+      <span class="streak-badge ${battle.streak>1?'show':''}">🔥 ${battle.streak} streak</span>
+
+      <div class="fighter-shadow" id="playerShadow"></div>
+      <div class="fighter-shadow" id="enemyShadow"></div>
+
+      <div class="fighter" id="playerFighter">${characterMarkup({}, playerSVG)}</div>
+      <div class="fighter ${isFloating?'float-anim':''}" id="enemyFighter">${enemyMarkup(ev.cfg)}</div>
+
+      <div class="hp-block" id="playerHpBlock">
+        <div class="hp-track"><div class="hp-fill player" style="width:${(battle.playerHP/PLAYER_MAX_HP)*100}%"></div></div>
+        <div class="hp-label">You — ${battle.playerHP}/${PLAYER_MAX_HP}</div>
+      </div>
+      <div class="hp-block" id="enemyHpBlock">
+        <div class="hp-track"><div class="hp-fill enemy" style="width:${(ev.hp/ev.max)*100}%"></div></div>
+        <div class="hp-label">${escapeHTML(ev.cfg.name)} — ${ev.hp}/${ev.max}</div>
+      </div>
+
+      <div class="fx-layer ${battle.fxClass}">${battle.fx}</div>
+    </div>
+
+    <div class="qcard">
+      <span class="type-tag ${q.term.type}">${q.term.type==='vocab'?'VOCAB':'GRAMMAR'}</span>
+      <div class="prompt-main zh">${escapeHTML(q.term.hanzi)}</div>
+      <div class="prompt-sub">${escapeHTML(q.term.pinyin)}</div>
+      ${q.term.example ? `<div class="example">${escapeHTML(q.term.example)}</div>` : ``}
+      <div class="options">
+        ${q.options.map((opt,i)=>{
+          let cls="opt-btn";
+          if(answered){
+            if(i===q.correctIndex) cls+=" correct";
+            else if(i===answered.choiceIdx) cls+=" wrong";
+          }
+          return `<button class="${cls}" ${answered?'disabled':''} onclick="answer(${i})">${escapeHTML(opt)}</button>`;
+        }).join("")}
+      </div>
+      ${(answered && !battle.animating) ? `<button class="continue-btn" onclick="proceedAfterAnswer()">Continue →</button>` : ``}
+    </div>
+  `;
+}
+
+function renderRest(){
+  app.innerHTML = `
+    <div class="center-screen">
+      <div class="big-icon">😮‍💨</div>
+      <h2>Out of stamina</h2>
+      <p class="msg">You took too many hits. Catch your breath — your HP resets, but your progress and accuracy stats are kept.</p>
+      <button class="menu-btn" style="max-width:260px; border-color:var(--seal); background:rgba(178,58,46,0.2); text-align:center;" onclick="restAndContinue()">Continue the fight</button>
+      <button class="back-btn" onclick="screen='home'; render();">Retreat to menu</button>
+    </div>
+  `;
+}
+
+function renderResult(){
+  const acc = Math.round(overallAccuracy()*100);
+  const weak = weakTerms(6).filter(t=>{
+    const s=currentStats()[t.id]; return s.seen>0 && s.correct/s.seen < 1;
+  });
+  app.innerHTML = `
+    <div class="center-screen">
+      <div class="big-icon">🐉➡️🏮</div>
+      <h2>Ink Dragon Emperor defeated!</h2>
+      <p class="msg">You cleared every term above ${Math.round(PASS_THRESHOLD*100)}% accuracy and finished the run.</p>
+      <div class="result-stats">
+        <div class="result-row"><span>Deck</span><b>${DECK_META[activeDeckKey].label}</b></div>
+        <div class="result-row"><span>Final accuracy</span><b>${acc}%</b></div>
+        <div class="result-row"><span>Terms mastered</span><b>${battle.scope.length}</b></div>
+        ${weak.length? `<div class="result-row"><span>Still shaky on</span></div>
+        <div class="weak-list">${weak.map(t=>`<div class="weak-item"><span class="zh">${escapeHTML(t.hanzi)}</span><span>${escapeHTML(t.meaning)}</span></div>`).join("")}</div>` : ``}
+      </div>
+      <button class="menu-btn" style="max-width:260px; margin-top:12px; border-color:var(--seal); background:rgba(178,58,46,0.2); text-align:center;" onclick="startNewRun(activeDeckKey, battle.sections)">⚔️ Fight again</button>
+      <button class="back-btn" onclick="screen='home'; render();">Back to menu</button>
+    </div>
+  `;
+}
+
+/* ============ Deck Manager ============ */
+function deckToText(key){
+  let lastSection = null;
+  const lines = [];
+  (decks[key]||[]).forEach(t=>{
+    const sec = t.section || "General";
+    if(sec !== lastSection){ lines.push("# " + sec); lastSection = sec; }
+    if(t.type==="grammar") lines.push(`grammar\t${t.hanzi}\t${t.pinyin}\t${t.meaning}\t${t.example||""}`);
+    else lines.push(`vocab\t${t.hanzi}\t${t.pinyin}\t${t.meaning}`);
+  });
+  return lines.join("\n");
+}
+
+function renderDeckManager(){
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back-btn" onclick="screen='home'; render();">← Menu</button>
+    </div>
+    <h3 style="margin-bottom:12px;">📖 Manage decks</h3>
+    <div class="tab-row">
+      ${DECK_KEYS.map(k=>`<button class="tab-btn ${managerDeckKey===k?'active':''}" onclick="managerDeckKey='${k}'; render();">${DECK_META[k].label}</button>`).join("")}
+    </div>
+    <div class="manager-section">
+      <label>${DECK_META[managerDeckKey].desc}</label>
+      <textarea id="deckText">${escapeHTML(deckToText(managerDeckKey))}</textarea>
+      <p class="hint">Format — vocab: <code>vocab&nbsp;&nbsp;汉字&nbsp;&nbsp;pinyin&nbsp;&nbsp;meaning</code><br>
+      grammar: <code>grammar&nbsp;&nbsp;pattern&nbsp;&nbsp;pinyin&nbsp;&nbsp;meaning&nbsp;&nbsp;example</code><br>
+      Start a line with <code>#&nbsp;Topic Name</code> to group the terms below it into a topic/lesson you can filter by in battle. Paste straight from your phrasebook or lesson notes.</p>
+      <div class="btn-row">
+        <button class="small-btn" onclick="saveDeckFromTextarea()">Save deck</button>
+        <button class="small-btn warn" onclick="clearDeck()">Reset to import</button>
+      </div>
+    </div>
+  `;
+}
+
+function parseDeckText(text){
+  const lines = text.split("\n").map(l=>l.trim()).filter(Boolean);
+  const parsed = [];
+  let currentSection = "General";
+  lines.forEach((line, i)=>{
+    if(line.startsWith("#")){
+      currentSection = line.replace(/^#+\s*/,"").trim() || "General";
+      return;
+    }
+    const parts = line.split("\t").map(p=>p.trim());
+    if(parts.length<4) return;
+    const [type, hanzi, pinyin, meaning, example] = parts;
+    if(type!=="vocab" && type!=="grammar") return;
+    parsed.push({ id:(type==="grammar"?"g":"v")+i+"_"+Date.now()%100000, type, hanzi, pinyin, meaning, example: example||"", section: currentSection });
+  });
+  return parsed;
+}
+
+function saveDeckFromTextarea(){
+  const text = document.getElementById("deckText").value;
+  const parsed = parseDeckText(text);
+  if(parsed.length < 4){ showToast("Need at least 4 valid rows."); return; }
+  decks[managerDeckKey] = parsed;
+  statsByDeck[managerDeckKey] = newTermStatsFor(managerDeckKey);
+  debouncedSave("hanzi_siege_decks", decks);
+  debouncedSave("hanzi_siege_stats", statsByDeck);
+  showToast(DECK_META[managerDeckKey].label + " saved — " + parsed.length + " terms.");
+  render();
+}
+
+const DECK_DEFAULTS = { sample: SAMPLE_DECK, phrasebook: PHRASEBOOK_DECK, lessons: LESSONS_DECK };
+function clearDeck(){
+  decks[managerDeckKey] = DECK_DEFAULTS[managerDeckKey].slice();
+  statsByDeck[managerDeckKey] = newTermStatsFor(managerDeckKey);
+  debouncedSave("hanzi_siege_decks", decks);
+  debouncedSave("hanzi_siege_stats", statsByDeck);
+  screen="deckManager"; render();
+  showToast("Reset to the original imported " + DECK_META[managerDeckKey].label + ".");
+}
+
+/* ============ Roster Manager ============ */
+function rosterIcon(cfg){
+  if(cfg.img && cfg.img.trim()) return `<img src="${escapeAttr(cfg.img)}" onerror="this.style.display='none'">`;
+  return cfg.icon || "❓";
+}
+function renderRoster(){
+  const rows = enemies.map((e,i)=>`
+    <div class="roster-card">
+      <div class="rc-icon">${rosterIcon(e)}</div>
+      <div class="rc-fields">
+        <input value="${escapeAttr(e.name)}" placeholder="Name" oninput="enemies[${i}].name=this.value; saveRosterDebounced();">
+        <input value="${escapeAttr(e.icon)}" placeholder="Emoji (fallback label)" oninput="enemies[${i}].icon=this.value; saveRosterDebounced();">
+        <input value="${escapeAttr(e.img)}" placeholder="Image URL (optional, replaces art)" oninput="enemies[${i}].img=this.value; render();">
+      </div>
+    </div>
+  `).join("");
+
+  app.innerHTML = `
+    <div class="topbar">
+      <button class="back-btn" onclick="screen='home'; render();">← Menu</button>
+    </div>
+    <h3 style="margin-bottom:6px;">🎭 Enemy roster</h3>
+    <p class="hint" style="margin-bottom:14px;">Rename any enemy, or paste an image link to replace the vector art — great for turning wave enemies into friends (or the final boss).</p>
+    ${rows}
+    <div class="roster-card" style="border:1px dashed var(--gold);">
+      <div class="rc-icon">${rosterIcon(boss)}</div>
+      <div class="rc-fields">
+        <input value="${escapeAttr(boss.name)}" placeholder="Boss name" oninput="boss.name=this.value; saveRosterDebounced();">
+        <input value="${escapeAttr(boss.icon)}" placeholder="Emoji (fallback label)" oninput="boss.icon=this.value; saveRosterDebounced();">
+        <input value="${escapeAttr(boss.img)}" placeholder="Image URL (optional, replaces art)" oninput="boss.img=this.value; render();">
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="small-btn warn" onclick="resetRoster()">Reset roster</button>
+    </div>
+  `;
+}
+
+function saveRosterDebounced(){ debouncedSave("hanzi_siege_roster", {enemies, boss}); }
+function resetRoster(){
+  enemies = DEFAULT_ENEMIES.map(e=>Object.assign({},e));
+  boss = Object.assign({}, DEFAULT_BOSS);
+  saveRosterDebounced();
+  screen="roster"; render();
+  showToast("Roster reset.");
+}
+
+/* ============ Toast ============ */
+let toastTimer=null;
+function showToast(msg){
+  const el = document.getElementById("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove("show"), 2200);
+}
+
+/* ============ INIT ============ */
+async function init(){
+  const savedDecks = await loadJSON("hanzi_siege_decks", null);
+  if(savedDecks){
+    DECK_KEYS.forEach(k=>{ if(Array.isArray(savedDecks[k])) decks[k] = savedDecks[k]; });
+  }
+  const savedStats = await loadJSON("hanzi_siege_stats", null);
+  if(savedStats){
+    DECK_KEYS.forEach(k=>{ if(savedStats[k]) statsByDeck[k] = savedStats[k]; });
+  }
+  const savedRoster = await loadJSON("hanzi_siege_roster", null);
+  if(savedRoster && savedRoster.enemies){
+    enemies = savedRoster.enemies;
+    boss = savedRoster.boss || boss;
+  }
+  render();
+}
+init();
+</script>
+</body>
+</html>

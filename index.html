@@ -19,6 +19,8 @@
     --seal-dim:#f2e1de;
     --canal:#4a6473;
     --canal-dim:#e6ebed;
+    --gold:#a3742a;
+    --gold-dim:#f1e6d2;
     --muted:#7a7666;
   }
   *{box-sizing:border-box;}
@@ -81,6 +83,7 @@
   .card.lessons:hover{border-color:var(--jade);}
   .card.phrasebook:hover{border-color:var(--seal);}
   .card.pinyin:hover{border-color:var(--canal);}
+  .card.game:hover{border-color:var(--gold);}
   .card-icon{
     flex-shrink:0;
     width:52px;height:52px;
@@ -91,6 +94,7 @@
   .card.lessons .card-icon{background:var(--jade-dim);}
   .card.phrasebook .card-icon{background:var(--seal-dim);}
   .card.pinyin .card-icon{background:var(--canal-dim);}
+  .card.game .card-icon{background:var(--gold-dim);}
   .card-body{flex:1;min-width:0;}
   .card-title{
     font-family:'Baloo 2',sans-serif;
@@ -101,6 +105,7 @@
   .card.lessons .card-title{color:var(--jade);}
   .card.phrasebook .card-title{color:var(--seal);}
   .card.pinyin .card-title{color:var(--canal);}
+  .card.game .card-title{color:var(--gold);}
   .card-cn{font-size:12.5px;color:var(--muted);margin:0 0 6px;}
   .card-desc{font-size:13px;color:var(--ink);line-height:1.5;margin:0;}
   .card-chevron{flex-shrink:0;color:var(--muted);}
@@ -118,7 +123,7 @@
   <div class="brand">
     <h1>从零开始<span class="cn">Chinese Learning Hub</span></h1>
   </div>
-  <p class="subtitle">Three tools, one path — structured lessons for building the grammar from scratch, a quick-reference phrasebook for daily life in Suzhou, and a full pinyin pronunciation guide.</p>
+  <p class="subtitle">Four tools, one path — structured lessons for building the grammar from scratch, a quick-reference phrasebook for daily life in Suzhou, a full pinyin pronunciation guide, and a battle game to drill it all in.</p>
 
   <div class="cards">
     <a class="card lessons" href="chinese_lessons.html">
@@ -147,6 +152,16 @@
         <p class="card-title">Pinyin Pronunciation Guide</p>
         <p class="card-cn">拼音指南</p>
         <p class="card-desc">Every initial, final, and valid syllable combination, with sound-alikes and audio playback.</p>
+      </div>
+      <svg class="card-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </a>
+
+    <a class="card game" href="hanzi_siege.html">
+      <div class="card-icon">⚔️</div>
+      <div class="card-body">
+        <p class="card-title">Ink Siege</p>
+        <p class="card-cn">墨战 · quiz battler</p>
+        <p class="card-desc">Turn-based battles against ink-spirit enemies — answer right to strike, answer wrong to take the hit. Drills the Phrasebook and Lessons vocab.</p>
       </div>
       <svg class="card-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
     </a>
